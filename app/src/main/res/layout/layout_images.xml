@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/lvResults"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingStart="10dp">
+
+        <Button android:id="@+id/btGallerySingleImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="From Gallery - Single Image" />
+        <Button android:id="@+id/btGalleryMultipleImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="From Gallery - Multiple Images" />
+        <Button android:id="@+id/btCameraImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Use Camera" />
+    </LinearLayout>
+</LinearLayout>
