@@ -1,6 +1,7 @@
 package com.kbeanie.multipicker.api;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 /**
@@ -22,5 +23,10 @@ public class ContactPickerManager extends PickerManager {
     @Override
     public String pick() {
         return null;
+    }
+
+    @Override
+    public void submit(int requestCode, int resultCode, Intent data) {
+
     }
 }
