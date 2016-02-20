@@ -71,6 +71,7 @@ public class FileProcessorThread extends Thread {
         String uri = file.getQueryUri();
         if (uri.startsWith("file://")) {
             file = sanitizeUri(file);
+            file.setMimeType(guessMimeTypeFromUrl(file.getOriginalPath(), file.getType()));
         } else if (uri.startsWith("http")) {
             file = downloadAndSaveFile(file);
         } else if (uri.startsWith("content:")) {
@@ -79,6 +80,10 @@ public class FileProcessorThread extends Thread {
         uri = file.getOriginalPath();
         if (uri.startsWith("content:")) {
             file = getFromContentProvider(file);
+        }
+        uri = file.getOriginalPath();
+        if (uri.startsWith("content:")) {
+            file = getFromContentProviderAlternate(file);
         }
         Log.d(TAG, "processFile: Query Path: " + file.toString());
         Log.d(TAG, "processFile: Final Path: " + file.toString());
@@ -89,6 +94,48 @@ public class FileProcessorThread extends Thread {
         if (file.getQueryUri().startsWith("file://")) {
             file.setOriginalPath(file.getQueryUri().substring(7));
         }
+        return file;
+    }
+
+    protected ChosenFile getFromContentProviderAlternate(ChosenFile file) throws PickerException {
+        BufferedOutputStream outStream = null;
+        BufferedInputStream bStream = null;
+
+        try {
+            InputStream inputStream = context.getContentResolver()
+                    .openInputStream(Uri.parse(file.getOriginalPath()));
+
+            bStream = new BufferedInputStream(inputStream);
+            String mimeType = URLConnection.guessContentTypeFromStream(inputStream);
+
+            verifyStream(file.getOriginalPath(), bStream);
+
+            String localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
+                    + UUID.randomUUID().toString()
+                    + file.getFileExtensionFromMimeType();
+
+            outStream = new BufferedOutputStream(new FileOutputStream(localFilePath));
+            byte[] buf = new byte[2048];
+            int len;
+            while ((len = bStream.read(buf)) > 0) {
+                outStream.write(buf, 0, len);
+            }
+            flush(outStream);
+            file.setOriginalPath(localFilePath);
+            if (file.getMimeType() != null && file.getMimeType().contains("/*")) {
+                if (mimeType != null && !mimeType.isEmpty()) {
+                    file.setMimeType(mimeType);
+                } else {
+                    file.setMimeType(guessMimeTypeFromUrl(file.getOriginalPath(), file.getType()));
+                }
+            }
+        } catch (IOException e) {
+            throw new PickerException(e);
+        } finally {
+            close(bStream);
+            close(outStream);
+        }
+
         return file;
     }
 
@@ -112,7 +159,7 @@ public class FileProcessorThread extends Thread {
                     .getFileDescriptor();
 
             inputStream = new BufferedInputStream(new FileInputStream(fileDescriptor));
-
+            String mimeType = URLConnection.guessContentTypeFromStream(inputStream);
             BufferedInputStream reader = new BufferedInputStream(inputStream);
 
             outStream = new BufferedOutputStream(
@@ -124,6 +171,13 @@ public class FileProcessorThread extends Thread {
             }
             flush(outStream);
             file.setOriginalPath(localFilePath);
+            if (file.getMimeType() != null && file.getMimeType().contains("/*")) {
+                if (mimeType != null && !mimeType.isEmpty()) {
+                    file.setMimeType(mimeType);
+                } else {
+                    file.setMimeType(guessMimeTypeFromUrl(file.getOriginalPath(), file.getType()));
+                }
+            }
         } catch (IOException e) {
             throw new PickerException(e);
         } finally {
@@ -135,6 +189,7 @@ public class FileProcessorThread extends Thread {
     }
 
     // Try to get a local copy if available
+
     private ChosenFile getAbsolutePathIfAvailable(ChosenFile file) {
         String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.MIME_TYPE};
 
@@ -149,20 +204,28 @@ public class FileProcessorThread extends Thread {
 
         // Try to see if there's a cached local copy that is available
         if (file.getOriginalPath().startsWith("content://")) {
-            Cursor cursor = context.getContentResolver().query(Uri.parse(file.getOriginalPath()), projection,
-                    null, null, null);
-            cursor.moveToFirst();
-            String path = cursor.getString(cursor
-                    .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
-            if (path != null) {
-                file.setOriginalPath(path);
+            try {
+                Cursor cursor = context.getContentResolver().query(Uri.parse(file.getOriginalPath()), projection,
+                        null, null, null);
+                cursor.moveToFirst();
+                try {
+                    String path = cursor.getString(cursor
+                            .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
+                    if (path != null) {
+                        file.setOriginalPath(path);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE));
+                if (mimeType != null) {
+                    file.setMimeType(mimeType);
+                    Log.d(TAG, "getAbsolutePathIfAvailable: Mime Type:" + mimeType);
+                }
+                cursor.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE));
-            if (mimeType != null) {
-                file.setMimeType(mimeType);
-                Log.d(TAG, "getAbsolutePathIfAvailable: Mime Type:" + mimeType);
-            }
-            cursor.close();
         }
         Log.d(TAG, "getAbsolutePathIfAvailable(Local cached version): " + file.getOriginalPath());
 
@@ -343,7 +406,7 @@ public class FileProcessorThread extends Thread {
     private String guessMimeTypeFromUrl(String url, String type) {
         String mimeType = null;
         String extension = guessExtensionFromUrl(url);
-        if (extension != null) {
+        if (extension != null && !extension.isEmpty()) {
             mimeType = type + "/" + extension;
         } else {
             mimeType = type + "/*";
