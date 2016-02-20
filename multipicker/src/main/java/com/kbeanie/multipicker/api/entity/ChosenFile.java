@@ -94,7 +94,9 @@ public class ChosenFile {
         if (mimeType != null) {
             String[] parts = mimeType.split("//");
             if (parts.length >= 2) {
-                extension = "." + parts[1];
+                if (parts[1] != "*") {
+                    extension = "." + parts[1];
+                }
             }
         }
         return extension;

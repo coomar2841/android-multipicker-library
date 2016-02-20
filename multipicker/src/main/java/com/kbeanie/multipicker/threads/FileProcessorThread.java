@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -13,10 +14,14 @@ import android.webkit.MimeTypeMap;
 
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
+import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.utils.FileUtils;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +30,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.UUID;
+
+import static com.kbeanie.multipicker.utils.StreamHelper.close;
+import static com.kbeanie.multipicker.utils.StreamHelper.flush;
+import static com.kbeanie.multipicker.utils.StreamHelper.verifyStream;
 
 /**
  * Created by kbibek on 2/20/16.
@@ -50,11 +59,15 @@ public class FileProcessorThread extends Thread {
     private void processFiles() {
         for (ChosenFile file : files) {
             Log.d(TAG, "processFiles: " + file.getQueryUri());
-            processFile(file);
+            try {
+                processFile(file);
+            } catch (PickerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void processFile(ChosenFile file) {
+    private void processFile(ChosenFile file) throws PickerException {
         String uri = file.getQueryUri();
         if (uri.startsWith("file://")) {
             file = sanitizeUri(file);
@@ -62,7 +75,9 @@ public class FileProcessorThread extends Thread {
             file = downloadAndSaveFile(file);
         } else if (uri.startsWith("content:")) {
             file = getAbsolutePathIfAvailable(file);
-        } else if (uri.startsWith("content:")) {
+        }
+        uri = file.getOriginalPath();
+        if (uri.startsWith("content:")) {
             file = getFromContentProvider(file);
         }
         Log.d(TAG, "processFile: Query Path: " + file.toString());
@@ -77,7 +92,45 @@ public class FileProcessorThread extends Thread {
         return file;
     }
 
-    private ChosenFile getFromContentProvider(ChosenFile file) {
+    protected ChosenFile getFromContentProvider(ChosenFile file) throws PickerException {
+
+        BufferedInputStream inputStream = null;
+        BufferedOutputStream outStream = null;
+
+        try {
+
+            String localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
+                    + UUID.randomUUID().toString()
+                    + file.getFileExtensionFromMimeType();
+            ParcelFileDescriptor parcelFileDescriptor = context
+                    .getContentResolver().openFileDescriptor(Uri.parse(file.getOriginalPath()),
+                            "r");
+
+            verifyStream(file.getOriginalPath(), parcelFileDescriptor);
+
+            FileDescriptor fileDescriptor = parcelFileDescriptor
+                    .getFileDescriptor();
+
+            inputStream = new BufferedInputStream(new FileInputStream(fileDescriptor));
+
+            BufferedInputStream reader = new BufferedInputStream(inputStream);
+
+            outStream = new BufferedOutputStream(
+                    new FileOutputStream(localFilePath));
+            byte[] buf = new byte[2048];
+            int len;
+            while ((len = reader.read(buf)) > 0) {
+                outStream.write(buf, 0, len);
+            }
+            flush(outStream);
+            file.setOriginalPath(localFilePath);
+        } catch (IOException e) {
+            throw new PickerException(e);
+        } finally {
+            flush(outStream);
+            close(outStream);
+            close(inputStream);
+        }
         return file;
     }
 
@@ -234,19 +287,19 @@ public class FileProcessorThread extends Thread {
             InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
             BufferedInputStream bStream = new BufferedInputStream(stream);
 
-            String mimeType = guessExtensionFromUrl(file.getQueryUri());
+            String mimeType = guessMimeTypeFromUrl(file.getQueryUri(), file.getType());
             if (mimeType == null) {
                 mimeType = URLConnection.guessContentTypeFromStream(stream);
             }
 
             if (mimeType == null) {
-                mimeType = "image/jpg";
+                mimeType = file.getType() + "/*";
             }
 
             file.setMimeType(mimeType);
 
             localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
-                    + UUID.randomUUID().toString() + "."
+                    + UUID.randomUUID().toString()
                     + file.getFileExtensionFromMimeType();
 
             File localFile = new File(localFilePath);
