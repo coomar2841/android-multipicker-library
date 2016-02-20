@@ -13,19 +13,20 @@ public class ChosenFile {
     private long size;
     private String extension;
     private Date createdAt;
-
     private String type;
+
+    private String directoryType;
 
     public long getId() {
         return id;
     }
 
-    public String getType() {
-        return type;
+    public String getDirectoryType() {
+        return directoryType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDirectoryType(String directoryType) {
+        this.directoryType = directoryType;
     }
 
     public void setId(long id) {
@@ -78,5 +79,31 @@ public class ChosenFile {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getFileExtensionFromMimeType() {
+        String extension = "";
+        if (mimeType != null) {
+            String[] parts = mimeType.split("//");
+            if (parts.length >= 2) {
+                extension = "." + parts[1];
+            }
+        }
+        return extension;
+    }
+
+    private final static String STRING_FORMAT = "Type: %s, QueryUri: %s, Original Path: %s, MimeType: %s";
+
+    @Override
+    public String toString() {
+        return String.format(STRING_FORMAT, directoryType, queryUri, originalPath, mimeType);
     }
 }

@@ -6,10 +6,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
@@ -57,92 +57,100 @@ public class FileProcessorThread extends Thread {
     private void processFile(ChosenFile file) {
         String uri = file.getQueryUri();
         if (uri.startsWith("file://")) {
-            file.setOriginalPath(sanitizeUri(uri));
+            file = sanitizeUri(file);
         } else if (uri.startsWith("http")) {
-            file.setOriginalPath(downloadAndSaveFile(uri, file.getType()));
+            file = downloadAndSaveFile(file);
         } else if (uri.startsWith("content:")) {
-            file.setOriginalPath(getAbsolutePathIfAvailable(uri));
+            file = getAbsolutePathIfAvailable(file);
+        } else if (uri.startsWith("content:")) {
+            file = getFromContentProvider(file);
         }
+        Log.d(TAG, "processFile: Query Path: " + file.toString());
+        Log.d(TAG, "processFile: Final Path: " + file.toString());
     }
 
     // If starts with file: (For some content providers, remove the file prefix)
-    private String sanitizeUri(String uri) {
-        if (uri.startsWith("file://")) {
-            uri = uri.substring(7);
+    private ChosenFile sanitizeUri(ChosenFile file) {
+        if (file.getQueryUri().startsWith("file://")) {
+            file.setOriginalPath(file.getQueryUri().substring(7));
         }
-        return uri;
+        return file;
+    }
+
+    private ChosenFile getFromContentProvider(ChosenFile file) {
+        return file;
     }
 
     // Try to get a local copy if available
-    private String getAbsolutePathIfAvailable(String uri) {
-        String absolutePath = uri;
-        String[] proj = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME};
+    private ChosenFile getAbsolutePathIfAvailable(ChosenFile file) {
+        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.MIME_TYPE};
 
         // Workaround for various implementations for Google Photos/Picasa
-        if (uri.startsWith(
+        if (file.getQueryUri().startsWith(
                 "content://com.android.gallery3d.provider")) {
-            uri = Uri.parse(uri.replace(
-                    "com.android.gallery3d", "com.google.android.gallery3d")).toString();
+            file.setOriginalPath(Uri.parse(file.getQueryUri().replace(
+                    "com.android.gallery3d", "com.google.android.gallery3d")).toString());
+        } else {
+            file.setOriginalPath(file.getQueryUri());
         }
 
         // Try to see if there's a cached local copy that is available
-        if (absolutePath.startsWith("content://")) {
-            Cursor cursor = context.getContentResolver().query(Uri.parse(absolutePath), proj,
+        if (file.getOriginalPath().startsWith("content://")) {
+            Cursor cursor = context.getContentResolver().query(Uri.parse(file.getOriginalPath()), projection,
                     null, null, null);
             cursor.moveToFirst();
-            absolutePath = cursor.getString(cursor
+            String path = cursor.getString(cursor
                     .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
+            if (path != null) {
+                file.setOriginalPath(path);
+            }
+            String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE));
+            if (mimeType != null) {
+                file.setMimeType(mimeType);
+                Log.d(TAG, "getAbsolutePathIfAvailable: Mime Type:" + mimeType);
+            }
             cursor.close();
         }
-        Log.d(TAG, "getAbsolutePathIfAvailable(Local cached version): " + absolutePath);
-        if (absolutePath == null) {
-            absolutePath = uri;
-        }
+        Log.d(TAG, "getAbsolutePathIfAvailable(Local cached version): " + file.getOriginalPath());
 
         // Check if DownloadsDocument in which case, we can get the local copy by using the content provider
-        if (absolutePath.startsWith("content:") && isDownloadsDocument(Uri.parse(absolutePath))) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-                absolutePath = getPath(Uri.parse(absolutePath));
+        if (file.getOriginalPath().startsWith("content:") && isDownloadsDocument(Uri.parse(file.getOriginalPath()))) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                String[] data = getPathAndMimeType(file);
+                if (data[0] != null) {
+                    file.setOriginalPath(data[0]);
+                }
+                if (data[1] != null) {
+                    file.setMimeType(data[1]);
+                }
+            }
         }
-        Log.d(TAG, "getAbsolutePathIfAvailable(Dowload Document): " + absolutePath);
+        Log.d(TAG, "getAbsolutePathIfAvailable(Dowload Document): " + file.getOriginalPath());
 
         // Still don't have a local copy??
-        if (absolutePath.startsWith("content:")) {
+        if (file.getOriginalPath().startsWith("content:")) {
             Log.d(TAG, "getAbsolutePathIfAvailable: (No Local Copy Available)");
         }
 
-        Log.d(TAG, "getAbsolutePathIfAvailable(Final): " + absolutePath);
+        Log.d(TAG, "getAbsolutePathIfAvailable(Final): " + file.getOriginalPath());
 
-        return absolutePath;
+        return file;
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    private String getPath(final Uri uri) {
+    private String[] getPathAndMimeType(ChosenFile file) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
+        Uri uri = Uri.parse(file.getOriginalPath());
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
-            if (isExternalStorageDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
-                }
-
-                // TODO handle non-primary volumes
-            }
-            // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
-
+            if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
-                return getDataColumn(contentUri, null, null);
+                return getDataAndMimeType(contentUri, null, null, file.getType());
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
@@ -164,36 +172,40 @@ public class FileProcessorThread extends Thread {
                         split[1]
                 };
 
-                return getDataColumn(contentUri, selection, selectionArgs);
+                return getDataAndMimeType(contentUri, selection, selectionArgs, file.getType());
             }
         }
         // MediaStore (and general)
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            return getDataColumn(uri, null, null);
+            return getDataAndMimeType(uri, null, null, file.getType());
         }
         // File
         else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
+            String path = uri.getPath();
+            String mimeType = guessMimeTypeFromUrl(path, file.getType());
+            String[] data = new String[2];
+            data[0] = path;
+            data[1] = mimeType;
+            return data;
         }
 
         return null;
     }
 
-    private String getDataColumn(Uri uri, String selection,
-                                 String[] selectionArgs) {
-
+    private String[] getDataAndMimeType(Uri uri, String selection,
+                                        String[] selectionArgs, String type) {
+        String[] data = new String[2];
         Cursor cursor = null;
-        final String column = "_data";
-        final String[] projection = {
-                column
-        };
+        String[] projection = {MediaStore.MediaColumns.DATA};
 
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
                     null);
             if (cursor != null && cursor.moveToFirst()) {
-                final int column_index = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(column_index);
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
+                data[0] = path;
+                data[1] = guessMimeTypeFromUrl(path, type);
+                return data;
             }
         } finally {
             if (cursor != null)
@@ -214,26 +226,28 @@ public class FileProcessorThread extends Thread {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
-    private String downloadAndSaveFile(String url, String type) {
+    private ChosenFile downloadAndSaveFile(ChosenFile file) {
         String localFilePath = "";
         try {
-            URL u = new URL(url);
+            URL u = new URL(file.getQueryUri());
             HttpURLConnection urlConnection = (HttpURLConnection) u.openConnection();
             InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
             BufferedInputStream bStream = new BufferedInputStream(stream);
 
-            String extension = guessExtensionFromUrl(url);
-            if (extension == null) {
-                extension = URLConnection.guessContentTypeFromStream(stream);
+            String mimeType = guessExtensionFromUrl(file.getQueryUri());
+            if (mimeType == null) {
+                mimeType = URLConnection.guessContentTypeFromStream(stream);
             }
 
-            if (extension == null) {
-                extension = "jpg";
+            if (mimeType == null) {
+                mimeType = "image/jpg";
             }
 
-            localFilePath = getTargetDirectory(type) + File.separator
+            file.setMimeType(mimeType);
+
+            localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
                     + UUID.randomUUID().toString() + "."
-                    + extension;
+                    + file.getFileExtensionFromMimeType();
 
             File localFile = new File(localFilePath);
 
@@ -246,12 +260,13 @@ public class FileProcessorThread extends Thread {
             fileOutputStream.flush();
             fileOutputStream.close();
             bStream.close();
+            file.setOriginalPath(localFilePath);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return localFilePath;
+        return file;
     }
 
     protected String getTargetDirectory(String type) {
@@ -268,18 +283,18 @@ public class FileProcessorThread extends Thread {
     }
 
     private String guessExtensionFromUrl(String url) {
-        String extension = null;
-        Uri uri = Uri.parse(url);
-        String lastSegment = uri.getLastPathSegment();
-        if (lastSegment != null) {
-            if (lastSegment.contains(".")) {
-                String[] parts = lastSegment.split(".");
-                if (parts.length >= 2) {
-                    extension = parts[parts.length - 1];
-                }
-            }
-        }
-        Log.d(TAG, "guessExtensionFromUrl: " + extension);
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         return extension;
+    }
+
+    private String guessMimeTypeFromUrl(String url, String type) {
+        String mimeType = null;
+        String extension = guessExtensionFromUrl(url);
+        if (extension != null) {
+            mimeType = type + "/" + extension;
+        } else {
+            mimeType = type + "/*";
+        }
+        return mimeType;
     }
 }

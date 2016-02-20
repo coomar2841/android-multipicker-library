@@ -60,6 +60,7 @@
             android:value="ccbe3957847c84647fbf4938cf6adb0da0a5583e" />
 
         <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     </application>
 
 </manifest>

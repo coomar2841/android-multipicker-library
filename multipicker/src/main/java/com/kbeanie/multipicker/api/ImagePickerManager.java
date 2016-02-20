@@ -55,6 +55,8 @@ public class ImagePickerManager extends PickerManager {
         if (extras != null) {
             intent.putExtras(extras);
         }
+        // For reading from external storage (Content Providers)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         pickInternal(intent, Picker.PICK_IMAGE_DEVICE);
         return null;
     }
@@ -136,7 +138,8 @@ public class ImagePickerManager extends PickerManager {
         for (String uri : uris) {
             ChosenImage image = new ChosenImage();
             image.setQueryUri(uri);
-            image.setType(Environment.DIRECTORY_PICTURES);
+            image.setDirectoryType(Environment.DIRECTORY_PICTURES);
+            image.setType("image");
             images.add(image);
         }
         return images;
