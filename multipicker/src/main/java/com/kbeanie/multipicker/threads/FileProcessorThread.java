@@ -78,10 +78,12 @@ public class FileProcessorThread extends Thread {
             file = getAbsolutePathIfAvailable(file);
         }
         uri = file.getOriginalPath();
+        // Still content:: Try ContentProvider stream import
         if (uri.startsWith("content:")) {
             file = getFromContentProvider(file);
         }
         uri = file.getOriginalPath();
+        // Still content:: Try ContentProvider stream import alternate
         if (uri.startsWith("content:")) {
             file = getFromContentProviderAlternate(file);
         }
@@ -143,16 +145,13 @@ public class FileProcessorThread extends Thread {
 
         BufferedInputStream inputStream = null;
         BufferedOutputStream outStream = null;
-
         try {
-
             String localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
                     + UUID.randomUUID().toString()
                     + file.getFileExtensionFromMimeType();
             ParcelFileDescriptor parcelFileDescriptor = context
                     .getContentResolver().openFileDescriptor(Uri.parse(file.getOriginalPath()),
                             "r");
-
             verifyStream(file.getOriginalPath(), parcelFileDescriptor);
 
             FileDescriptor fileDescriptor = parcelFileDescriptor
@@ -220,14 +219,12 @@ public class FileProcessorThread extends Thread {
                 String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE));
                 if (mimeType != null) {
                     file.setMimeType(mimeType);
-                    Log.d(TAG, "getAbsolutePathIfAvailable: Mime Type:" + mimeType);
                 }
                 cursor.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        Log.d(TAG, "getAbsolutePathIfAvailable(Local cached version): " + file.getOriginalPath());
 
         // Check if DownloadsDocument in which case, we can get the local copy by using the content provider
         if (file.getOriginalPath().startsWith("content:") && isDownloadsDocument(Uri.parse(file.getOriginalPath()))) {
@@ -241,15 +238,6 @@ public class FileProcessorThread extends Thread {
                 }
             }
         }
-        Log.d(TAG, "getAbsolutePathIfAvailable(Dowload Document): " + file.getOriginalPath());
-
-        // Still don't have a local copy??
-        if (file.getOriginalPath().startsWith("content:")) {
-            Log.d(TAG, "getAbsolutePathIfAvailable: (No Local Copy Available)");
-        }
-
-        Log.d(TAG, "getAbsolutePathIfAvailable(Final): " + file.getOriginalPath());
-
         return file;
     }
 
@@ -398,11 +386,13 @@ public class FileProcessorThread extends Thread {
         return directory;
     }
 
+    // Guess File extension from the file name
     private String guessExtensionFromUrl(String url) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         return extension;
     }
 
+    // Guess Mime Type from the file extension
     private String guessMimeTypeFromUrl(String url, String type) {
         String mimeType = null;
         String extension = guessExtensionFromUrl(url);
