@@ -49,4 +49,11 @@ public class ChosenImage extends ChosenFile {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    private final static String STRING_FORMAT = "Height: %s, Width: %s";
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + String.format(STRING_FORMAT, height, width);
+    }
 }

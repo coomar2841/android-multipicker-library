@@ -56,11 +56,15 @@ public class FileProcessorThread extends Thread {
 
     @Override
     public void run() {
-        super.run();
-        processFiles();
+        try {
+            processFiles();
+            postProcessFiles();
+        } catch (PickerException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void processFiles() {
+    protected void processFiles() {
         for (ChosenFile file : files) {
             try {
                 Log.d(TAG, "processFile: Before: " + file.toString());
@@ -73,7 +77,13 @@ public class FileProcessorThread extends Thread {
         }
     }
 
-    protected void postProcess(ChosenFile file) throws PickerException {
+    protected void postProcessFiles() throws PickerException {
+        for (ChosenFile file : files) {
+            postProcess(file);
+        }
+    }
+
+    private void postProcess(ChosenFile file) throws PickerException {
         file.setCreatedAt(Calendar.getInstance().getTime());
         file.setSize(new File(file.getOriginalPath()).length());
         copyFileToFolder(file);
@@ -414,7 +424,11 @@ public class FileProcessorThread extends Thread {
             case CacheLocation.EXTERNAL_STORAGE_APP_DIR:
                 directory = FileUtils.getExternalFilesDir(type, context);
                 break;
+            case CacheLocation.EXTERNAL_CACHE_DIR:
+                directory = FileUtils.getExternalCacheDir(context);
+                break;
         }
+
         return directory;
     }
 

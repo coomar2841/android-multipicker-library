@@ -22,4 +22,9 @@ public class FileUtils {
         File directory = context.getExternalFilesDir(type);
         return directory.getAbsolutePath();
     }
+
+    public static String getExternalCacheDir(Context context){
+        File directory = context.getExternalCacheDir();
+        return directory.getAbsolutePath();
+    }
 }

@@ -74,6 +74,8 @@ public class ImagePickerActivity extends AbActivity {
 
     private ImagePickerManager getImagePickerManager(int type) {
         ImagePickerManager manager = new ImagePickerManager(this, type);
+        manager.shouldGenerateMetadata(true);
+        manager.shouldGenerateMetadata(true);
         return manager;
     }
 

@@ -17,11 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kbibek on 2/18/16.
+ * Class to pick images (Stored or capture a new image using the device's camera)
  */
 public class ImagePickerManager extends PickerManager {
     private final static String TAG = ImagePickerManager.class.getSimpleName();
     private String path;
+    private boolean generateThumbnails;
+    private boolean generateMetadata;
 
     public ImagePickerManager(Activity activity, int pickerType) {
         super(activity, pickerType);
@@ -33,6 +35,14 @@ public class ImagePickerManager extends PickerManager {
 
     public ImagePickerManager(android.app.Fragment appFragment, int pickerType) {
         super(appFragment, pickerType);
+    }
+
+    public void shouldGenerateThumbnails(boolean generateThumbnails) {
+        this.generateThumbnails = generateThumbnails;
+    }
+
+    public void shouldGenerateMetadata(boolean generateMetadata) {
+        this.generateMetadata = generateMetadata;
     }
 
     public void reinitialize(String path) {
@@ -130,6 +140,8 @@ public class ImagePickerManager extends PickerManager {
 
     private void processImages(List<String> uris) {
         ImageProcessorThread thread = new ImageProcessorThread(getContext(), getImageObjects(uris), cacheLocation);
+        thread.setShouldGenerateThumbnails(generateThumbnails);
+        thread.setShouldGenerateMetadata(generateMetadata);
         thread.start();
     }
 

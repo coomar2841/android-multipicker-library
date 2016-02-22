@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.UUID;
 
 /**
- * Created by kbibek on 2/18/16.
+ * Abstract class for all types of Pickers
  */
 public abstract class PickerManager {
     protected Activity activity;
@@ -21,20 +21,34 @@ public abstract class PickerManager {
 
     protected int pickerType;
 
-    protected int cacheLocation = CacheLocation.EXTERNAL_STORAGE_APP_DIR;
+    protected int cacheLocation = CacheLocation.EXTERNAL_CACHE_DIR;
 
     protected Bundle extras;
 
+    /**
+     * @param activity {@link Activity}
+     * @param pickerType {@link Picker}
+     */
     public PickerManager(Activity activity, int pickerType) {
         this.activity = activity;
         this.pickerType = pickerType;
     }
 
+    /**
+     *
+     * @param fragment {@link Fragment}
+     * @param pickerType
+     */
     public PickerManager(Fragment fragment, int pickerType) {
         this.fragment = fragment;
         this.pickerType = pickerType;
     }
 
+    /**
+     *
+     * @param appFragment {@link android.app.Fragment}
+     * @param pickerType
+     */
     public PickerManager(android.app.Fragment appFragment, int pickerType) {
         this.appFragment = appFragment;
         this.pickerType = pickerType;
@@ -44,6 +58,10 @@ public abstract class PickerManager {
         this.extras = extras;
     }
 
+    /**
+     * Default cache location is {@link CacheLocation#EXTERNAL_STORAGE_APP_DIR}
+     * @param cacheLocation {@link CacheLocation}
+     */
     public void setCacheLocation(int cacheLocation) {
         this.cacheLocation = cacheLocation;
     }
