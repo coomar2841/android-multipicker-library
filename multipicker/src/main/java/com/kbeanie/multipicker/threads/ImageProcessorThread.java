@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
-import com.kbeanie.multipicker.api.exceptions.PickerException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -111,7 +110,7 @@ public class ImageProcessorThread extends FileProcessorThread {
     protected SoftReference<Bitmap> getBitmap(String path) {
         SoftReference<Bitmap> bitmap = null;
         try {
-            bitmap = new SoftReference<Bitmap>(BitmapFactory.decodeStream(new FileInputStream(
+            bitmap = new SoftReference<>(BitmapFactory.decodeStream(new FileInputStream(
                     new File(path))));
 
         } catch (FileNotFoundException e) {

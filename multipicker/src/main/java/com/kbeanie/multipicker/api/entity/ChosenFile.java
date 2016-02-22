@@ -1,6 +1,7 @@
 package com.kbeanie.multipicker.api.entity;
 
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by kbibek on 2/20/16.
@@ -114,6 +115,6 @@ public class ChosenFile {
         if (size < unit) return size + " B";
         int exp = (int) (Math.log(size) / Math.log(unit));
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + "";
-        return String.format("%.1f %sB", size / Math.pow(unit, exp), pre);
+        return String.format(Locale.ENGLISH, "%.1f %sB", size / Math.pow(unit, exp), pre);
     }
 }

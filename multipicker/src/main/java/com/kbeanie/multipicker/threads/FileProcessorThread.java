@@ -29,7 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.List;
@@ -96,7 +95,7 @@ public class FileProcessorThread extends Thread {
             BufferedInputStream bStream = null;
             try {
                 File inputFile;
-                inputFile = new File(URLDecoder.decode(file.getOriginalPath()));
+                inputFile = new File(URLDecoder.decode(file.getOriginalPath(), Charset.defaultCharset().name()));
                 File copyTo = new File(outputPath);
                 bStream = new BufferedInputStream(new FileInputStream(inputFile));
                 outStream = new BufferedOutputStream(new FileOutputStream(copyTo));
@@ -375,7 +374,7 @@ public class FileProcessorThread extends Thread {
     }
 
     private ChosenFile downloadAndSaveFile(ChosenFile file) {
-        String localFilePath = "";
+        String localFilePath;
         try {
             URL u = new URL(file.getQueryUri());
             HttpURLConnection urlConnection = (HttpURLConnection) u.openConnection();
@@ -434,13 +433,12 @@ public class FileProcessorThread extends Thread {
 
     // Guess File extension from the file name
     private String guessExtensionFromUrl(String url) {
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        return extension;
+        return MimeTypeMap.getFileExtensionFromUrl(url);
     }
 
     // Guess Mime Type from the file extension
     private String guessMimeTypeFromUrl(String url, String type) {
-        String mimeType = null;
+        String mimeType;
         String extension = guessExtensionFromUrl(url);
         if (extension != null && !extension.isEmpty()) {
             mimeType = type + "/" + extension;

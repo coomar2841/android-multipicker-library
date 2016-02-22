@@ -26,7 +26,7 @@ public abstract class PickerManager {
     protected Bundle extras;
 
     /**
-     * @param activity {@link Activity}
+     * @param activity   {@link Activity}
      * @param pickerType {@link Picker}
      */
     public PickerManager(Activity activity, int pickerType) {
@@ -35,8 +35,7 @@ public abstract class PickerManager {
     }
 
     /**
-     *
-     * @param fragment {@link Fragment}
+     * @param fragment   {@link Fragment}
      * @param pickerType
      */
     public PickerManager(Fragment fragment, int pickerType) {
@@ -45,7 +44,6 @@ public abstract class PickerManager {
     }
 
     /**
-     *
      * @param appFragment {@link android.app.Fragment}
      * @param pickerType
      */
@@ -60,6 +58,7 @@ public abstract class PickerManager {
 
     /**
      * Default cache location is {@link CacheLocation#EXTERNAL_STORAGE_APP_DIR}
+     *
      * @param cacheLocation {@link CacheLocation}
      */
     public void setCacheLocation(int cacheLocation) {
@@ -72,8 +71,7 @@ public abstract class PickerManager {
 
     protected String buildFilePath(String extension, String type) {
         String directoryPath = getDirectory(type);
-        String filePath = directoryPath + File.separator + UUID.randomUUID().toString() + "." + extension;
-        return filePath;
+        return directoryPath + File.separator + UUID.randomUUID().toString() + "." + extension;
     }
 
     private String getDirectory(String type) {
