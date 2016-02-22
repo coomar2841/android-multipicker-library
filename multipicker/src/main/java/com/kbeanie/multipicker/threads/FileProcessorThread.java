@@ -28,6 +28,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,11 +62,47 @@ public class FileProcessorThread extends Thread {
 
     private void processFiles() {
         for (ChosenFile file : files) {
-            Log.d(TAG, "processFiles: " + file.getQueryUri());
             try {
+                Log.d(TAG, "processFile: Before: " + file.toString());
                 processFile(file);
+                postProcess(file);
+                Log.d(TAG, "processFile: Final Path: " + file.toString());
             } catch (PickerException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    protected void postProcess(ChosenFile file) throws PickerException {
+        file.setCreatedAt(Calendar.getInstance().getTime());
+        file.setSize(new File(file.getOriginalPath()).length());
+        copyFileToFolder(file);
+    }
+
+    private void copyFileToFolder(ChosenFile file) throws PickerException {
+        if (!file.getOriginalPath().contains(File.separator + context.getPackageName() + File.separator)) {
+            String outputPath = generateFileName(file);
+            BufferedOutputStream outStream = null;
+            BufferedInputStream bStream = null;
+            try {
+                File inputFile;
+                inputFile = new File(URLDecoder.decode(file.getOriginalPath()));
+                File copyTo = new File(outputPath);
+                bStream = new BufferedInputStream(new FileInputStream(inputFile));
+                outStream = new BufferedOutputStream(new FileOutputStream(copyTo));
+                byte[] buf = new byte[2048];
+                int len;
+                while ((len = bStream.read(buf)) > 0) {
+                    outStream.write(buf, 0, len);
+                }
+
+                file.setOriginalPath(copyTo.getAbsolutePath());
+            } catch (IOException e) {
+                throw new PickerException(e);
+            } finally {
+                flush(outStream);
+                close(bStream);
+                close(outStream);
             }
         }
     }
@@ -87,8 +127,6 @@ public class FileProcessorThread extends Thread {
         if (uri.startsWith("content:")) {
             file = getFromContentProviderAlternate(file);
         }
-        Log.d(TAG, "processFile: Query Path: " + file.toString());
-        Log.d(TAG, "processFile: Final Path: " + file.toString());
     }
 
     // If starts with file: (For some content providers, remove the file prefix)
@@ -112,9 +150,7 @@ public class FileProcessorThread extends Thread {
 
             verifyStream(file.getOriginalPath(), bStream);
 
-            String localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
-                    + UUID.randomUUID().toString()
-                    + file.getFileExtensionFromMimeType();
+            String localFilePath = generateFileName(file);
 
             outStream = new BufferedOutputStream(new FileOutputStream(localFilePath));
             byte[] buf = new byte[2048];
@@ -146,9 +182,7 @@ public class FileProcessorThread extends Thread {
         BufferedInputStream inputStream = null;
         BufferedOutputStream outStream = null;
         try {
-            String localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
-                    + UUID.randomUUID().toString()
-                    + file.getFileExtensionFromMimeType();
+            String localFilePath = generateFileName(file);
             ParcelFileDescriptor parcelFileDescriptor = context
                     .getContentResolver().openFileDescriptor(Uri.parse(file.getOriginalPath()),
                             "r");
@@ -349,9 +383,7 @@ public class FileProcessorThread extends Thread {
 
             file.setMimeType(mimeType);
 
-            localFilePath = getTargetDirectory(file.getDirectoryType()) + File.separator
-                    + UUID.randomUUID().toString()
-                    + file.getFileExtensionFromMimeType();
+            localFilePath = generateFileName(file);
 
             File localFile = new File(localFilePath);
 
@@ -402,5 +434,17 @@ public class FileProcessorThread extends Thread {
             mimeType = type + "/*";
         }
         return mimeType;
+    }
+
+    private String generateFileName(ChosenFile file) {
+        String fileName = UUID.randomUUID().toString();
+        // If File name already contains an extension, we don't need to guess the extension
+        String extension = file.getFileExtensionFromMimeType();
+        if (extension != null && !extension.isEmpty()) {
+            fileName += extension;
+        }
+        String filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
+                + fileName;
+        return filePath;
     }
 }

@@ -92,9 +92,9 @@ public class ChosenFile {
     public String getFileExtensionFromMimeType() {
         String extension = "";
         if (mimeType != null) {
-            String[] parts = mimeType.split("//");
+            String[] parts = mimeType.split("/");
             if (parts.length >= 2) {
-                if (parts[1] != "*") {
+                if (!parts[1].equals("*")) {
                     extension = "." + parts[1];
                 }
             }
@@ -102,10 +102,18 @@ public class ChosenFile {
         return extension;
     }
 
-    private final static String STRING_FORMAT = "Type: %s, QueryUri: %s, Original Path: %s, MimeType: %s";
+    private final static String STRING_FORMAT = "Type: %s, QueryUri: %s, Original Path: %s, MimeType: %s, Size: %s";
 
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, directoryType, queryUri, originalPath, mimeType);
+        return String.format(STRING_FORMAT, type, queryUri, originalPath, mimeType, getHumanReadableSize(false));
+    }
+
+    public String getHumanReadableSize(boolean si) {
+        int unit = si ? 1000 : 1024;
+        if (size < unit) return size + " B";
+        int exp = (int) (Math.log(size) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + "";
+        return String.format("%.1f %sB", size / Math.pow(unit, exp), pre);
     }
 }
