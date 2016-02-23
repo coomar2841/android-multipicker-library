@@ -1,7 +1,9 @@
 package com.kbeanie.multipicker.api.entity;
 
+import android.media.ExifInterface;
+
 /**
- * Created by kbibek on 2/20/16.
+ * Contains details about the image that was chosen
  */
 public class ChosenImage extends ChosenFile {
     private int orientation;
@@ -50,10 +52,41 @@ public class ChosenImage extends ChosenFile {
         this.height = height;
     }
 
-    private final static String STRING_FORMAT = "Height: %s, Width: %s";
+    private final static String STRING_FORMAT = "Height: %s, Width: %s, Orientation: %s";
 
     @Override
     public String toString() {
-        return super.toString() + " " + String.format(STRING_FORMAT, height, width);
+        return super.toString() + " " + String.format(STRING_FORMAT, height, width, getOrientationName());
+    }
+
+    public String getOrientationName() {
+        String orientationName = "NORMAL";
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                orientationName = "FLIP_HORIZONTAL";
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                orientationName = "FLIP_VERTICAL";
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                orientationName = "ROTATE_90";
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                orientationName = "ROTATE_180";
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                orientationName = "ROTATE_270";
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                orientationName = "TRANSPOSE";
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                orientationName = "TRANSVERSE";
+                break;
+            case ExifInterface.ORIENTATION_UNDEFINED:
+                orientationName = "UNDEFINED";
+                break;
+        }
+        return orientationName;
     }
 }

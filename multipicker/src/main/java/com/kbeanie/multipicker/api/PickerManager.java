@@ -25,33 +25,28 @@ public abstract class PickerManager {
 
     protected Bundle extras;
 
-    /**
-     * @param activity   {@link Activity}
-     * @param pickerType {@link Picker}
-     */
     public PickerManager(Activity activity, int pickerType) {
         this.activity = activity;
         this.pickerType = pickerType;
     }
 
-    /**
-     * @param fragment   {@link Fragment}
-     * @param pickerType
-     */
     public PickerManager(Fragment fragment, int pickerType) {
         this.fragment = fragment;
         this.pickerType = pickerType;
     }
 
-    /**
-     * @param appFragment {@link android.app.Fragment}
-     * @param pickerType
-     */
     public PickerManager(android.app.Fragment appFragment, int pickerType) {
         this.appFragment = appFragment;
         this.pickerType = pickerType;
     }
 
+    /**
+     * Set extras which will be directly passed to the target applications. You should use this
+     * to take advantage of specific applications
+     * ex. Some applications support cropping, or editing the image itself before they give you
+     * the final image
+     * @param extras
+     */
     public void setExtras(Bundle extras) {
         this.extras = extras;
     }
@@ -65,8 +60,18 @@ public abstract class PickerManager {
         this.cacheLocation = cacheLocation;
     }
 
+    /**
+     * Triggers pick image
+     * @return
+     */
     public abstract String pick();
 
+    /**
+     * This method should be called after {@link Activity#onActivityResult(int, int, Intent)} is  called.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public abstract void submit(int requestCode, int resultCode, Intent data);
 
     protected String buildFilePath(String extension, String type) {

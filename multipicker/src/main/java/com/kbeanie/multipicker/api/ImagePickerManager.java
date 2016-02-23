@@ -25,26 +25,52 @@ public class ImagePickerManager extends PickerManager {
     private boolean generateThumbnails;
     private boolean generateMetadata;
 
+    /**
+     * @param activity   {@link Activity}
+     * @param pickerType {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
+     */
     public ImagePickerManager(Activity activity, int pickerType) {
         super(activity, pickerType);
     }
 
+    /**
+     * @param fragment   {@link Fragment}
+     * @param pickerType {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
+     */
     public ImagePickerManager(Fragment fragment, int pickerType) {
         super(fragment, pickerType);
     }
 
+    /**
+     * @param appFragment {@link android.app.Fragment}
+     * @param pickerType  {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
+     */
     public ImagePickerManager(android.app.Fragment appFragment, int pickerType) {
         super(appFragment, pickerType);
     }
 
+    /**
+     * Enable generation of thumbnails. Default value is {@link Boolean#FALSE}
+     * @param generateThumbnails
+     */
     public void shouldGenerateThumbnails(boolean generateThumbnails) {
         this.generateThumbnails = generateThumbnails;
     }
 
+    /**
+     * Enable generation of metadata for the image. Default value is {@link Boolean#FALSE}
+     * @param generateMetadata
+     */
     public void shouldGenerateMetadata(boolean generateMetadata) {
         this.generateMetadata = generateMetadata;
     }
 
+    /**
+     * This should be used to re-initialize the picker object, in case your activity/fragment is destroyed.
+     *
+     * After creating the picker object, call this method with the path that you got after calling {@link PickerManager#pick()}
+     * @param path
+     */
     public void reinitialize(String path) {
         this.path = path;
     }

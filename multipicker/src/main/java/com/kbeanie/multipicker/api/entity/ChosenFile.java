@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by kbibek on 2/20/16.
+ * Contains details about the file that was chosen.
  */
 public class ChosenFile {
     private long id;

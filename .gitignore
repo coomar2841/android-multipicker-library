@@ -6,3 +6,5 @@
 .DS_Store
 /build
 /captures
+multipicker/key-file.gpg
+gradle.properties
