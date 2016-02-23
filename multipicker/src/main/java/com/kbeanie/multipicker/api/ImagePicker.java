@@ -20,8 +20,8 @@ import java.util.List;
 /**
  * Class to pick images (Stored or capture a new image using the device's camera)
  */
-public class ImagePickerManager extends PickerManager {
-    private final static String TAG = ImagePickerManager.class.getSimpleName();
+public class ImagePicker extends PickerManager {
+    private final static String TAG = ImagePicker.class.getSimpleName();
     private String path;
     private boolean generateThumbnails;
     private boolean generateMetadata;
@@ -32,7 +32,7 @@ public class ImagePickerManager extends PickerManager {
      * @param activity   {@link Activity}
      * @param pickerType {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
      */
-    public ImagePickerManager(Activity activity, int pickerType) {
+    public ImagePicker(Activity activity, int pickerType) {
         super(activity, pickerType);
     }
 
@@ -40,7 +40,7 @@ public class ImagePickerManager extends PickerManager {
      * @param fragment   {@link Fragment}
      * @param pickerType {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
      */
-    public ImagePickerManager(Fragment fragment, int pickerType) {
+    public ImagePicker(Fragment fragment, int pickerType) {
         super(fragment, pickerType);
     }
 
@@ -48,7 +48,7 @@ public class ImagePickerManager extends PickerManager {
      * @param appFragment {@link android.app.Fragment}
      * @param pickerType  {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
      */
-    public ImagePickerManager(android.app.Fragment appFragment, int pickerType) {
+    public ImagePicker(android.app.Fragment appFragment, int pickerType) {
         super(appFragment, pickerType);
     }
 

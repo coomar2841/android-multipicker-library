@@ -3,13 +3,12 @@ package com.kbeanie.multipicker.sample;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.kbeanie.multipicker.api.ImagePickerManager;
+import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
@@ -26,6 +25,9 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
     private Button btPickImageSingle;
     private Button btPickImageMultiple;
     private Button btTakePicture;
+
+    private int pickerType;
+    private String pickerPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,28 +61,32 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
         });
     }
 
-    private ImagePickerManager imagePickerManager;
+    private ImagePicker imagePicker;
 
     public void pickImageSingle() {
-        imagePickerManager = getImagePickerManager(Picker.PICK_IMAGE_DEVICE);
-        String tempPath = imagePickerManager.pick();
+        pickerType = Picker.PICK_IMAGE_DEVICE;
+        imagePicker = getImagePickerManager(Picker.PICK_IMAGE_DEVICE);
+        pickerPath = imagePicker.pick();
+
     }
 
     public void pickImageMultiple() {
-        imagePickerManager = getImagePickerManager(Picker.PICK_IMAGE_DEVICE);
+        pickerType = Picker.PICK_IMAGE_DEVICE;
+        imagePicker = getImagePickerManager(Picker.PICK_IMAGE_DEVICE);
         Bundle extras = new Bundle();
         extras.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        imagePickerManager.setExtras(extras);
-        String tempPath = imagePickerManager.pick();
+        imagePicker.setExtras(extras);
+        pickerPath = imagePicker.pick();
     }
 
     public void takePicture() {
-        imagePickerManager = getImagePickerManager(Picker.PICK_IMAGE_CAMERA);
-        String tempPath = imagePickerManager.pick();
+        pickerType = Picker.PICK_IMAGE_CAMERA;
+        imagePicker = getImagePickerManager(Picker.PICK_IMAGE_CAMERA);
+        pickerPath = imagePicker.pick();
     }
 
-    private ImagePickerManager getImagePickerManager(int type) {
-        ImagePickerManager manager = new ImagePickerManager(this, type);
+    private ImagePicker getImagePickerManager(int type) {
+        ImagePicker manager = new ImagePicker(this, type);
         manager.shouldGenerateMetadata(true);
         manager.shouldGenerateThumbnails(true);
         manager.setImagePickerCallback(this);
@@ -91,9 +97,11 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == Picker.PICK_IMAGE_CAMERA || requestCode == Picker.PICK_IMAGE_DEVICE) && resultCode == RESULT_OK) {
-            if (imagePickerManager != null) {
-                imagePickerManager.submit(requestCode, resultCode, data);
+            if (imagePicker == null) {
+                imagePicker = getImagePickerManager(pickerType);
+                imagePicker.reinitialize(pickerPath);
             }
+            imagePicker.submit(requestCode, resultCode, data);
         }
     }
 
@@ -107,5 +115,27 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
     @Override
     public void onError(String message) {
         Toast.makeText(this, "Failure", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // You have to save these two values in case your activity is killed.
+        // In such a scenario, you will need to re-initialize the ImagePicker
+        outState.putInt("picker_type", pickerType);
+        outState.putString("picker_path", pickerPath);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        // After Activity recreate, you need to re-intialize these
+        // two values to be able to re-intialize ImagePicker
+        if (savedInstanceState.containsKey("picker_type")) {
+            pickerType = savedInstanceState.getInt("picker_type");
+        }
+        if (savedInstanceState.containsKey("picker_path")) {
+            pickerPath = savedInstanceState.getString("picker_path");
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }
