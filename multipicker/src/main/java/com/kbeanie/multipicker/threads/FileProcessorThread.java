@@ -1,6 +1,8 @@
 package com.kbeanie.multipicker.threads;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -458,5 +460,9 @@ public class FileProcessorThread extends Thread {
         String filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
                 + fileName;
         return filePath;
+    }
+
+    protected Activity getActivityFromContext() {
+        return (Activity)context;
     }
 }

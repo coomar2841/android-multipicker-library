@@ -3,17 +3,24 @@ package com.kbeanie.multipicker.sample;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.ImagePickerManager;
 import com.kbeanie.multipicker.api.Picker;
+import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+
+import java.util.List;
 
 /**
  * Created by kbibek on 2/19/16.
  */
-public class ImagePickerActivity extends AbActivity {
+public class ImagePickerActivity extends AbActivity implements ImagePickerCallback {
     private ListView lvResults;
 
     private Button btPickImageSingle;
@@ -75,7 +82,8 @@ public class ImagePickerActivity extends AbActivity {
     private ImagePickerManager getImagePickerManager(int type) {
         ImagePickerManager manager = new ImagePickerManager(this, type);
         manager.shouldGenerateMetadata(true);
-        manager.shouldGenerateMetadata(true);
+        manager.shouldGenerateThumbnails(true);
+        manager.setImagePickerCallback(this);
         return manager;
     }
 
@@ -87,5 +95,17 @@ public class ImagePickerActivity extends AbActivity {
                 imagePickerManager.submit(requestCode, resultCode, data);
             }
         }
+    }
+
+    @Override
+    public void onImagesChosen(List<ChosenImage> images) {
+        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+        ResultsAdapter adapter = new ResultsAdapter(images, this);
+        lvResults.setAdapter(adapter);
+    }
+
+    @Override
+    public void onError(String message) {
+        Toast.makeText(this, "Failure", Toast.LENGTH_LONG).show();
     }
 }

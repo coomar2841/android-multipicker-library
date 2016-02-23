@@ -26,10 +26,10 @@
 &lt;dependency&gt;
     &lt;groupId&gt;com.kbeanie&lt;/groupId&gt;
     &lt;artifactId&gt;multipicker&lt;/artifactId&gt;
-    &lt;version&gt;0.1.0&lt;/version&gt;
+    &lt;version&gt;NA&lt;/version&gt;
 &lt;/dependency&gt;
 </code>
 </pre>
 
 ##### Configuring on Android Studio
-> compile 'com.kbeanie:multipicker:0.1.0@aar'
+> compile 'com.kbeanie:multipicker:NA@aar'

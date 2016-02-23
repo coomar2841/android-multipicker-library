@@ -103,6 +103,10 @@ public class ChosenFile {
         return extension;
     }
 
+    public String getFileExtensionFromMimeTypeWithoutDot() {
+        return getFileExtensionFromMimeType().replace(".", "");
+    }
+
     private final static String STRING_FORMAT = "Type: %s, QueryUri: %s, Original Path: %s, MimeType: %s, Size: %s";
 
     @Override

@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.util.Log;
 
+import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
@@ -35,6 +36,7 @@ public class ImageProcessorThread extends FileProcessorThread {
     private final static int THUMBNAIL_BIG = 1;
 
     private final static int THUMBNAIL_SMALL = 2;
+    private ImagePickerCallback callback;
 
     public ImageProcessorThread(Context context, List<ChosenImage> paths, int cacheLocation) {
         super(context, paths, cacheLocation);
@@ -44,20 +46,41 @@ public class ImageProcessorThread extends FileProcessorThread {
         this.shouldGenerateThumbnails = shouldGenerateThumbnails;
     }
 
+    public void setImagePickerCallback(ImagePickerCallback callback) {
+        this.callback = callback;
+    }
+
     @Override
     public void run() {
         super.run();
         try {
             postProcessImages();
+            onDone();
         } catch (Exception e) {
             e.printStackTrace();
+            onError(e.getMessage());
         }
-        onDone();
+    }
+
+    private void onError(final String message) {
+        if (callback != null) {
+            getActivityFromContext().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onError(message);
+                }
+            });
+        }
     }
 
     private void onDone() {
-        for (ChosenFile file : files) {
-            Log.d(TAG, "onDone: Images: " + file);
+        if (callback != null) {
+            getActivityFromContext().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onImagesChosen((List<ChosenImage>) files);
+                }
+            });
         }
     }
 
@@ -216,7 +239,7 @@ public class ImageProcessorThread extends FileProcessorThread {
             bitmap = BitmapFactory.decodeStream(scaledInputStream, null, options);
 //            verifyBitmap(fileImage, bitmap);
             scaledInputStream.close();
-            if (bitmap == null) {
+            if (bitmap != null) {
                 File original = new File(image.getOriginalPath());
                 File file = new File(
                         (original.getParent() + File.separator + original.getName()

@@ -21,7 +21,7 @@ public abstract class PickerManager {
 
     protected int pickerType;
 
-    protected int cacheLocation = CacheLocation.EXTERNAL_CACHE_DIR;
+    protected int cacheLocation = CacheLocation.EXTERNAL_STORAGE_APP_DIR;
 
     protected Bundle extras;
 

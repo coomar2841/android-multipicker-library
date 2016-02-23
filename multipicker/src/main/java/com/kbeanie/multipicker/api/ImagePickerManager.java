@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.threads.ImageProcessorThread;
 
@@ -24,6 +25,8 @@ public class ImagePickerManager extends PickerManager {
     private String path;
     private boolean generateThumbnails;
     private boolean generateMetadata;
+
+    private ImagePickerCallback callback;
 
     /**
      * @param activity   {@link Activity}
@@ -51,6 +54,7 @@ public class ImagePickerManager extends PickerManager {
 
     /**
      * Enable generation of thumbnails. Default value is {@link Boolean#FALSE}
+     *
      * @param generateThumbnails
      */
     public void shouldGenerateThumbnails(boolean generateThumbnails) {
@@ -59,6 +63,7 @@ public class ImagePickerManager extends PickerManager {
 
     /**
      * Enable generation of metadata for the image. Default value is {@link Boolean#FALSE}
+     *
      * @param generateMetadata
      */
     public void shouldGenerateMetadata(boolean generateMetadata) {
@@ -67,12 +72,17 @@ public class ImagePickerManager extends PickerManager {
 
     /**
      * This should be used to re-initialize the picker object, in case your activity/fragment is destroyed.
-     *
+     * <p/>
      * After creating the picker object, call this method with the path that you got after calling {@link PickerManager#pick()}
+     *
      * @param path
      */
     public void reinitialize(String path) {
         this.path = path;
+    }
+
+    public void setImagePickerCallback(ImagePickerCallback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -80,7 +90,8 @@ public class ImagePickerManager extends PickerManager {
         if (pickerType == Picker.PICK_IMAGE_DEVICE) {
             return pickLocalImage();
         } else if (pickerType == Picker.PICK_IMAGE_CAMERA) {
-            return takePictureWithCamera();
+            path = takePictureWithCamera();
+            return path;
         }
         return null;
     }
@@ -128,15 +139,18 @@ public class ImagePickerManager extends PickerManager {
             onError("onActivityResult requestCode is different from the type the chooser was initialized with.");
         } else {
             if (pickerType == Picker.PICK_IMAGE_CAMERA) {
-                handleCameraData(data);
+                handleCameraData();
             } else if (pickerType == Picker.PICK_IMAGE_DEVICE) {
                 handleGalleryData(data);
             }
         }
     }
 
-    private void handleCameraData(Intent intent) {
+    private void handleCameraData() {
         Log.d(TAG, "handleCameraData: " + path);
+        List<String> uris = new ArrayList<>();
+        uris.add(Uri.fromFile(new File(path)).toString());
+        processImages(uris);
     }
 
     private void handleGalleryData(Intent intent) {
@@ -168,6 +182,7 @@ public class ImagePickerManager extends PickerManager {
         ImageProcessorThread thread = new ImageProcessorThread(getContext(), getImageObjects(uris), cacheLocation);
         thread.setShouldGenerateThumbnails(generateThumbnails);
         thread.setShouldGenerateMetadata(generateMetadata);
+        thread.setImagePickerCallback(callback);
         thread.start();
     }
 

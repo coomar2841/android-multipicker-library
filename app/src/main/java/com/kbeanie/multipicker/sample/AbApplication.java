@@ -2,6 +2,8 @@ package com.kbeanie.multipicker.sample;
 
 import android.app.Application;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -13,5 +15,6 @@ public class AbApplication extends Application{
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        Fresco.initialize(this);
     }
 }
