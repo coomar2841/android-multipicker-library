@@ -15,6 +15,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.kbeanie.multipicker.api.CacheLocation;
+import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.utils.FileUtils;
@@ -48,6 +49,7 @@ public class FileProcessorThread extends Thread {
     private int cacheLocation;
     protected Context context;
     protected List<? extends ChosenFile> files;
+    private FilePickerCallback callback;
 
     public FileProcessorThread(Context context, List<? extends ChosenFile> files, int cacheLocation) {
         this.context = context;
@@ -60,8 +62,33 @@ public class FileProcessorThread extends Thread {
         try {
             processFiles();
             postProcessFiles();
+            if (callback != null) {
+                onDone();
+            }
         } catch (PickerException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void onDone() {
+        if (callback != null) {
+            ((Activity) context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onFilesChosen((List<ChosenFile>) files);
+                }
+            });
+        }
+    }
+
+    private void onError(final String message) {
+        if (callback != null) {
+            ((Activity) context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onError(message);
+                }
+            });
         }
     }
 
@@ -463,6 +490,10 @@ public class FileProcessorThread extends Thread {
     }
 
     protected Activity getActivityFromContext() {
-        return (Activity)context;
+        return (Activity) context;
+    }
+
+    public void setFilePickerCallback(FilePickerCallback callback) {
+        this.callback = callback;
     }
 }

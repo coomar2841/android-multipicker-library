@@ -45,6 +45,7 @@ public abstract class PickerManager {
      * to take advantage of specific applications
      * ex. Some applications support cropping, or editing the image itself before they give you
      * the final image
+     *
      * @param extras
      */
     public void setExtras(Bundle extras) {
@@ -62,12 +63,14 @@ public abstract class PickerManager {
 
     /**
      * Triggers pick image
+     *
      * @return
      */
     public abstract String pick();
 
     /**
      * This method should be called after {@link Activity#onActivityResult(int, int, Intent)} is  called.
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -101,5 +104,15 @@ public abstract class PickerManager {
             return appFragment.getActivity();
         }
         return null;
+    }
+
+    protected void pickInternal(Intent intent, int type) {
+        if (activity != null) {
+            activity.startActivityForResult(intent, type);
+        } else if (fragment != null) {
+            fragment.startActivityForResult(intent, type);
+        } else if (appFragment != null) {
+            appFragment.startActivityForResult(intent, type);
+        }
     }
 }

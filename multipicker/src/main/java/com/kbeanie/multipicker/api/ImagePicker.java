@@ -123,16 +123,6 @@ public class ImagePicker extends PickerManager {
         return tempFilePath;
     }
 
-    protected void pickInternal(Intent intent, int type) {
-        if (activity != null) {
-            activity.startActivityForResult(intent, type);
-        } else if (fragment != null) {
-            fragment.startActivityForResult(intent, type);
-        } else if (appFragment != null) {
-            appFragment.startActivityForResult(intent, type);
-        }
-    }
-
     @Override
     public void submit(int requestCode, int resultCode, Intent data) {
         if (requestCode != pickerType) {
@@ -174,8 +164,15 @@ public class ImagePicker extends PickerManager {
         }
     }
 
-    private void onError(String errorMessage) {
-        Log.d(getClass().getName(), "onError: " + errorMessage);
+    private void onError(final String errorMessage) {
+        if (callback != null) {
+            ((Activity) getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onError(errorMessage);
+                }
+            });
+        }
     }
 
     private void processImages(List<String> uris) {
