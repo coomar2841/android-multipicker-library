@@ -2,12 +2,16 @@ package com.kbeanie.multipicker.threads;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -25,9 +29,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -45,6 +51,8 @@ import static com.kbeanie.multipicker.utils.StreamHelper.verifyStream;
  * Created by kbibek on 2/20/16.
  */
 public class FileProcessorThread extends Thread {
+    protected final static int THUMBNAIL_BIG = 1;
+    protected final static int THUMBNAIL_SMALL = 2;
     private final static String TAG = FileProcessorThread.class.getSimpleName();
     private int cacheLocation;
     protected Context context;
@@ -288,6 +296,14 @@ public class FileProcessorThread extends Thread {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                try {
+                    String displayName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME));
+                    if (displayName != null) {
+                        file.setDisplayName(displayName);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 String mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE));
                 if (mimeType != null) {
                     file.setMimeType(mimeType);
@@ -478,16 +494,54 @@ public class FileProcessorThread extends Thread {
     }
 
     private String generateFileName(ChosenFile file) {
-        String fileName = UUID.randomUUID().toString();
+        String fileName = file.getDisplayName();
+        if (fileName == null || fileName.isEmpty()) {
+            fileName = UUID.randomUUID().toString();
+        }
         // If File name already contains an extension, we don't need to guess the extension
-        String extension = file.getFileExtensionFromMimeType();
-        if (extension != null && !extension.isEmpty()) {
-            fileName += extension;
+        if (!fileName.contains(".")) {
+            String extension = file.getFileExtensionFromMimeType();
+            if (extension != null && !extension.isEmpty()) {
+                fileName += extension;
+                file.setExtension(extension);
+            }
         }
         String filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
                 + fileName;
+
+        String probableFileName = filePath;
+        File probableFile = new File(probableFileName);
+        int counter = 0;
+        while (probableFile.exists()) {
+            counter++;
+            if (fileName.contains(".")) {
+                String[] parts = fileName.split("\\.");
+                probableFileName = parts[0] + "-" + counter + "." + parts[1];
+            } else {
+                probableFileName = fileName + "(" + counter + ")";
+            }
+            probableFile = new File(getTargetDirectory(file.getDirectoryType()) + File.separator
+                    + probableFileName);
+        }
+        fileName = probableFileName;
+
+        filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
+                + fileName;
         return filePath;
     }
+
+    protected String generateFileNameForVideoPreviewImage() {
+        String fileName = UUID.randomUUID().toString();
+        // If File name already contains an extension, we don't need to guess the extension
+        String extension = ".jpg";
+        if (extension != null && !extension.isEmpty()) {
+            fileName += extension;
+        }
+        String filePath = getTargetDirectory(Environment.DIRECTORY_PICTURES) + File.separator
+                + fileName;
+        return filePath;
+    }
+
 
     protected Activity getActivityFromContext() {
         return (Activity) context;
@@ -495,5 +549,151 @@ public class FileProcessorThread extends Thread {
 
     public void setFilePickerCallback(FilePickerCallback callback) {
         this.callback = callback;
+    }
+
+    protected String compressAndSaveImage(String image, int scale) throws PickerException {
+
+        FileOutputStream stream = null;
+        BufferedInputStream bstream = null;
+        Bitmap bitmap = null;
+        try {
+            BitmapFactory.Options optionsForGettingDimensions = new BitmapFactory.Options();
+            optionsForGettingDimensions.inJustDecodeBounds = true;
+            BufferedInputStream boundsOnlyStream = new BufferedInputStream(new FileInputStream(image));
+            bitmap = BitmapFactory.decodeStream(boundsOnlyStream, null, optionsForGettingDimensions);
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+            if (boundsOnlyStream != null) {
+                boundsOnlyStream.close();
+            }
+            int w, l;
+            w = optionsForGettingDimensions.outWidth;
+            l = optionsForGettingDimensions.outHeight;
+
+            ExifInterface exif = new ExifInterface(image);
+
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            int rotate = 0;
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = -90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+
+            int what = w > l ? w : l;
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            if (what > 3000) {
+                options.inSampleSize = scale * 6;
+            } else if (what > 2000 && what <= 3000) {
+                options.inSampleSize = scale * 5;
+            } else if (what > 1500 && what <= 2000) {
+                options.inSampleSize = scale * 4;
+            } else if (what > 1000 && what <= 1500) {
+                options.inSampleSize = scale * 3;
+            } else if (what > 400 && what <= 1000) {
+                options.inSampleSize = scale * 2;
+            } else {
+                options.inSampleSize = scale;
+            }
+
+            options.inJustDecodeBounds = false;
+            // TODO: Sometime the decode File Returns null for some images
+            // For such cases, thumbnails can't be created.
+            // Thumbnails will link to the original file
+            BufferedInputStream scaledInputStream = new BufferedInputStream(new FileInputStream(image));
+            bitmap = BitmapFactory.decodeStream(scaledInputStream, null, options);
+//            verifyBitmap(fileImage, bitmap);
+            scaledInputStream.close();
+            if (bitmap != null) {
+                File original = new File(image);
+                File file = new File(
+                        (original.getParent() + File.separator + original.getName()
+                                .replace(".", "-scale-" + scale + ".")));
+                stream = new FileOutputStream(file);
+                if (rotate != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(rotate);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                            bitmap.getHeight(), matrix, false);
+                }
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                return file.getAbsolutePath();
+            }
+
+        } catch (IOException e) {
+//            throw new ChooserException(e);
+        } catch (Exception e) {
+        } finally {
+            close(bstream);
+            flush(stream);
+            close(stream);
+        }
+
+        return null;
+    }
+
+    protected String getWidthOfImage(String path) {
+        String width = "";
+        try {
+            ExifInterface exif = new ExifInterface(path);
+            width = exif.getAttribute(ExifInterface.TAG_IMAGE_WIDTH);
+            if (width.equals("0")) {
+                width = Integer.toString(getBitmapImage(path).get().getWidth());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return width;
+    }
+
+    protected String getHeightOfImage(String path) {
+        String height = "";
+        try {
+            ExifInterface exif = new ExifInterface(path);
+            height = exif.getAttribute(ExifInterface.TAG_IMAGE_LENGTH);
+            if (height.equals("0")) {
+                height = Integer.toString(getBitmapImage(path).get().getHeight());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return height;
+    }
+
+    protected SoftReference<Bitmap> getBitmapImage(String path) {
+        SoftReference<Bitmap> bitmap = null;
+        try {
+            bitmap = new SoftReference<>(BitmapFactory.decodeStream(new FileInputStream(
+                    new File(path))));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    protected int getOrientation(String image) {
+        int orientation = ExifInterface.ORIENTATION_NORMAL;
+        try {
+            ExifInterface exif = new ExifInterface(image);
+
+            orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orientation;
     }
 }

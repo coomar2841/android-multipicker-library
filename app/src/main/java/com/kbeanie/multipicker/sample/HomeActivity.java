@@ -1,8 +1,10 @@
 package com.kbeanie.multipicker.sample;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,8 +28,32 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        showOptionsDialog((int) id);
+    }
+
+    private void showDemo(Intent intent) {
+        startActivity(intent);
+    }
+
+    private void showOptionsDialog(final int id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        CharSequence[] options = new CharSequence[3];
+        options[0] = "Activity";
+        options[1] = "Fragment";
+        options[2] = "Support Fragment";
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                launchRequiredActivity(getWhich(id, which));
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void launchRequiredActivity(int which) {
         Intent intent = null;
-        switch ((int) id) {
+        switch ((int) which) {
             case DemosAdapter.IMAGE_PICKER_ACTIVITY:
                 intent = new Intent(this, ImagePickerActivity.class);
                 break;
@@ -71,7 +97,19 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
         }
     }
 
-    private void showDemo(Intent intent) {
-        startActivity(intent);
+    private int[] IMAGE_OPTIONS = {DemosAdapter.IMAGE_PICKER_ACTIVITY, DemosAdapter.IMAGE_PICKER_FRAGMENT, DemosAdapter.IMAGE_PICKER_SUPPORT_FRAGMENT};
+    private int[] VIDEO_OPTIONS = {DemosAdapter.VIDEO_PICKER_ACTIVITY, DemosAdapter.VIDEO_PICKER_FRAGMENT, DemosAdapter.VIDEO_PICKER_SUPPORT_FRAGMENT};
+    private int[] FILE_OPTIONS = {DemosAdapter.FILE_PICKER_ACTIVITY, DemosAdapter.FILE_PICKER_FRAGMENT, DemosAdapter.FILE_PICKER_SUPPORT_FRAGMENT};
+
+    private int getWhich(int id, int index) {
+        switch (id) {
+            case 1:
+                return IMAGE_OPTIONS[index];
+            case 2:
+                return VIDEO_OPTIONS[index];
+            case 3:
+                return FILE_OPTIONS[index];
+        }
+        return -1;
     }
 }

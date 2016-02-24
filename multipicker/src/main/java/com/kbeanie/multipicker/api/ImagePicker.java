@@ -113,11 +113,9 @@ public class ImagePicker extends PickerManager {
         Uri uri = Uri.fromFile(new File(tempFilePath));
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
         if (extras != null) {
             intent.putExtras(extras);
         }
-        intent.putExtra("data", uri);
         Log.d(TAG, "Temp Path for Camera capture: " + tempFilePath);
         pickInternal(intent, Picker.PICK_IMAGE_CAMERA);
         return tempFilePath;

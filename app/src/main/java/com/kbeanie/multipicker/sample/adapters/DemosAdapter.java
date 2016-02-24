@@ -19,6 +19,10 @@ public class DemosAdapter extends BaseAdapter {
     private Context context;
     private List<Demo> demoTypes;
 
+    public final static int PICKER_IMAGE = 1;
+    public final static int PICKER_VIDEO = 2;
+    public final static int PICKER_FILE = 3;
+
     public final static int IMAGE_PICKER_ACTIVITY = 1;
     public final static int IMAGE_PICKER_FRAGMENT = 2;
     public final static int IMAGE_PICKER_SUPPORT_FRAGMENT = 3;
@@ -40,18 +44,22 @@ public class DemosAdapter extends BaseAdapter {
     }
 
     private void setupDemoTypes() {
-        demoTypes.add(new Demo("Image Picker - Activity", IMAGE_PICKER_ACTIVITY));
-        demoTypes.add(new Demo("Image Picker - Fragment", IMAGE_PICKER_FRAGMENT));
-        demoTypes.add(new Demo("Image Picker - Support Fragment", IMAGE_PICKER_SUPPORT_FRAGMENT));
-        demoTypes.add(new Demo("Video Picker - Activity", VIDEO_PICKER_ACTIVITY));
-        demoTypes.add(new Demo("Video Picker - Fragment", VIDEO_PICKER_FRAGMENT));
-        demoTypes.add(new Demo("Video Picker - Support Fragment", VIDEO_PICKER_SUPPORT_FRAGMENT));
-        demoTypes.add(new Demo("File Picker - Activity", FILE_PICKER_ACTIVITY));
-        demoTypes.add(new Demo("File Picker - Fragment", FILE_PICKER_FRAGMENT));
-        demoTypes.add(new Demo("File Picker - Support Fragment", FILE_PICKER_SUPPORT_FRAGMENT));
-        demoTypes.add(new Demo("Contact Picker - Activity", CONTACT_PICKER_ACTIVITY));
-        demoTypes.add(new Demo("Contact Picker - Fragment", CONTACT_PICKER_FRAGMENT));
-        demoTypes.add(new Demo("Contact Picker - Support Fragment", CONTACT_PICKER_SUPPORT_FRAGMENT));
+        demoTypes.add(new Demo("Image Picker", PICKER_IMAGE));
+        demoTypes.add(new Demo("Video Picker", PICKER_VIDEO));
+        demoTypes.add(new Demo("File Picker", PICKER_FILE));
+
+//        demoTypes.add(new Demo("Image Picker - Activity", IMAGE_PICKER_ACTIVITY));
+//        demoTypes.add(new Demo("Image Picker - Fragment", IMAGE_PICKER_FRAGMENT));
+//        demoTypes.add(new Demo("Image Picker - Support Fragment", IMAGE_PICKER_SUPPORT_FRAGMENT));
+//        demoTypes.add(new Demo("Video Picker - Activity", VIDEO_PICKER_ACTIVITY));
+//        demoTypes.add(new Demo("Video Picker - Fragment", VIDEO_PICKER_FRAGMENT));
+//        demoTypes.add(new Demo("Video Picker - Support Fragment", VIDEO_PICKER_SUPPORT_FRAGMENT));
+//        demoTypes.add(new Demo("File Picker - Activity", FILE_PICKER_ACTIVITY));
+//        demoTypes.add(new Demo("File Picker - Fragment", FILE_PICKER_FRAGMENT));
+//        demoTypes.add(new Demo("File Picker - Support Fragment", FILE_PICKER_SUPPORT_FRAGMENT));
+//        demoTypes.add(new Demo("Contact Picker - Activity", CONTACT_PICKER_ACTIVITY));
+//        demoTypes.add(new Demo("Contact Picker - Fragment", CONTACT_PICKER_FRAGMENT));
+//        demoTypes.add(new Demo("Contact Picker - Support Fragment", CONTACT_PICKER_SUPPORT_FRAGMENT));
     }
 
     @Override

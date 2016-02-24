@@ -15,6 +15,15 @@ public class ChosenFile {
     private String extension;
     private Date createdAt;
     private String type;
+    private String displayName;
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
     private String directoryType;
 

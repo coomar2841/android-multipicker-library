@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -59,16 +56,5 @@ public class AbActivity extends AppCompatActivity {
             adView.destroy();
         }
         super.onDestroy();
-    }
-
-    protected View getEmptyView() {
-        TextView empty = new TextView(this);
-        empty.setText("Choose an option");
-        return empty;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 }

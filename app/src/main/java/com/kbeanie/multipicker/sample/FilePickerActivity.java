@@ -13,6 +13,7 @@ import com.kbeanie.multipicker.api.FilePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
+import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
 
 import java.util.List;
 
@@ -76,6 +77,9 @@ public class FilePickerActivity extends AbActivity implements FilePickerCallback
         for (ChosenFile file : files) {
             Log.i(TAG, "onFilesChosen: " + file);
         }
+
+        ResultsAdapter adapter = new ResultsAdapter(files, this);
+        lvResults.setAdapter(adapter);
     }
 
     @Override
