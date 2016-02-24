@@ -108,9 +108,13 @@ public class VideoPicker extends PickerManager {
 
     private void handleCameraData() {
         Log.d(TAG, "handleCameraData: " + path);
-        List<String> uris = new ArrayList<>();
-        uris.add(Uri.fromFile(new File(path)).toString());
-        processVideos(uris);
+        if (path == null || path.isEmpty()) {
+            onError("Path is null. You will need to re-initialize the object with proper path");
+        } else {
+            List<String> uris = new ArrayList<>();
+            uris.add(Uri.fromFile(new File(path)).toString());
+            processVideos(uris);
+        }
     }
 
     private void handleGalleryData(Intent intent) {

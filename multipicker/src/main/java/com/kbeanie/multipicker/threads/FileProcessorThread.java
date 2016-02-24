@@ -67,14 +67,10 @@ public class FileProcessorThread extends Thread {
 
     @Override
     public void run() {
-        try {
-            processFiles();
-            postProcessFiles();
-            if (callback != null) {
-                onDone();
-            }
-        } catch (PickerException e) {
-            e.printStackTrace();
+        processFiles();
+        postProcessFiles();
+        if (callback != null) {
+            onDone();
         }
     }
 
@@ -89,33 +85,28 @@ public class FileProcessorThread extends Thread {
         }
     }
 
-    private void onError(final String message) {
-        if (callback != null) {
-            ((Activity) context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onError(message);
-                }
-            });
-        }
-    }
-
     protected void processFiles() {
         for (ChosenFile file : files) {
             try {
                 Log.d(TAG, "processFile: Before: " + file.toString());
                 processFile(file);
                 postProcess(file);
+                file.setSuccess(true);
                 Log.d(TAG, "processFile: Final Path: " + file.toString());
             } catch (PickerException e) {
                 e.printStackTrace();
+                file.setSuccess(false);
             }
         }
     }
 
-    protected void postProcessFiles() throws PickerException {
+    protected void postProcessFiles() {
         for (ChosenFile file : files) {
-            postProcess(file);
+            try {
+                postProcess(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -506,10 +497,8 @@ public class FileProcessorThread extends Thread {
                 file.setExtension(extension);
             }
         }
-        String filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
-                + fileName;
 
-        String probableFileName = filePath;
+        String probableFileName = fileName;
         File probableFile = new File(probableFileName);
         int counter = 0;
         while (probableFile.exists()) {
@@ -525,7 +514,7 @@ public class FileProcessorThread extends Thread {
         }
         fileName = probableFileName;
 
-        filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
+        String filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
                 + fileName;
         return filePath;
     }
@@ -631,9 +620,8 @@ public class FileProcessorThread extends Thread {
                 return file.getAbsolutePath();
             }
 
-        } catch (IOException e) {
-//            throw new ChooserException(e);
         } catch (Exception e) {
+            throw new PickerException("Error while generating thumbnail: " + scale + " " + image);
         } finally {
             close(bstream);
             flush(stream);

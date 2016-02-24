@@ -42,19 +42,20 @@ public class VideoProcessorThread extends FileProcessorThread {
     @Override
     public void run() {
         super.run();
-        try {
-            postProcessVideos();
-            onDone();
-        } catch (Exception e) {
-            e.printStackTrace();
-            onError(e.getMessage());
-        }
+        postProcessVideos();
+        onDone();
     }
 
-    private void postProcessVideos() throws PickerException {
+    private void postProcessVideos() {
         for (ChosenFile file : files) {
             ChosenVideo video = (ChosenVideo) file;
-            postProcessVideo(video);
+            try {
+                postProcessVideo(video);
+                video.setSuccess(true);
+            } catch (PickerException e) {
+                e.printStackTrace();
+                video.setSuccess(false);
+            }
         }
     }
 
@@ -100,17 +101,6 @@ public class VideoProcessorThread extends FileProcessorThread {
                 @Override
                 public void run() {
                     callback.onVideosChosen((List<ChosenVideo>) files);
-                }
-            });
-        }
-    }
-
-    private void onError(final String message) {
-        if (callback != null) {
-            getActivityFromContext().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onError(message);
                 }
             });
         }

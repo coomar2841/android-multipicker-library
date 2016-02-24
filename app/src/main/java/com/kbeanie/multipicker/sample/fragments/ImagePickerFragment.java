@@ -1,9 +1,13 @@
-package com.kbeanie.multipicker.sample;
+package com.kbeanie.multipicker.sample.fragments;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -12,14 +16,16 @@ import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
 
 import java.util.List;
 
 /**
- * Created by kbibek on 2/19/16.
+ * Created by kbibek on 2/25/16.
  */
-public class ImagePickerActivity extends AbActivity implements ImagePickerCallback {
+public class ImagePickerFragment extends Fragment implements ImagePickerCallback {
+
     private ListView lvResults;
 
     private Button btPickImageSingle;
@@ -29,36 +35,35 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
     private int pickerType;
     private String pickerPath;
 
+
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_picker_activity);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_image_picker, null);
 
-        getSupportActionBar().setTitle("Image Picker");
-        getSupportActionBar().setSubtitle("Activity example");
-
-        lvResults = (ListView) findViewById(R.id.lvResults);
-        btPickImageSingle = (Button) findViewById(R.id.btGallerySingleImage);
+        lvResults = (ListView) view.findViewById(R.id.lvResults);
+        btPickImageSingle = (Button) view.findViewById(R.id.btGallerySingleImage);
         btPickImageSingle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickImageSingle();
             }
         });
-        btPickImageMultiple = (Button) findViewById(R.id.btGalleryMultipleImages);
+        btPickImageMultiple = (Button) view.findViewById(R.id.btGalleryMultipleImages);
         btPickImageMultiple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickImageMultiple();
             }
         });
-        btTakePicture = (Button) findViewById(R.id.btCameraImage);
+        btTakePicture = (Button) view.findViewById(R.id.btCameraImage);
         btTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
             }
         });
+        return view;
     }
 
     private ImagePicker imagePicker;
@@ -94,9 +99,9 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == Picker.PICK_IMAGE_CAMERA || requestCode == Picker.PICK_IMAGE_DEVICE) && resultCode == RESULT_OK) {
+        if ((requestCode == Picker.PICK_IMAGE_CAMERA || requestCode == Picker.PICK_IMAGE_DEVICE) && resultCode == Activity.RESULT_OK) {
             if (imagePicker == null) {
                 imagePicker = getImagePickerManager(pickerType);
                 imagePicker.reinitialize(pickerPath);
@@ -107,17 +112,17 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
 
     @Override
     public void onImagesChosen(List<ChosenImage> images) {
-        ResultsAdapter adapter = new ResultsAdapter(images, this);
+        ResultsAdapter adapter = new ResultsAdapter(images, getActivity());
         lvResults.setAdapter(adapter);
     }
 
     @Override
     public void onError(String message) {
-        Toast.makeText(this, "Failure", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Failure", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         // You have to save these two values in case your activity is killed.
         // In such a scenario, you will need to re-initialize the ImagePicker
         outState.putInt("picker_type", pickerType);
@@ -126,9 +131,8 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        // After Activity recreate, you need to re-intialize these
-        // two values to be able to re-intialize ImagePicker
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("picker_type")) {
                 pickerType = savedInstanceState.getInt("picker_type");
@@ -137,6 +141,5 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
                 pickerPath = savedInstanceState.getString("picker_path");
             }
         }
-        super.onRestoreInstanceState(savedInstanceState);
     }
 }

@@ -1,7 +1,6 @@
 package com.kbeanie.multipicker.threads;
 
 import android.content.Context;
-import android.media.ExifInterface;
 import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
@@ -37,24 +36,8 @@ public class ImageProcessorThread extends FileProcessorThread {
     @Override
     public void run() {
         super.run();
-        try {
-            postProcessImages();
-            onDone();
-        } catch (Exception e) {
-            e.printStackTrace();
-            onError(e.getMessage());
-        }
-    }
-
-    private void onError(final String message) {
-        if (callback != null) {
-            getActivityFromContext().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onError(message);
-                }
-            });
-        }
+        postProcessImages();
+        onDone();
     }
 
     private void onDone() {
@@ -68,11 +51,16 @@ public class ImageProcessorThread extends FileProcessorThread {
         }
     }
 
-    private void postProcessImages() throws PickerException {
-        Log.d(TAG, "postProcessImages: ");
+    private void postProcessImages() {
         for (ChosenFile file : files) {
             ChosenImage image = (ChosenImage) file;
-            postProcessImage(image);
+            try {
+                postProcessImage(image);
+                image.setSuccess(true);
+            } catch (PickerException e) {
+                e.printStackTrace();
+                image.setSuccess(false);
+            }
         }
     }
 

@@ -16,6 +16,15 @@ public class ChosenFile {
     private Date createdAt;
     private String type;
     private String displayName;
+    private boolean success;
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 
     public String getDisplayName() {
         return displayName;

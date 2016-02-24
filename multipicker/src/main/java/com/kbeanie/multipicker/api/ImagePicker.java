@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.threads.ImageProcessorThread;
 
 import java.io.File;
@@ -136,9 +137,13 @@ public class ImagePicker extends PickerManager {
 
     private void handleCameraData() {
         Log.d(TAG, "handleCameraData: " + path);
-        List<String> uris = new ArrayList<>();
-        uris.add(Uri.fromFile(new File(path)).toString());
-        processImages(uris);
+        if (path == null || path.isEmpty()) {
+            onError("Path is null. You will need to re-initialize the object with proper path");
+        } else {
+            List<String> uris = new ArrayList<>();
+            uris.add(Uri.fromFile(new File(path)).toString());
+            processImages(uris);
+        }
     }
 
     private void handleGalleryData(Intent intent) {
