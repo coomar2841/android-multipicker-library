@@ -37,6 +37,7 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
 
     private void showOptionsDialog(final int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose example type");
         CharSequence[] options = new CharSequence[3];
         options[0] = "Activity";
         options[1] = "Fragment";
