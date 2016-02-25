@@ -1,4 +1,4 @@
-**Makes it easy and simple to integrate "Attach that photo/video" feature into your android apps.**
+**Makes it easy and simple to integrate "Attach that file" feature into your android apps.**
 
 >Don't worry about various devices/OS variations.
 
@@ -18,6 +18,8 @@
 - Generates thumb-nails for the any chosen media.
 - Works on most(99%) of the phones/os versions.
 - (New) Supports picking up files in general.
+- (New) Supports picking up audio files.
+- Get all metadata about the files that you would probably require.
 - Similar code base to implement irrespective of Android version of device.
 
 ##### Maven
