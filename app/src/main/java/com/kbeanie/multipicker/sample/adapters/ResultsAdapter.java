@@ -16,6 +16,8 @@ import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.R;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.util.List;
 
@@ -101,6 +103,12 @@ public class ResultsAdapter extends BaseAdapter {
     private void showAudio(ChosenFile file, View view) {
         ChosenAudio audio = (ChosenAudio) file;
 
+        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        tvName.setText(file.getDisplayName());
+
+        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        tvCompleteMimeType.setText(file.getMimeType());
+
         TextView tvMimeType = (TextView) view.findViewById(R.id.tvMimeType);
         tvMimeType.setText(file.getFileExtensionFromMimeTypeWithoutDot());
 
@@ -108,11 +116,17 @@ public class ResultsAdapter extends BaseAdapter {
         tvSize.setText(file.getHumanReadableSize(false));
 
         TextView tvDuration = (TextView) view.findViewById(R.id.tvDuration);
-        tvDuration.setText(String.format(FORMAT_DURATION, audio.getUserReadableDuration()));
+        tvDuration.setText(String.format(FORMAT_DURATION, audio.getHumanReadableDuration(audio.getDuration())));
     }
 
     private void showVideo(ChosenFile file, View view) {
         ChosenVideo video = (ChosenVideo) file;
+
+        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        tvName.setText(file.getDisplayName());
+
+        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        tvCompleteMimeType.setText(file.getMimeType());
 
         SimpleDraweeView ivImage = (SimpleDraweeView) view.findViewById(R.id.ivImage);
         ivImage.setImageURI(Uri.fromFile(new File(video.getPreviewThumbnail())));
@@ -127,7 +141,7 @@ public class ResultsAdapter extends BaseAdapter {
         tvSize.setText(file.getHumanReadableSize(false));
 
         TextView tvDuration = (TextView) view.findViewById(R.id.tvDuration);
-        tvDuration.setText(String.format(FORMAT_DURATION, video.getUserReadableDuration()));
+        tvDuration.setText(String.format(FORMAT_DURATION, video.getHumanReadableDuration(video.getDuration())));
 
         TextView tvOrientation = (TextView) view.findViewById(R.id.tvOrientation);
         tvOrientation.setText(String.format(FORMAT_ORIENTATION, video.getOrientationName()));
@@ -135,6 +149,12 @@ public class ResultsAdapter extends BaseAdapter {
 
     private void showImage(ChosenFile file, View view) {
         ChosenImage image = (ChosenImage) file;
+
+        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        tvName.setText(file.getDisplayName());
+
+        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        tvCompleteMimeType.setText(file.getMimeType());
 
         SimpleDraweeView ivImage = (SimpleDraweeView) view.findViewById(R.id.ivImage);
         if (image.getThumbnailSmallPath() != null) {
@@ -155,6 +175,12 @@ public class ResultsAdapter extends BaseAdapter {
     }
 
     private void showFile(ChosenFile file, View view) {
+
+        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        tvName.setText(file.getDisplayName());
+
+        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        tvCompleteMimeType.setText(file.getMimeType());
 
         TextView tvMimeType = (TextView) view.findViewById(R.id.tvMimeType);
         tvMimeType.setText(file.getFileExtensionFromMimeTypeWithoutDot());

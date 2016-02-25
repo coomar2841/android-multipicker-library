@@ -2,6 +2,7 @@ package com.kbeanie.multipicker.api.entity;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Contains details about the file that was chosen.
@@ -138,5 +139,11 @@ public class ChosenFile {
         int exp = (int) (Math.log(size) / Math.log(unit));
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + "";
         return String.format(Locale.ENGLISH, "%.1f %sB", size / Math.pow(unit, exp), pre);
+    }
+    public String getHumanReadableDuration(long duration) {
+        String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(duration),
+                TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
+                TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        return hms;
     }
 }

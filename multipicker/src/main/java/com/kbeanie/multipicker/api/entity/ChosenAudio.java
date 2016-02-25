@@ -21,10 +21,5 @@ public class ChosenAudio extends ChosenFile {
         return super.toString() + " Duration: " + duration + " secs";
     }
 
-    public String getUserReadableDuration() {
-        String hms = String.format("%02dh %02dm %02ds", TimeUnit.MILLISECONDS.toHours(duration),
-                TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
-                TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
-        return hms;
-    }
+
 }

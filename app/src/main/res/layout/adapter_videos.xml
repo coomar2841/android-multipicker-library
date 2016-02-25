@@ -8,8 +8,8 @@
     android:padding="10dp">
 
     <RelativeLayout
-        android:layout_width="70dp"
-        android:layout_height="70dp">
+        android:layout_width="80dp"
+        android:layout_height="80dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/ivImage"
@@ -52,45 +52,88 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvDimension"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/badge_bg"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textSize="10dp"
-            android:textStyle="bold"
-            tools:text="1800w x 900h" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvDuration"
-            android:layout_width="wrap_content"
+
+            <TextView
+                android:id="@+id/tvDimension"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/badge_bg"
+                android:padding="3dp"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                tools:text="1800w x 900h" />
+
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/badge_bg"
+                android:padding="3dp"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                tools:text="23 secs" />
+
+            <TextView
+                android:id="@+id/tvOrientation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/badge_bg"
+                android:padding="3dp"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                tools:text="0 Deg" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/badge_bg"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textSize="10dp"
-            android:textStyle="bold"
-            tools:text="23 secs" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvOrientation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/badge_bg"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textSize="10dp"
-            android:textStyle="bold"
-            tools:text="0 Deg" />
+            <TextView
+                android:id="@+id/tvCompleteMimeType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/badge_bg"
+                android:padding="3dp"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                tools:text="file/pdf" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/badge_bg"
+                android:padding="3dp"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                tools:text="File name" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
