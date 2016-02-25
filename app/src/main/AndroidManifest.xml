@@ -66,6 +66,10 @@
             android:name=".ContactPickerSupportFragmentActivity"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".AudioPickerActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

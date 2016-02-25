@@ -79,6 +79,8 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:23.+'
+    compile 'org.apache.commons:commons-io:1.3.2'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 }

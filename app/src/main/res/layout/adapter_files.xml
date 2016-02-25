@@ -11,11 +11,15 @@
         android:layout_width="70dp"
         android:layout_height="70dp">
 
-        <TextView
-            android:id="@+id/tvImage"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/dark_bg" />
+            android:src="@drawable/ic_file"
+            fresco:placeholderImage="@drawable/ic_file"
+            fresco:roundedCornerRadius="5dp"
+            fresco:roundingBorderColor="@color/colorAccent"
+            fresco:roundingBorderWidth="1dp" />
 
         <TextView
             android:id="@+id/tvMimeType"

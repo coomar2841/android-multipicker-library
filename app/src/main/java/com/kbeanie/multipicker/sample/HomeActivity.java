@@ -91,6 +91,9 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
             case DemosAdapter.CONTACT_PICKER_SUPPORT_FRAGMENT:
                 intent = new Intent(this, ContactPickerSupportFragmentActivity.class);
                 break;
+            case DemosAdapter.AUDIO_PICKER_ACTIVITY:
+                intent = new Intent(this, AudioPickerActivity.class);
+                break;
         }
 
         if (intent != null) {
@@ -101,6 +104,7 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
     private int[] IMAGE_OPTIONS = {DemosAdapter.IMAGE_PICKER_ACTIVITY, DemosAdapter.IMAGE_PICKER_FRAGMENT, DemosAdapter.IMAGE_PICKER_SUPPORT_FRAGMENT};
     private int[] VIDEO_OPTIONS = {DemosAdapter.VIDEO_PICKER_ACTIVITY, DemosAdapter.VIDEO_PICKER_FRAGMENT, DemosAdapter.VIDEO_PICKER_SUPPORT_FRAGMENT};
     private int[] FILE_OPTIONS = {DemosAdapter.FILE_PICKER_ACTIVITY, DemosAdapter.FILE_PICKER_FRAGMENT, DemosAdapter.FILE_PICKER_SUPPORT_FRAGMENT};
+    private int[] AUDIO_OPTIONS = {DemosAdapter.AUDIO_PICKER_ACTIVITY, DemosAdapter.AUDIO_PICKER_FRAGMENT, DemosAdapter.AUDIO_PICKER_SUPPORT_FRAGMENT};
 
     private int getWhich(int id, int index) {
         switch (id) {
@@ -110,6 +114,8 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
                 return VIDEO_OPTIONS[index];
             case 3:
                 return FILE_OPTIONS[index];
+            case 4:
+                return AUDIO_OPTIONS[index];
         }
         return -1;
     }

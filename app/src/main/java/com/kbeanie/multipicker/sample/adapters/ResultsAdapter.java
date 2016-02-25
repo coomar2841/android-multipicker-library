@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
@@ -28,6 +29,7 @@ public class ResultsAdapter extends BaseAdapter {
     private final static int TYPE_VIDEO = 1;
     private final static int TYPE_FILE = 2;
     private final static int TYPE_CONTACT = 3;
+    private final static int TYPE_AUDIO = 4;
 
     private final static String FORMAT_IMAGE_VIDEO_DIMENSIONS = "%sw x %sh";
     private final static String FORMAT_ORIENTATION = "Ortn: %s";
@@ -72,6 +74,9 @@ public class ResultsAdapter extends BaseAdapter {
                 case TYPE_VIDEO:
                     convertView = LayoutInflater.from(context).inflate(R.layout.adapter_videos, null);
                     break;
+                case TYPE_AUDIO:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.adapter_audios, null);
+                    break;
             }
         }
 
@@ -85,9 +90,25 @@ public class ResultsAdapter extends BaseAdapter {
             case TYPE_VIDEO:
                 showVideo(file, convertView);
                 break;
+            case TYPE_AUDIO:
+                showAudio(file, convertView);
+                break;
 
         }
         return convertView;
+    }
+
+    private void showAudio(ChosenFile file, View view) {
+        ChosenAudio audio = (ChosenAudio) file;
+
+        TextView tvMimeType = (TextView) view.findViewById(R.id.tvMimeType);
+        tvMimeType.setText(file.getFileExtensionFromMimeTypeWithoutDot());
+
+        TextView tvSize = (TextView) view.findViewById(R.id.tvSize);
+        tvSize.setText(file.getHumanReadableSize(false));
+
+        TextView tvDuration = (TextView) view.findViewById(R.id.tvDuration);
+        tvDuration.setText(String.format(FORMAT_DURATION, audio.getDuration()));
     }
 
     private void showVideo(ChosenFile file, View view) {
@@ -116,7 +137,9 @@ public class ResultsAdapter extends BaseAdapter {
         ChosenImage image = (ChosenImage) file;
 
         SimpleDraweeView ivImage = (SimpleDraweeView) view.findViewById(R.id.ivImage);
-        ivImage.setImageURI(Uri.fromFile(new File(image.getThumbnailSmallPath())));
+        if (image.getThumbnailSmallPath() != null) {
+            ivImage.setImageURI(Uri.fromFile(new File(image.getThumbnailSmallPath())));
+        }
 
         TextView tvDimension = (TextView) view.findViewById(R.id.tvDimension);
         tvDimension.setText(String.format(FORMAT_IMAGE_VIDEO_DIMENSIONS, image.getWidth(), image.getHeight()));
@@ -132,8 +155,6 @@ public class ResultsAdapter extends BaseAdapter {
     }
 
     private void showFile(ChosenFile file, View view) {
-        TextView tvImage = (TextView) view.findViewById(R.id.tvImage);
-        tvImage.setText(file.getFileExtensionFromMimeTypeWithoutDot());
 
         TextView tvMimeType = (TextView) view.findViewById(R.id.tvMimeType);
         tvMimeType.setText(file.getFileExtensionFromMimeTypeWithoutDot());
@@ -158,6 +179,8 @@ public class ResultsAdapter extends BaseAdapter {
                 return TYPE_FILE;
             case "video":
                 return TYPE_VIDEO;
+            case "audio":
+                return TYPE_AUDIO;
         }
         return TYPE_FILE;
     }

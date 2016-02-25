@@ -28,4 +28,8 @@ public interface Picker {
      * Pick a contact from the user's device
      */
     int PICK_CONTACT = 8666;
+    /**
+     * Pick an audio file
+     */
+    int PICK_AUDIO = 9777;
 }

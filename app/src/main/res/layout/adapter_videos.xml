@@ -15,6 +15,7 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            fresco:placeholderImage="@drawable/ic_movie"
             fresco:roundedCornerRadius="5dp"
             fresco:roundingBorderColor="@color/colorAccent"
             fresco:roundingBorderWidth="1dp" />

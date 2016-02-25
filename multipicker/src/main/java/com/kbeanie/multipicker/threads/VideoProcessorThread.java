@@ -8,11 +8,11 @@ import android.provider.MediaStore;
 
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
-import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -62,34 +62,39 @@ public class VideoProcessorThread extends FileProcessorThread {
     private void postProcessVideo(ChosenVideo video) throws PickerException {
         if (shouldGenerateMetadata) {
             MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
-            metadataRetriever.setDataSource(video.getOriginalPath());
-            String duration = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            String orientation = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
-            String height = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
-            String width = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
+            try {
+                metadataRetriever.setDataSource(video.getOriginalPath());
+                String duration = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                String orientation = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
+                String height = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
+                String width = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
 
-            if (duration != null) {
-                video.setDuration(Integer.parseInt(duration) / 1000);
-            }
-            if (orientation != null) {
-                video.setOrientation(Integer.parseInt(orientation));
-            }
+                if (duration != null) {
+                    video.setDuration(Integer.parseInt(duration) / 1000);
+                }
+                if (orientation != null) {
+                    video.setOrientation(Integer.parseInt(orientation));
+                }
 
-            if (height != null) {
-                video.setHeight(Integer.parseInt(height));
-            }
+                if (height != null) {
+                    video.setHeight(Integer.parseInt(height));
+                }
 
-            if (width != null) {
-                video.setWidth(Integer.parseInt(width));
+                if (width != null) {
+                    video.setWidth(Integer.parseInt(width));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                metadataRetriever.release();
             }
-            metadataRetriever.release();
         }
 
         if (shouldGeneratePreviewImages) {
             String previewPath = createPreviewImage(video.getOriginalPath());
             video.setPreviewImage(previewPath);
-            String previewThumbnail = compressAndSaveImage(previewPath, THUMBNAIL_BIG);
-            String previewThumbnailSmall = compressAndSaveImage(previewPath, THUMBNAIL_SMALL);
+            String previewThumbnail = downScaleAndSaveImage(previewPath, THUMBNAIL_BIG);
+            String previewThumbnailSmall = downScaleAndSaveImage(previewPath, THUMBNAIL_SMALL);
             video.setPreviewThumbnail(previewThumbnail);
             video.setPreviewThumbnailSmall(previewThumbnailSmall);
         }

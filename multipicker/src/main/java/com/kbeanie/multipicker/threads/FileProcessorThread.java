@@ -29,7 +29,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,8 +36,6 @@ import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -112,35 +109,31 @@ public class FileProcessorThread extends Thread {
 
     private void postProcess(ChosenFile file) throws PickerException {
         file.setCreatedAt(Calendar.getInstance().getTime());
-        file.setSize(new File(file.getOriginalPath()).length());
+        File f = new File(file.getOriginalPath());
+        file.setSize(f.length());
         copyFileToFolder(file);
     }
 
     private void copyFileToFolder(ChosenFile file) throws PickerException {
-        if (!file.getOriginalPath().contains(File.separator + context.getPackageName() + File.separator)) {
-            String outputPath = generateFileName(file);
-            BufferedOutputStream outStream = null;
-            BufferedInputStream bStream = null;
-            try {
-                File inputFile;
-                inputFile = new File(URLDecoder.decode(file.getOriginalPath(), Charset.defaultCharset().name()));
-                File copyTo = new File(outputPath);
-                bStream = new BufferedInputStream(new FileInputStream(inputFile));
-                outStream = new BufferedOutputStream(new FileOutputStream(copyTo));
-                byte[] buf = new byte[2048];
-                int len;
-                while ((len = bStream.read(buf)) > 0) {
-                    outStream.write(buf, 0, len);
-                }
-
-                file.setOriginalPath(copyTo.getAbsolutePath());
-            } catch (IOException e) {
-                throw new PickerException(e);
-            } finally {
-                flush(outStream);
-                close(bStream);
-                close(outStream);
-            }
+        String outputPath = generateFileName(file);
+        // Check if file is already in the required destination
+        if (outputPath.equals(file.getOriginalPath())) {
+            return;
+        }
+        BufferedOutputStream outStream = null;
+        BufferedInputStream bStream = null;
+        try {
+            File inputFile = new File(file.getOriginalPath());
+            File copyTo = new File(outputPath);
+            FileUtils.copyFile(inputFile, copyTo);
+            file.setOriginalPath(copyTo.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new PickerException(e);
+        } finally {
+            flush(outStream);
+            close(bStream);
+            close(outStream);
         }
     }
 
@@ -195,7 +188,6 @@ public class FileProcessorThread extends Thread {
             while ((len = bStream.read(buf)) > 0) {
                 outStream.write(buf, 0, len);
             }
-            flush(outStream);
             file.setOriginalPath(localFilePath);
             if (file.getMimeType() != null && file.getMimeType().contains("/*")) {
                 if (mimeType != null && !mimeType.isEmpty()) {
@@ -207,6 +199,7 @@ public class FileProcessorThread extends Thread {
         } catch (IOException e) {
             throw new PickerException(e);
         } finally {
+            flush(outStream);
             close(bStream);
             close(outStream);
         }
@@ -540,7 +533,34 @@ public class FileProcessorThread extends Thread {
         this.callback = callback;
     }
 
-    protected String compressAndSaveImage(String image, int scale) throws PickerException {
+    protected String ensureMaxWidthAndHeight(int maxWidth, int maxHeight, String image) {
+        String outPath = image;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BufferedInputStream boundsOnlyStream = new BufferedInputStream(new FileInputStream(image));
+            Bitmap bitmap = BitmapFactory.decodeStream(boundsOnlyStream, null, options);
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+            if (boundsOnlyStream != null) {
+                boundsOnlyStream.close();
+            }
+
+            int imageWidth = options.outWidth;
+            int imageHeight = options.outHeight;
+            if (imageWidth <= maxWidth && imageHeight <= maxHeight) {
+                outPath = image;
+            } else {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outPath;
+    }
+
+    protected String downScaleAndSaveImage(String image, int scale) throws PickerException {
 
         FileOutputStream stream = null;
         BufferedInputStream bstream = null;
@@ -641,6 +661,8 @@ public class FileProcessorThread extends Thread {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return width;
     }
@@ -655,19 +677,15 @@ public class FileProcessorThread extends Thread {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return height;
     }
 
     protected SoftReference<Bitmap> getBitmapImage(String path) {
         SoftReference<Bitmap> bitmap = null;
-        try {
-            bitmap = new SoftReference<>(BitmapFactory.decodeStream(new FileInputStream(
-                    new File(path))));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        bitmap = new SoftReference<>(BitmapFactory.decodeFile(Uri.fromFile(new File(path)).getPath()));
         return bitmap;
     }
 

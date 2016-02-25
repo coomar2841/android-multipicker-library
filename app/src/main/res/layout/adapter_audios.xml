@@ -15,7 +15,8 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fresco:placeholderImage="@drawable/ic_image"
+            android:src="@drawable/ic_audio"
+            fresco:placeholderImage="@drawable/ic_audio"
             fresco:roundedCornerRadius="5dp"
             fresco:roundingBorderColor="@color/colorAccent"
             fresco:roundingBorderWidth="1dp" />
@@ -69,7 +70,7 @@
             tools:text="1800w x 900h" />
 
         <TextView
-            android:id="@+id/tvOrientation"
+            android:id="@+id/tvDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"

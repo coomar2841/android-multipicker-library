@@ -83,9 +83,9 @@ public class ImageProcessorThread extends FileProcessorThread {
     }
 
     private ChosenImage generateThumbnails(ChosenImage image) throws PickerException {
-        String thumbnailBig = compressAndSaveImage(image.getOriginalPath(), THUMBNAIL_BIG);
+        String thumbnailBig = downScaleAndSaveImage(image.getOriginalPath(), THUMBNAIL_BIG);
         image.setThumbnailPath(thumbnailBig);
-        String thumbnailSmall = compressAndSaveImage(image.getOriginalPath(), THUMBNAIL_SMALL);
+        String thumbnailSmall = downScaleAndSaveImage(image.getOriginalPath(), THUMBNAIL_SMALL);
         image.setThumbnailSmallPath(thumbnailSmall);
         return image;
     }
