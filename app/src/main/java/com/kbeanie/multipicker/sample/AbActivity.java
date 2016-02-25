@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.kbeanie.multipicker.sample.prefs.AppPreferences;
 
 /**
  * Created by kbibek on 2/18/16.
@@ -15,12 +16,16 @@ public class AbActivity extends AppCompatActivity {
 
     private AdView adView;
 
+    protected AppPreferences preferences;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!(this instanceof HomeActivity)) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        preferences = new AppPreferences(this);
     }
 
     @Override

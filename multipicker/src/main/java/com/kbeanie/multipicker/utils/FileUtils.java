@@ -1,10 +1,7 @@
 package com.kbeanie.multipicker.utils;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.os.Environment;
-
-import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;

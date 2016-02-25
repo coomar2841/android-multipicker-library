@@ -18,6 +18,7 @@ import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class FilePickerSupportFragment extends Fragment implements FilePickerCal
     private FilePicker getFilePicker() {
         filePicker = new FilePicker(this, Picker.PICK_FILE);
         filePicker.setFilePickerCallback(this);
+        filePicker.setCacheLocation(PickerUtils.getSavedCacheLocation(getActivity()));
         return filePicker;
     }
 

@@ -33,7 +33,7 @@ public class ResultsAdapter extends BaseAdapter {
 
     private final static String FORMAT_IMAGE_VIDEO_DIMENSIONS = "%sw x %sh";
     private final static String FORMAT_ORIENTATION = "Ortn: %s";
-    private final static String FORMAT_DURATION = "%s secs";
+    private final static String FORMAT_DURATION = "%s";
 
     private final Context context;
     private List<? extends ChosenFile> files;
@@ -108,7 +108,7 @@ public class ResultsAdapter extends BaseAdapter {
         tvSize.setText(file.getHumanReadableSize(false));
 
         TextView tvDuration = (TextView) view.findViewById(R.id.tvDuration);
-        tvDuration.setText(String.format(FORMAT_DURATION, audio.getDuration()));
+        tvDuration.setText(String.format(FORMAT_DURATION, audio.getUserReadableDuration()));
     }
 
     private void showVideo(ChosenFile file, View view) {
@@ -127,7 +127,7 @@ public class ResultsAdapter extends BaseAdapter {
         tvSize.setText(file.getHumanReadableSize(false));
 
         TextView tvDuration = (TextView) view.findViewById(R.id.tvDuration);
-        tvDuration.setText(String.format(FORMAT_DURATION, video.getDuration()));
+        tvDuration.setText(String.format(FORMAT_DURATION, video.getUserReadableDuration()));
 
         TextView tvOrientation = (TextView) view.findViewById(R.id.tvOrientation);
         tvOrientation.setText(String.format(FORMAT_ORIENTATION, video.getOrientationName()));

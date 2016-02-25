@@ -14,6 +14,7 @@ import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
 
@@ -96,6 +97,7 @@ public class VideoPickerActivity extends AbActivity implements VideoPickerCallba
         picker.setVideoPickerCallback(this);
         picker.shouldGenerateMetadata(true);
         picker.shouldGeneratePreviewImages(true);
+        picker.setCacheLocation(PickerUtils.getSavedCacheLocation(this));
         return picker;
     }
 

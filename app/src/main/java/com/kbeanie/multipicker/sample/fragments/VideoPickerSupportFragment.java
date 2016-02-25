@@ -18,6 +18,7 @@ import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
 
@@ -97,6 +98,7 @@ public class VideoPickerSupportFragment extends android.support.v4.app.Fragment 
         picker.setVideoPickerCallback(this);
         picker.shouldGenerateMetadata(true);
         picker.shouldGeneratePreviewImages(true);
+        picker.setCacheLocation(PickerUtils.getSavedCacheLocation(getActivity()));
         return picker;
     }
 

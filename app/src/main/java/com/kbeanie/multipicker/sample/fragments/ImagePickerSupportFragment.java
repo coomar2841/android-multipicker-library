@@ -18,6 +18,7 @@ import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
 
@@ -95,6 +96,7 @@ public class ImagePickerSupportFragment extends android.support.v4.app.Fragment 
         manager.shouldGenerateMetadata(true);
         manager.shouldGenerateThumbnails(true);
         manager.setImagePickerCallback(this);
+        manager.setCacheLocation(PickerUtils.getSavedCacheLocation(getActivity()));
         return manager;
     }
 

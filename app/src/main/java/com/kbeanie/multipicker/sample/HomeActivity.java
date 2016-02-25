@@ -4,12 +4,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.kbeanie.multipicker.sample.adapters.DemosAdapter;
+import com.kbeanie.multipicker.sample.prefs.AppPreferences;
 
 /**
  * Created by kbibek on 2/18/16.
@@ -118,5 +122,36 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
                 return AUDIO_OPTIONS[index];
         }
         return -1;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_storage) {
+            showStorageSettingsMenu();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showStorageSettingsMenu() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Cache Location");
+        CharSequence[] cacheLocations = new CharSequence[3];
+        cacheLocations[0] = "Ext Storage - App Directory";
+        cacheLocations[1] = "Ext Storage - Public Directory";
+        cacheLocations[2] = "Ext Storage - Cache Directory";
+        builder.setSingleChoiceItems(cacheLocations, preferences.getCacheLocation(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                preferences.setCacheLocation(which);
+            }
+        });
+
+        builder.create().show();
     }
 }

@@ -13,6 +13,7 @@ import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.AudioPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class AudioPickerActivity extends AbActivity implements AudioPickerCallba
     private AudioPicker getAudioPicker() {
         audioPicker = new AudioPicker(this, Picker.PICK_AUDIO);
         audioPicker.setAudioPickerCallback(this);
+        audioPicker.setCacheLocation(PickerUtils.getSavedCacheLocation(this));
         return audioPicker;
     }
 
