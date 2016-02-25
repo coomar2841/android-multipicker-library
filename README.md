@@ -15,8 +15,8 @@
 ##### Code less for capturing  images/videos/files
 - Supports picking up images/videos from phone gallery.
 - Supports capturing images/videos using the phone camera.
-- Generates thumb-nails for the any chosen media.
-- Works on most(99%) of the phones/os versions.
+- Generates thumbnails for images and videos.
+- Works on most (99%) of the phones/os versions.
 - (New) Supports picking up files in general.
 - (New) Supports picking up audio files.
 - Get all metadata about the files that you would probably require.
