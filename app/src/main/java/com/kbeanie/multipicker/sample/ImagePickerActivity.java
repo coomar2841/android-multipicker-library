@@ -12,7 +12,7 @@ import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -109,7 +109,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
 
     @Override
     public void onImagesChosen(List<ChosenImage> images) {
-        ResultsAdapter adapter = new ResultsAdapter(images, this);
+        MediaResultsAdapter adapter = new MediaResultsAdapter(images, this);
         lvResults.setAdapter(adapter);
     }
 

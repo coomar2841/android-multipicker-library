@@ -8,12 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.FilePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -80,7 +79,7 @@ public class FilePickerActivity extends AbActivity implements FilePickerCallback
             Log.i(TAG, "onFilesChosen: " + file);
         }
 
-        ResultsAdapter adapter = new ResultsAdapter(files, this);
+        MediaResultsAdapter adapter = new MediaResultsAdapter(files, this);
         lvResults.setAdapter(adapter);
     }
 

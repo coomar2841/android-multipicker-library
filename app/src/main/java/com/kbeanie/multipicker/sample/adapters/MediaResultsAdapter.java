@@ -16,16 +16,14 @@ import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.R;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.util.List;
 
 /**
  * Created by kbibek on 2/24/16.
  */
-public class ResultsAdapter extends BaseAdapter {
-    private final static String TAG = ResultsAdapter.class.getSimpleName();
+public class MediaResultsAdapter extends BaseAdapter {
+    private final static String TAG = MediaResultsAdapter.class.getSimpleName();
 
     private final static int TYPE_IMAGE = 0;
     private final static int TYPE_VIDEO = 1;
@@ -40,7 +38,7 @@ public class ResultsAdapter extends BaseAdapter {
     private final Context context;
     private List<? extends ChosenFile> files;
 
-    public ResultsAdapter(List<? extends ChosenFile> files, Context context) {
+    public MediaResultsAdapter(List<? extends ChosenFile> files, Context context) {
         this.files = files;
         this.context = context;
     }

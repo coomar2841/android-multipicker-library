@@ -17,7 +17,7 @@ import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.sample.R;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -114,7 +114,7 @@ public class ImagePickerFragment extends Fragment implements ImagePickerCallback
 
     @Override
     public void onImagesChosen(List<ChosenImage> images) {
-        ResultsAdapter adapter = new ResultsAdapter(images, getActivity());
+        MediaResultsAdapter adapter = new MediaResultsAdapter(images, getActivity());
         lvResults.setAdapter(adapter);
     }
 

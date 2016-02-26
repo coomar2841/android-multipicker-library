@@ -1,7 +1,6 @@
 package com.kbeanie.multipicker.sample.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,7 +16,7 @@ import com.kbeanie.multipicker.api.VideoPicker;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.R;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -138,7 +137,7 @@ public class VideoPickerSupportFragment extends android.support.v4.app.Fragment 
 
     @Override
     public void onVideosChosen(List<ChosenVideo> files) {
-        ResultsAdapter adapter = new ResultsAdapter(files, getActivity());
+        MediaResultsAdapter adapter = new MediaResultsAdapter(files, getActivity());
         lvResults.setAdapter(adapter);
     }
 

@@ -17,7 +17,7 @@ import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.sample.R;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -81,7 +81,7 @@ public class FilePickerSupportFragment extends Fragment implements FilePickerCal
             Log.i(TAG, "onFilesChosen: " + file);
         }
 
-        ResultsAdapter adapter = new ResultsAdapter(files, getActivity());
+        MediaResultsAdapter adapter = new MediaResultsAdapter(files, getActivity());
         lvResults.setAdapter(adapter);
     }
 

@@ -11,9 +11,8 @@ import android.widget.ListView;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.VideoPicker;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
-import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -137,7 +136,7 @@ public class VideoPickerActivity extends AbActivity implements VideoPickerCallba
 
     @Override
     public void onVideosChosen(List<ChosenVideo> files) {
-        ResultsAdapter adapter = new ResultsAdapter(files, this);
+        MediaResultsAdapter adapter = new MediaResultsAdapter(files, this);
         lvResults.setAdapter(adapter);
     }
 

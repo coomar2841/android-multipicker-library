@@ -17,7 +17,7 @@ import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.AudioPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.sample.R;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -94,7 +94,7 @@ public class AudioPickerFragment extends Fragment implements AudioPickerCallback
             Log.i(TAG, "onFilesChosen: " + audio);
         }
 
-        ResultsAdapter adapter = new ResultsAdapter(audios, getActivity());
+        MediaResultsAdapter adapter = new MediaResultsAdapter(audios, getActivity());
         lvResults.setAdapter(adapter);
     }
 }

@@ -12,7 +12,7 @@ import com.kbeanie.multipicker.api.AudioPicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.AudioPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -92,7 +92,7 @@ public class AudioPickerActivity extends AbActivity implements AudioPickerCallba
             Log.i(TAG, "onFilesChosen: " + audio);
         }
 
-        ResultsAdapter adapter = new ResultsAdapter(audios, this);
+        MediaResultsAdapter adapter = new MediaResultsAdapter(audios, this);
         lvResults.setAdapter(adapter);
     }
 }

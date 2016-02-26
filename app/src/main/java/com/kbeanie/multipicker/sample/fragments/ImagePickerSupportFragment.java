@@ -1,7 +1,6 @@
 package com.kbeanie.multipicker.sample.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +16,7 @@ import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.sample.R;
-import com.kbeanie.multipicker.sample.adapters.ResultsAdapter;
+import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
 import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
@@ -114,7 +113,7 @@ public class ImagePickerSupportFragment extends android.support.v4.app.Fragment 
 
     @Override
     public void onImagesChosen(List<ChosenImage> images) {
-        ResultsAdapter adapter = new ResultsAdapter(images, getActivity());
+        MediaResultsAdapter adapter = new MediaResultsAdapter(images, getActivity());
         lvResults.setAdapter(adapter);
     }
 
