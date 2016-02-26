@@ -32,7 +32,11 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showOptionsDialog((int) id);
+        if (id == DemosAdapter.PICKER_CONTACT) {
+            launchRequiredActivity(DemosAdapter.CONTACT_PICKER_ACTIVITY);
+        } else {
+            showOptionsDialog((int) id);
+        }
     }
 
     private void showDemo(Intent intent) {
@@ -89,14 +93,14 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
             case DemosAdapter.CONTACT_PICKER_ACTIVITY:
                 intent = new Intent(this, ContactPickerActivity.class);
                 break;
-            case DemosAdapter.CONTACT_PICKER_FRAGMENT:
-                intent = new Intent(this, ContactPickerFragmentActivity.class);
-                break;
-            case DemosAdapter.CONTACT_PICKER_SUPPORT_FRAGMENT:
-                intent = new Intent(this, ContactPickerSupportFragmentActivity.class);
-                break;
             case DemosAdapter.AUDIO_PICKER_ACTIVITY:
                 intent = new Intent(this, AudioPickerActivity.class);
+                break;
+            case DemosAdapter.AUDIO_PICKER_FRAGMENT:
+                intent = new Intent(this, AudioPickerFragmentActivity.class);
+                break;
+            case DemosAdapter.AUDIO_PICKER_SUPPORT_FRAGMENT:
+                intent = new Intent(this, AudioPickerSupportFragmentActivity.class);
                 break;
         }
 

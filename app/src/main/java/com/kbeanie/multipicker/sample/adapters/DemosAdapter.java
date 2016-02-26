@@ -23,6 +23,7 @@ public class DemosAdapter extends BaseAdapter {
     public final static int PICKER_VIDEO = 2;
     public final static int PICKER_FILE = 3;
     public final static int PICKER_AUDIO = 4;
+    public final static int PICKER_CONTACT = 5;
 
     public final static int IMAGE_PICKER_ACTIVITY = 1;
     public final static int IMAGE_PICKER_FRAGMENT = 2;
@@ -34,8 +35,6 @@ public class DemosAdapter extends BaseAdapter {
     public final static int FILE_PICKER_FRAGMENT = 8;
     public final static int FILE_PICKER_SUPPORT_FRAGMENT = 9;
     public final static int CONTACT_PICKER_ACTIVITY = 10;
-    public final static int CONTACT_PICKER_FRAGMENT = 11;
-    public final static int CONTACT_PICKER_SUPPORT_FRAGMENT = 12;
 
     public final static int AUDIO_PICKER_ACTIVITY = 13;
     public final static int AUDIO_PICKER_FRAGMENT = 14;
@@ -53,6 +52,7 @@ public class DemosAdapter extends BaseAdapter {
         demoTypes.add(new Demo("Video Picker", PICKER_VIDEO));
         demoTypes.add(new Demo("File Picker", PICKER_FILE));
         demoTypes.add(new Demo("Audio Picker", PICKER_AUDIO));
+        demoTypes.add(new Demo("Contact Picker", PICKER_CONTACT));
 
 //        demoTypes.add(new Demo("Image Picker - Activity", IMAGE_PICKER_ACTIVITY));
 //        demoTypes.add(new Demo("Image Picker - Fragment", IMAGE_PICKER_FRAGMENT));

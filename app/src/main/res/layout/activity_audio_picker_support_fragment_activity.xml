@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/fragmentAudioPicker"
+        class="com.kbeanie.multipicker.sample.fragments.AudioPickerFragment"
+        tools:layout="@layout/fragment_audio_picker"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1" />
 
-
-    </LinearLayout>
 
     <include layout="@layout/ad_view" />
 </LinearLayout>

@@ -59,15 +59,15 @@
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ContactPickerFragmentActivity"
-            android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ContactPickerSupportFragmentActivity"
-            android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AudioPickerActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AudioPickerFragmentActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AudioPickerSupportFragmentActivity"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
 
