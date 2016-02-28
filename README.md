@@ -18,6 +18,7 @@
 - Choose videos from device or record one
 - Choose files available on your device
 - Choose audio files available on your device
+- Choose a contact from the phonebook
 - Works with almost all content providers
 - Get all metadata about the media that you would probably need
 - Similar code base to implement irrespective of Android version of device.
