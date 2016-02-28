@@ -14,13 +14,12 @@
 >Picking up audio files.
 
 ##### Code less for capturing  images/videos/files
-- Supports picking up images/videos from phone gallery.
-- Supports capturing images/videos using the phone camera.
-- Generates thumbnails for images and videos.
-- Works on most (99%) of the phones/os versions.
-- (New) Supports picking up files in general.
-- (New) Supports picking up audio files.
-- Get all metadata about the files that you would probably require.
+- Choose images from device or take a photo
+- Choose videos from device or record one
+- Choose files available on your device
+- Choose audio files available on your device
+- Works with almost all content providers
+- Get all metadata about the media that you would probably need
 - Similar code base to implement irrespective of Android version of device.
 
 
