@@ -13,12 +13,6 @@
 
 >Picking up audio files.
 
-_Try out the sample app if you want to test it out_
-
-<a href="https://play.google.com/store/apps/details?id=com.kbeanie.multipicker.sample&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
-    <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" width="150px"/>
-</a>
-
 ##### Code less for capturing  images/videos/files
 - Supports picking up images/videos from phone gallery.
 - Supports capturing images/videos using the phone camera.
@@ -42,6 +36,12 @@ _Try out the sample app if you want to test it out_
 
 ##### Configuring on Android Studio
 > compile 'com.kbeanie:multipicker:0.9.0@aar'
+
+_Try out the sample app if you want to test it out first._
+
+<a href="https://play.google.com/store/apps/details?id=com.kbeanie.multipicker.sample&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+    <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" width="150px"/>
+</a>
 
 ##### License
 -----------------------------------------------------------------------------------
