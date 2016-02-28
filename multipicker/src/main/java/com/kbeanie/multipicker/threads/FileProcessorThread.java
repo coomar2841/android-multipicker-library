@@ -36,6 +36,8 @@ import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -157,6 +159,16 @@ public class FileProcessorThread extends Thread {
         // Still content:: Try ContentProvider stream import alternate
         if (uri.startsWith("content:")) {
             file = getFromContentProviderAlternate(file);
+        }
+
+        // Check for URL Encoded file paths
+        try {
+            String decodedURL = URLDecoder.decode(file.getOriginalPath(), Charset.defaultCharset().name());
+            if (!decodedURL.equals(file.getOriginalPath())) {
+                file.setOriginalPath(decodedURL);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -625,7 +637,7 @@ public class FileProcessorThread extends Thread {
 //            verifyBitmap(fileImage, bitmap);
             scaledInputStream.close();
             if (bitmap != null) {
-                File original = new File(image);
+                File original = new File(URLDecoder.decode(image));
                 File file = new File(
                         (original.getParent() + File.separator + original.getName()
                                 .replace(".", "-scale-" + scale + ".")));

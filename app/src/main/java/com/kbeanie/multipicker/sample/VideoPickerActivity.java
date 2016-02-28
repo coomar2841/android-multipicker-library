@@ -95,6 +95,7 @@ public class VideoPickerActivity extends AbActivity implements VideoPickerCallba
         // Set the duration of the video
         extras.putInt(MediaStore.EXTRA_DURATION_LIMIT, 5);
         cameraPicker.setExtras(extras);
+        cameraPicker.setVideoPickerCallback(this);
         pickerPath = cameraPicker.pickVideo();
     }
 

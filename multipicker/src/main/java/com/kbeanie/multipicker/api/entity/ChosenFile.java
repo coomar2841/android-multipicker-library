@@ -1,5 +1,7 @@
 package com.kbeanie.multipicker.api.entity;
 
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -53,6 +55,7 @@ public class ChosenFile {
 
     /**
      * Display name of the file
+     *
      * @return
      */
     public String getDisplayName() {
@@ -67,6 +70,7 @@ public class ChosenFile {
 
     /**
      * Internal use
+     *
      * @return
      */
     public long getId() {
@@ -75,6 +79,7 @@ public class ChosenFile {
 
     /**
      * Internal use
+     *
      * @return
      */
     public String getDirectoryType() {

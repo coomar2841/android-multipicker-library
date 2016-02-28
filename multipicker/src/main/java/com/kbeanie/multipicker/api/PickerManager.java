@@ -114,11 +114,11 @@ public abstract class PickerManager {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         if (activity != null) {
-            activity.startActivityForResult(intent, type);
+            activity.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);
         } else if (fragment != null) {
-            fragment.startActivityForResult(intent, type);
+            fragment.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);
         } else if (appFragment != null) {
-            appFragment.startActivityForResult(intent, type);
+            appFragment.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);
         }
     }
 }
