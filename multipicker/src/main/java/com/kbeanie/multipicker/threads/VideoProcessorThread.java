@@ -12,7 +12,6 @@ import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +22,7 @@ import static com.kbeanie.multipicker.utils.StreamHelper.flush;
 /**
  * Created by kbibek on 2/24/16.
  */
-public class VideoProcessorThread extends FileProcessorThread {
+public final class VideoProcessorThread extends FileProcessorThread {
 
     private final static String TAG = VideoProcessorThread.class.getSimpleName();
 

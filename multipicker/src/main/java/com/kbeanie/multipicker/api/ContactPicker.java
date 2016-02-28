@@ -10,11 +10,12 @@ import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.ContactPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenContact;
+import com.kbeanie.multipicker.api.exceptions.PickerException;
 
 /**
  * Created by kbibek on 2/18/16.
  */
-public class ContactPicker extends PickerManager {
+public final class ContactPicker extends PickerManager {
     private final static String TAG = ContactPicker.class.getSimpleName();
 
     private ContactPickerCallback callback;
@@ -35,8 +36,19 @@ public class ContactPicker extends PickerManager {
         this.callback = callback;
     }
 
+    public void pickContact() {
+        try {
+            pick();
+        } catch (PickerException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
-    public String pick() {
+    protected String pick() throws PickerException {
+        if (callback == null) {
+            throw new PickerException("ContactPickerCallback is null!!! Please set one");
+        }
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
         if (extras != null) {

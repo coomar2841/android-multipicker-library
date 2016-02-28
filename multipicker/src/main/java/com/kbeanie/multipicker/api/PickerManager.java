@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.utils.FileUtils;
 
 import java.io.File;
@@ -68,7 +69,7 @@ public abstract class PickerManager {
      *
      * @return
      */
-    protected abstract String pick();
+    protected abstract String pick() throws PickerException;
 
     /**
      * This method should be called after {@link Activity#onActivityResult(int, int, Intent)} is  called.

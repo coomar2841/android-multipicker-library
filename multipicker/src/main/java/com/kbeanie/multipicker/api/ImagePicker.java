@@ -3,10 +3,12 @@ package com.kbeanie.multipicker.api;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
+import com.kbeanie.multipicker.api.exceptions.PickerException;
+
 /**
  * Created by kbibek on 2/27/16.
  */
-public class ImagePicker extends ImagePickerImpl {
+public final class ImagePicker extends ImagePickerImpl {
     public ImagePicker(Activity activity) {
         super(activity, Picker.PICK_IMAGE_DEVICE);
     }
@@ -24,6 +26,10 @@ public class ImagePicker extends ImagePickerImpl {
     }
 
     public void pickImage() {
-        super.pick();
+        try {
+            super.pick();
+        } catch (PickerException e) {
+            e.printStackTrace();
+        }
     }
 }

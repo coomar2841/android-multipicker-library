@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.threads.ImageProcessorThread;
 
 import java.io.File;
@@ -87,7 +88,10 @@ public abstract class ImagePickerImpl extends PickerManager {
     }
 
     @Override
-    protected String pick() {
+    protected String pick() throws PickerException{
+        if (callback == null) {
+            throw new PickerException("ImagePickerCallback is null!!! Please set one.");
+        }
         if (pickerType == Picker.PICK_IMAGE_DEVICE) {
             return pickLocalImage();
         } else if (pickerType == Picker.PICK_IMAGE_CAMERA) {

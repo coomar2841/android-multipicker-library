@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by kbibek on 2/18/16.
  */
-public class FilePicker extends PickerManager {
+public final class FilePicker extends PickerManager {
     private final static String TAG = FilePicker.class.getSimpleName();
     private FilePickerCallback callback;
 
@@ -50,11 +50,18 @@ public class FilePicker extends PickerManager {
     }
 
     public void pickFile() {
-        pick();
+        try {
+            pick();
+        } catch (PickerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    protected String pick() {
+    protected String pick() throws PickerException {
+        if (callback == null) {
+            throw new PickerException("FilePickerCallback is null!!! Please set one");
+        }
         String action = Intent.ACTION_GET_CONTENT;
         Intent intent = new Intent(action);
         intent.setType(mimeType);

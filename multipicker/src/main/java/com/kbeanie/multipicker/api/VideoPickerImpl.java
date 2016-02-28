@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
+import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.threads.VideoProcessorThread;
 
 import java.io.File;
@@ -58,7 +59,10 @@ public abstract class VideoPickerImpl extends PickerManager {
     }
 
     @Override
-    protected String pick() {
+    protected String pick() throws PickerException{
+        if(callback == null){
+            throw new PickerException("VideoPickerCallback null!!! Please set one");
+        }
         if (pickerType == Picker.PICK_VIDEO_DEVICE) {
             return pickLocalVideo();
         } else if (pickerType == Picker.PICK_VIDEO_CAMERA) {

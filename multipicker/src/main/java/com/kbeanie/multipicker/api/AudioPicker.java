@@ -10,6 +10,7 @@ import android.util.Log;
 import com.kbeanie.multipicker.api.callbacks.AudioPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
+import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.threads.AudioProcessorThread;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by kbibek on 2/18/16.
  */
-public class AudioPicker extends PickerManager {
+public final class AudioPicker extends PickerManager {
     private final static String TAG = AudioPicker.class.getSimpleName();
     private AudioPickerCallback callback;
 
@@ -48,12 +49,19 @@ public class AudioPicker extends PickerManager {
         this.mimeType = mimeType;
     }
 
-    public void pickAudio() {
-        pick();
+    public void pickAudio(){
+        try {
+            pick();
+        }catch (PickerException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    protected String pick() {
+    protected String pick() throws PickerException{
+        if(callback == null){
+            throw new PickerException("AudioPickerCallback is null!!! Please set one");
+        }
         String action = Intent.ACTION_GET_CONTENT;
         Intent intent = new Intent(action);
         intent.setType(mimeType);

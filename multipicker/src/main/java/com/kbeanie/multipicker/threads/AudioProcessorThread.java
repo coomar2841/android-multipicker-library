@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by kbibek on 2/25/16.
  */
-public class AudioProcessorThread extends FileProcessorThread {
+public final class AudioProcessorThread extends FileProcessorThread {
     private AudioPickerCallback callback;
 
     public AudioProcessorThread(Context context, List<? extends ChosenFile> files, int cacheLocation) {

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by kbibek on 2/20/16.
  */
-public class ImageProcessorThread extends FileProcessorThread {
+public final class ImageProcessorThread extends FileProcessorThread {
     private final static String TAG = ImageProcessorThread.class.getSimpleName();
 
     private boolean shouldGenerateThumbnails;
