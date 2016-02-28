@@ -24,15 +24,13 @@
 - Similar code base to implement irrespective of Android version of device.
 
 ##### Maven
-<pre>
-<code>
+```xml
 &lt;dependency&gt;
     &lt;groupId&gt;com.kbeanie&lt;/groupId&gt;
     &lt;artifactId&gt;multipicker&lt;/artifactId&gt;
     &lt;version&gt;0.9.0&lt;/version&gt;
 &lt;/dependency&gt;
-</code>
-</pre>
+```
 
 ##### Configuring on Android Studio
 > compile 'com.kbeanie:multipicker:0.9.0@aar'
