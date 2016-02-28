@@ -1,4 +1,4 @@
-### Android Multipicker Library
+### Android Multipicker Library (Images, Videos, Files, Audios, Contacts)
 ---
 
 **Makes it easy and simple to integrate "Attach that file" feature into your android apps.**
@@ -44,7 +44,7 @@ _Try out the sample app if you want to test it out first._
 </a>
 
 ##### License
------------------------------------------------------------------------------------
+---
 
 Copyright 2013 Kumar Bibek
 
@@ -60,4 +60,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.
 
------------------------------------------------------------------------------------
+---
