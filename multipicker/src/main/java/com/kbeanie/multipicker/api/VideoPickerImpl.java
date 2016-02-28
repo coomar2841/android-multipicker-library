@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by kbibek on 2/18/16.
  */
-public class VideoPickerImpl extends PickerManager {
+public abstract class VideoPickerImpl extends PickerManager {
     private final static String TAG = VideoPickerImpl.class.getSimpleName();
 
     private String path;

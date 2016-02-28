@@ -57,19 +57,17 @@ public class FilePickerFragment extends Fragment implements FilePickerCallback {
 
     private void pickFilesSingle() {
         filePicker = getFilePicker();
-        filePicker.pick();
+        filePicker.pickFile();
     }
 
     private void pickFilesMultiple() {
         filePicker = getFilePicker();
-        Bundle extras = new Bundle();
-        extras.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        filePicker.setExtras(extras);
-        filePicker.pick();
+        filePicker.allowMultiple();
+        filePicker.pickFile();
     }
 
     private FilePicker getFilePicker() {
-        filePicker = new FilePicker(this, Picker.PICK_FILE);
+        filePicker = new FilePicker(this);
         filePicker.setFilePickerCallback(this);
         filePicker.setCacheLocation(PickerUtils.getSavedCacheLocation(getActivity()));
         return filePicker;

@@ -24,28 +24,36 @@ public class AudioPicker extends PickerManager {
 
     private String mimeType = "audio/*";
 
-    public AudioPicker(Activity activity, int pickerType) {
-        super(activity, pickerType);
+    public AudioPicker(Activity activity) {
+        super(activity, Picker.PICK_AUDIO);
     }
 
-    public AudioPicker(Fragment fragment, int pickerType) {
-        super(fragment, pickerType);
+    public AudioPicker(Fragment fragment) {
+        super(fragment, Picker.PICK_AUDIO);
     }
 
-    public AudioPicker(android.app.Fragment appFragment, int pickerType) {
-        super(appFragment, pickerType);
+    public AudioPicker(android.app.Fragment appFragment) {
+        super(appFragment, Picker.PICK_AUDIO);
     }
 
     public void setAudioPickerCallback(AudioPickerCallback callback) {
         this.callback = callback;
     }
 
+    public void allowMultiple() {
+        this.allowMultiple = true;
+    }
+
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 
+    public void pickAudio() {
+        pick();
+    }
+
     @Override
-    public String pick() {
+    protected String pick() {
         String action = Intent.ACTION_GET_CONTENT;
         Intent intent = new Intent(action);
         intent.setType(mimeType);

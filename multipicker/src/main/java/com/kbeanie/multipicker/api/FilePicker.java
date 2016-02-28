@@ -25,16 +25,20 @@ public class FilePicker extends PickerManager {
 
     private String mimeType = "*/*";
 
-    public FilePicker(Activity activity, int pickerType) {
-        super(activity, pickerType);
+    public FilePicker(Activity activity) {
+        super(activity, Picker.PICK_FILE);
     }
 
-    public FilePicker(Fragment fragment, int pickerType) {
-        super(fragment, pickerType);
+    public FilePicker(Fragment fragment) {
+        super(fragment, Picker.PICK_FILE);
     }
 
-    public FilePicker(android.app.Fragment appFragment, int pickerType) {
-        super(appFragment, pickerType);
+    public FilePicker(android.app.Fragment appFragment) {
+        super(appFragment, Picker.PICK_FILE);
+    }
+
+    public void allowMultiple() {
+        this.allowMultiple = true;
     }
 
     public void setFilePickerCallback(FilePickerCallback callback) {
@@ -45,8 +49,12 @@ public class FilePicker extends PickerManager {
         this.mimeType = mimeType;
     }
 
+    public void pickFile() {
+        pick();
+    }
+
     @Override
-    public String pick() {
+    protected String pick() {
         String action = Intent.ACTION_GET_CONTENT;
         Intent intent = new Intent(action);
         intent.setType(mimeType);

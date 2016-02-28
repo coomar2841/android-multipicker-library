@@ -55,19 +55,17 @@ public class AudioPickerActivity extends AbActivity implements AudioPickerCallba
 
     private void pickFilesSingle() {
         audioPicker = getAudioPicker();
-        audioPicker.pick();
+        audioPicker.pickAudio();
     }
 
     private void pickFilesMultiple() {
         audioPicker = getAudioPicker();
-        Bundle extras = new Bundle();
-        extras.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        audioPicker.setExtras(extras);
-        audioPicker.pick();
+        audioPicker.allowMultiple();
+        audioPicker.pickAudio();
     }
 
     private AudioPicker getAudioPicker() {
-        audioPicker = new AudioPicker(this, Picker.PICK_AUDIO);
+        audioPicker = new AudioPicker(this);
         audioPicker.setAudioPickerCallback(this);
         audioPicker.setCacheLocation(PickerUtils.getSavedCacheLocation(this));
         return audioPicker;
