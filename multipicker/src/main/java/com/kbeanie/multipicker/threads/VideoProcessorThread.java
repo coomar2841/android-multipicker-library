@@ -70,7 +70,7 @@ public class VideoProcessorThread extends FileProcessorThread {
                 String width = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
 
                 if (duration != null) {
-                    video.setDuration(Integer.parseInt(duration));
+                    video.setDuration(Long.parseLong(duration));
                 }
                 if (orientation != null) {
                     video.setOrientation(Integer.parseInt(orientation));

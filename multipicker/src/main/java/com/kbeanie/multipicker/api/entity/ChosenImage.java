@@ -12,6 +12,10 @@ public class ChosenImage extends ChosenFile {
     private int width;
     private int height;
 
+    /**
+     * Get orientation of the actual image
+     * @return
+     */
     public int getOrientation() {
         return orientation;
     }
@@ -20,6 +24,10 @@ public class ChosenImage extends ChosenFile {
         this.orientation = orientation;
     }
 
+    /**
+     * Get the path to the thumbnail(big) of the image
+     * @return
+     */
     public String getThumbnailPath() {
         return thumbnailPath;
     }
@@ -28,6 +36,10 @@ public class ChosenImage extends ChosenFile {
         this.thumbnailPath = thumbnailPath;
     }
 
+    /**
+     * Get the path to the thumbnail(small) of the image
+     * @return
+     */
     public String getThumbnailSmallPath() {
         return thumbnailSmallPath;
     }
@@ -36,6 +48,10 @@ public class ChosenImage extends ChosenFile {
         this.thumbnailSmallPath = thumbnailSmallPath;
     }
 
+    /**
+     * Get the image width
+     * @return
+     */
     public int getWidth() {
         return width;
     }
@@ -44,6 +60,10 @@ public class ChosenImage extends ChosenFile {
         this.width = width;
     }
 
+    /**
+     * Get the image height;
+     * @return
+     */
     public int getHeight() {
         return height;
     }
@@ -59,6 +79,10 @@ public class ChosenImage extends ChosenFile {
         return super.toString() + " " + String.format(STRING_FORMAT, height, width, getOrientationName());
     }
 
+    /**
+     * Get Orientation user friendly label
+     * @return
+     */
     public String getOrientationName() {
         String orientationName = "NORMAL";
         switch (orientation) {

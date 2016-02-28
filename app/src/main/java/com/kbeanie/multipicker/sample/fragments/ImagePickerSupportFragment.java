@@ -11,13 +11,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
-import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
 
@@ -26,13 +26,13 @@ import java.util.List;
  */
 public class ImagePickerSupportFragment extends android.support.v4.app.Fragment implements ImagePickerCallback {
 
+
     private ListView lvResults;
 
     private Button btPickImageSingle;
     private Button btPickImageMultiple;
     private Button btTakePicture;
 
-    private int pickerType;
     private String pickerPath;
 
 
@@ -69,45 +69,46 @@ public class ImagePickerSupportFragment extends android.support.v4.app.Fragment 
     private ImagePicker imagePicker;
 
     public void pickImageSingle() {
-        pickerType = Picker.PICK_IMAGE_DEVICE;
-        imagePicker = getImagePickerManager(Picker.PICK_IMAGE_DEVICE);
-        pickerPath = imagePicker.pick();
-
+        imagePicker = new ImagePicker(this);
+        imagePicker.shouldGenerateMetadata(true);
+        imagePicker.shouldGenerateThumbnails(true);
+        imagePicker.setImagePickerCallback(this);
+        imagePicker.pickImage();
     }
 
     public void pickImageMultiple() {
-        pickerType = Picker.PICK_IMAGE_DEVICE;
-        imagePicker = getImagePickerManager(Picker.PICK_IMAGE_DEVICE);
-        Bundle extras = new Bundle();
-        extras.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        imagePicker.setExtras(extras);
-        pickerPath = imagePicker.pick();
+        imagePicker = new ImagePicker(this);
+        imagePicker.allowMultiple();
+        imagePicker.shouldGenerateMetadata(true);
+        imagePicker.shouldGenerateThumbnails(true);
+        imagePicker.setImagePickerCallback(this);
+        imagePicker.pickImage();
     }
+
+    private CameraImagePicker cameraPicker;
 
     public void takePicture() {
-        pickerType = Picker.PICK_IMAGE_CAMERA;
-        imagePicker = getImagePickerManager(Picker.PICK_IMAGE_CAMERA);
-        pickerPath = imagePicker.pick();
-    }
-
-    private ImagePicker getImagePickerManager(int type) {
-        ImagePicker manager = new ImagePicker(this, type);
-        manager.shouldGenerateMetadata(true);
-        manager.shouldGenerateThumbnails(true);
-        manager.setImagePickerCallback(this);
-        manager.setCacheLocation(PickerUtils.getSavedCacheLocation(getActivity()));
-        return manager;
+        cameraPicker = new CameraImagePicker(this);
+        cameraPicker.shouldGenerateMetadata(true);
+        cameraPicker.shouldGenerateThumbnails(true);
+        pickerPath = cameraPicker.pickImage();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == Picker.PICK_IMAGE_CAMERA || requestCode == Picker.PICK_IMAGE_DEVICE) && resultCode == Activity.RESULT_OK) {
-            if (imagePicker == null) {
-                imagePicker = getImagePickerManager(pickerType);
-                imagePicker.reinitialize(pickerPath);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Picker.PICK_IMAGE_DEVICE) {
+                if (imagePicker == null) {
+                    imagePicker = new ImagePicker(this);
+                }
+                imagePicker.submit(requestCode, resultCode, data);
+            } else if (requestCode == Picker.PICK_IMAGE_CAMERA) {
+                if (cameraPicker == null) {
+                    cameraPicker = new CameraImagePicker(this);
+                    cameraPicker.reinitialize(pickerPath);
+                }
             }
-            imagePicker.submit(requestCode, resultCode, data);
         }
     }
 
@@ -124,9 +125,8 @@ public class ImagePickerSupportFragment extends android.support.v4.app.Fragment 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        // You have to save these two values in case your activity is killed.
-        // In such a scenario, you will need to re-initialize the ImagePicker
-        outState.putInt("picker_type", pickerType);
+        // You have to save path in case your activity is killed.
+        // In such a scenario, you will need to re-initialize the CameraImagePicker
         outState.putString("picker_path", pickerPath);
         super.onSaveInstanceState(outState);
     }
@@ -135,9 +135,6 @@ public class ImagePickerSupportFragment extends android.support.v4.app.Fragment 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("picker_type")) {
-                pickerType = savedInstanceState.getInt("picker_type");
-            }
             if (savedInstanceState.containsKey("picker_path")) {
                 pickerPath = savedInstanceState.getString("picker_path");
             }

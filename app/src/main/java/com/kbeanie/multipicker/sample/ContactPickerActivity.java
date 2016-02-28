@@ -38,14 +38,6 @@ public class ContactPickerActivity extends AbActivity implements ContactPickerCa
             }
         });
 
-        Button btContactMultiple = (Button) findViewById(R.id.btContactMultiple);
-        btContactMultiple.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectMultipleContacts();
-            }
-        });
-
         lvResults = (ListView) findViewById(R.id.lvResults);
     }
 
@@ -53,14 +45,6 @@ public class ContactPickerActivity extends AbActivity implements ContactPickerCa
 
     private void selectSingleContact() {
         picker = getContactPicker();
-        picker.pick();
-    }
-
-    private void selectMultipleContacts() {
-        picker = getContactPicker();
-        Bundle extras = new Bundle();
-        extras.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        picker.setExtras(extras);
         picker.pick();
     }
 

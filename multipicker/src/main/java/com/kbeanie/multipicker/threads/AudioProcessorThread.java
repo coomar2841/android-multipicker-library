@@ -41,7 +41,7 @@ public class AudioProcessorThread extends FileProcessorThread {
             metadataRetriever.setDataSource(audio.getOriginalPath());
             String duration = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
             if (duration != null) {
-                audio.setDuration(Integer.parseInt(duration));
+                audio.setDuration(Long.parseLong(duration));
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -141,6 +141,7 @@ public class FileProcessorThread extends Thread {
         String uri = file.getQueryUri();
         if (uri.startsWith("file://")) {
             file = sanitizeUri(file);
+            file.setDisplayName(Uri.parse(file.getOriginalPath()).getLastPathSegment());
             file.setMimeType(guessMimeTypeFromUrl(file.getOriginalPath(), file.getType()));
         } else if (uri.startsWith("http")) {
             file = downloadAndSaveFile(file);

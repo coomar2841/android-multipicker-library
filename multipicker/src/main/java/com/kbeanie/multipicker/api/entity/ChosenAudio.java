@@ -6,20 +6,18 @@ import java.util.concurrent.TimeUnit;
  * Created by kbibek on 2/20/16.
  */
 public class ChosenAudio extends ChosenFile {
-    private int duration;
+    private long duration;
 
-    public int getDuration() {
+    /**
+     * Duration in milliseconds
+     *
+     * @return
+     */
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
-
-    @Override
-    public String toString() {
-        return super.toString() + " Duration: " + duration + " secs";
-    }
-
-
 }

@@ -10,15 +10,39 @@ import java.util.concurrent.TimeUnit;
 public class ChosenFile {
     private long id;
     private String queryUri;
+    /**
+     * Processed path to file. This should always be a local path on the device.
+     */
     private String originalPath;
+    /**
+     * Mime Type of the processed file
+     */
     private String mimeType;
+    /**
+     * Size of the file in bytes
+     */
     private long size;
+    /**
+     * Extension of the file. It may be blank.
+     */
     private String extension;
     private Date createdAt;
+    /**
+     * Type of the file (image, video, file, audio etc).
+     * This is for internal use.
+     */
     private String type;
+    /**
+     * Display name of the file
+     */
     private String displayName;
     private boolean success;
 
+    /**
+     * If this file has been successfully processed.
+     *
+     * @return
+     */
     public boolean isSuccess() {
         return success;
     }
@@ -27,6 +51,10 @@ public class ChosenFile {
         this.success = success;
     }
 
+    /**
+     * Display name of the file
+     * @return
+     */
     public String getDisplayName() {
         return displayName;
     }
@@ -37,10 +65,18 @@ public class ChosenFile {
 
     private String directoryType;
 
+    /**
+     * Internal use
+     * @return
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Internal use
+     * @return
+     */
     public String getDirectoryType() {
         return directoryType;
     }
@@ -61,6 +97,11 @@ public class ChosenFile {
         this.queryUri = queryUri;
     }
 
+    /**
+     * Path to the processed file. This will always be a local path on the device.
+     *
+     * @return
+     */
     public String getOriginalPath() {
         return originalPath;
     }
@@ -69,6 +110,11 @@ public class ChosenFile {
         this.originalPath = originalPath;
     }
 
+    /**
+     * Get mimetype of the file
+     *
+     * @return
+     */
     public String getMimeType() {
         return mimeType;
     }
@@ -77,6 +123,11 @@ public class ChosenFile {
         this.mimeType = mimeType;
     }
 
+    /**
+     * Get the size of the processed file in bytes
+     *
+     * @return
+     */
     public long getSize() {
         return size;
     }
@@ -101,6 +152,11 @@ public class ChosenFile {
         this.createdAt = createdAt;
     }
 
+    /**
+     * For internal use
+     *
+     * @return
+     */
     public String getType() {
         return type;
     }
@@ -109,6 +165,12 @@ public class ChosenFile {
         this.type = type;
     }
 
+    /**
+     * Get the extension of the file
+     * Ex. .pdf, .jpeg, .mp4
+     *
+     * @return
+     */
     public String getFileExtensionFromMimeType() {
         String extension = "";
         if (mimeType != null) {
@@ -122,6 +184,11 @@ public class ChosenFile {
         return extension;
     }
 
+    /**
+     * Get only the file extension (Ex. jpg, mp4, pdf etc)
+     *
+     * @return
+     */
     public String getFileExtensionFromMimeTypeWithoutDot() {
         return getFileExtensionFromMimeType().replace(".", "");
     }
@@ -133,6 +200,12 @@ public class ChosenFile {
         return String.format(STRING_FORMAT, type, queryUri, originalPath, mimeType, getHumanReadableSize(false));
     }
 
+    /**
+     * Get File size in a pretty format.
+     *
+     * @param si
+     * @return
+     */
     public String getHumanReadableSize(boolean si) {
         int unit = si ? 1000 : 1024;
         if (size < unit) return size + " B";
@@ -140,6 +213,13 @@ public class ChosenFile {
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + "";
         return String.format(Locale.ENGLISH, "%.1f %sB", size / Math.pow(unit, exp), pre);
     }
+
+    /**
+     * Get Duration (for audio and video) in a pretty format
+     *
+     * @param duration
+     * @return
+     */
     public String getHumanReadableDuration(long duration) {
         String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(duration),
                 TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),

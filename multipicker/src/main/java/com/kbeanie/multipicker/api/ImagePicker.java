@@ -1,200 +1,29 @@
 package com.kbeanie.multipicker.api;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-
-import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
-import com.kbeanie.multipicker.api.entity.ChosenImage;
-import com.kbeanie.multipicker.api.exceptions.PickerException;
-import com.kbeanie.multipicker.threads.ImageProcessorThread;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Class to pick images (Stored or capture a new image using the device's camera)
+ * Created by kbibek on 2/27/16.
  */
-public class ImagePicker extends PickerManager {
-    private final static String TAG = ImagePicker.class.getSimpleName();
-    private String path;
-    private boolean generateThumbnails;
-    private boolean generateMetadata;
-
-    private ImagePickerCallback callback;
-
-    /**
-     * @param activity   {@link Activity}
-     * @param pickerType {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
-     */
-    public ImagePicker(Activity activity, int pickerType) {
-        super(activity, pickerType);
+public class ImagePicker extends ImagePickerImpl {
+    public ImagePicker(Activity activity) {
+        super(activity, Picker.PICK_IMAGE_DEVICE);
     }
 
-    /**
-     * @param fragment   {@link Fragment}
-     * @param pickerType {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
-     */
-    public ImagePicker(Fragment fragment, int pickerType) {
-        super(fragment, pickerType);
+    public ImagePicker(Fragment fragment) {
+        super(fragment, Picker.PICK_IMAGE_DEVICE);
     }
 
-    /**
-     * @param appFragment {@link android.app.Fragment}
-     * @param pickerType  {@link Picker#PICK_IMAGE_DEVICE}, {@link Picker#PICK_IMAGE_CAMERA}
-     */
-    public ImagePicker(android.app.Fragment appFragment, int pickerType) {
-        super(appFragment, pickerType);
+    public ImagePicker(android.app.Fragment appFragment) {
+        super(appFragment, Picker.PICK_IMAGE_DEVICE);
     }
 
-    /**
-     * Enable generation of thumbnails. Default value is {@link Boolean#FALSE}
-     *
-     * @param generateThumbnails
-     */
-    public void shouldGenerateThumbnails(boolean generateThumbnails) {
-        this.generateThumbnails = generateThumbnails;
+    public void allowMultiple() {
+        this.allowMultiple = true;
     }
 
-    /**
-     * Enable generation of metadata for the image. Default value is {@link Boolean#FALSE}
-     *
-     * @param generateMetadata
-     */
-    public void shouldGenerateMetadata(boolean generateMetadata) {
-        this.generateMetadata = generateMetadata;
-    }
-
-    /**
-     * This should be used to re-initialize the picker object, in case your activity/fragment is destroyed.
-     * <p/>
-     * After creating the picker object, call this method with the path that you got after calling {@link PickerManager#pick()}
-     *
-     * @param path
-     */
-    public void reinitialize(String path) {
-        this.path = path;
-    }
-
-    public void setImagePickerCallback(ImagePickerCallback callback) {
-        this.callback = callback;
-    }
-
-    @Override
-    public String pick() {
-        if (pickerType == Picker.PICK_IMAGE_DEVICE) {
-            return pickLocalImage();
-        } else if (pickerType == Picker.PICK_IMAGE_CAMERA) {
-            path = takePictureWithCamera();
-            return path;
-        }
-        return null;
-    }
-
-    protected String pickLocalImage() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        if (extras != null) {
-            intent.putExtras(extras);
-        }
-        // For reading from external storage (Content Providers)
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        pickInternal(intent, Picker.PICK_IMAGE_DEVICE);
-        return null;
-    }
-
-    protected String takePictureWithCamera() {
-        String tempFilePath = buildFilePath("jpg", Environment.DIRECTORY_PICTURES);
-        Uri uri = Uri.fromFile(new File(tempFilePath));
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        if (extras != null) {
-            intent.putExtras(extras);
-        }
-        Log.d(TAG, "Temp Path for Camera capture: " + tempFilePath);
-        pickInternal(intent, Picker.PICK_IMAGE_CAMERA);
-        return tempFilePath;
-    }
-
-    @Override
-    public void submit(int requestCode, int resultCode, Intent data) {
-        if (requestCode != pickerType) {
-            onError("onActivityResult requestCode is different from the type the chooser was initialized with.");
-        } else {
-            if (pickerType == Picker.PICK_IMAGE_CAMERA) {
-                handleCameraData();
-            } else if (pickerType == Picker.PICK_IMAGE_DEVICE) {
-                handleGalleryData(data);
-            }
-        }
-    }
-
-    private void handleCameraData() {
-        Log.d(TAG, "handleCameraData: " + path);
-        if (path == null || path.isEmpty()) {
-            onError("Path is null. You will need to re-initialize the object with proper path");
-        } else {
-            List<String> uris = new ArrayList<>();
-            uris.add(Uri.fromFile(new File(path)).toString());
-            processImages(uris);
-        }
-    }
-
-    private void handleGalleryData(Intent intent) {
-        List<String> uris = new ArrayList<>();
-        if (intent != null) {
-            if (intent.getDataString() != null) {
-                String uri = intent.getDataString();
-                Log.d(TAG, "handleGalleryData: " + uri);
-                uris.add(uri);
-            } else if (intent.getClipData() != null) {
-                ClipData clipData = intent.getClipData();
-                Log.d(TAG, "handleGalleryData: Multiple images with ClipData");
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    ClipData.Item item = clipData.getItemAt(i);
-                    Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
-                    uris.add(item.getUri().toString());
-                }
-            }
-
-            processImages(uris);
-        }
-    }
-
-    private void onError(final String errorMessage) {
-        if (callback != null) {
-            ((Activity) getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onError(errorMessage);
-                }
-            });
-        }
-    }
-
-    private void processImages(List<String> uris) {
-        ImageProcessorThread thread = new ImageProcessorThread(getContext(), getImageObjects(uris), cacheLocation);
-        thread.setShouldGenerateThumbnails(generateThumbnails);
-        thread.setShouldGenerateMetadata(generateMetadata);
-        thread.setImagePickerCallback(callback);
-        thread.start();
-    }
-
-    private List<ChosenImage> getImageObjects(List<String> uris) {
-        List<ChosenImage> images = new ArrayList<>();
-        for (String uri : uris) {
-            ChosenImage image = new ChosenImage();
-            image.setQueryUri(uri);
-            image.setDirectoryType(Environment.DIRECTORY_PICTURES);
-            image.setType("image");
-            images.add(image);
-        }
-        return images;
+    public void pickImage() {
+        super.pick();
     }
 }

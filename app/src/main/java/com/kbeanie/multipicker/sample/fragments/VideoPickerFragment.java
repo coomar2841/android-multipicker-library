@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.kbeanie.multipicker.api.CameraVideoPicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.VideoPicker;
+import com.kbeanie.multipicker.api.VideoPickerImpl;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.R;
@@ -31,8 +33,6 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
     private Button btPickVideoSingle;
     private Button btPickVideoMultiple;
     private Button btTakeVideo;
-
-    private int pickerType;
     private String pickerPath;
 
     @Nullable
@@ -64,53 +64,59 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
         });
         return view;
     }
-
-    private VideoPicker picker;
+    private VideoPicker videoPicker;
 
     private void pickVideoSingle() {
-        pickerType = Picker.PICK_VIDEO_DEVICE;
-        picker = getVideoPicker(Picker.PICK_VIDEO_DEVICE);
-        pickerPath = picker.pick();
+        videoPicker = new VideoPicker(this);
+        videoPicker.setVideoPickerCallback(this);
+        videoPicker.shouldGenerateMetadata(true);
+        videoPicker.shouldGeneratePreviewImages(true);
+        videoPicker.pickVideo();
     }
 
     private void pickVideoMultiple() {
-        pickerType = Picker.PICK_VIDEO_DEVICE;
-        picker = getVideoPicker(Picker.PICK_VIDEO_DEVICE);
-        Bundle extras = new Bundle();
-        extras.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        picker.setExtras(extras);
-        pickerPath = picker.pick();
+        videoPicker = new VideoPicker(this);
+        videoPicker.setVideoPickerCallback(this);
+        videoPicker.shouldGenerateMetadata(true);
+        videoPicker.shouldGeneratePreviewImages(true);
+        videoPicker.allowMultple();
+        videoPicker.pickVideo();
     }
 
+    private CameraVideoPicker cameraPicker;
+
     private void takeVideo() {
-        pickerType = Picker.PICK_VIDEO_CAMERA;
-        picker = getVideoPicker(Picker.PICK_VIDEO_CAMERA);
         Bundle extras = new Bundle();
         // For capturing Low quality videos; Default is 1: HIGH
         extras.putInt(MediaStore.EXTRA_VIDEO_QUALITY, 0);
         // Set the duration of the video
         extras.putInt(MediaStore.EXTRA_DURATION_LIMIT, 5);
-        pickerPath = picker.pick();
-    }
 
-    private VideoPicker getVideoPicker(int pickerType) {
-        VideoPicker picker = new VideoPicker(this, pickerType);
-        picker.setVideoPickerCallback(this);
-        picker.shouldGenerateMetadata(true);
-        picker.shouldGeneratePreviewImages(true);
-        picker.setCacheLocation(PickerUtils.getSavedCacheLocation(getActivity()));
-        return picker;
+        cameraPicker = new CameraVideoPicker(this);
+        cameraPicker.shouldGenerateMetadata(true);
+        cameraPicker.shouldGeneratePreviewImages(true);
+        cameraPicker.setVideoPickerCallback(this);
+        cameraPicker.pickVideo();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == Picker.PICK_VIDEO_CAMERA || requestCode == Picker.PICK_VIDEO_DEVICE) && resultCode == Activity.RESULT_OK) {
-            if (picker == null) {
-                picker = getVideoPicker(pickerType);
-                picker.reinitialize(pickerPath);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Picker.PICK_VIDEO_DEVICE) {
+                if (videoPicker == null) {
+                    videoPicker = new VideoPicker(this);
+                    videoPicker.setVideoPickerCallback(this);
+                }
+                videoPicker.submit(requestCode, resultCode, data);
+            }else if(requestCode == Picker.PICK_VIDEO_CAMERA){
+                if(cameraPicker == null){
+                    cameraPicker = new CameraVideoPicker(this, pickerPath);
+                    cameraPicker.setVideoPickerCallback(this);
+                    cameraPicker.setVideoPickerCallback(this);
+                }
+                cameraPicker.submit(requestCode, resultCode, data);
             }
-            picker.submit(requestCode, resultCode, data);
         }
     }
 
@@ -118,7 +124,6 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
     public void onSaveInstanceState(Bundle outState) {
         // You have to save these two values in case your activity is killed.
         // In such a scenario, you will need to re-initialize the ImagePicker
-        outState.putInt("picker_type", pickerType);
         outState.putString("picker_path", pickerPath);
         super.onSaveInstanceState(outState);
     }
@@ -127,9 +132,6 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("picker_type")) {
-                pickerType = savedInstanceState.getInt("picker_type");
-            }
             if (savedInstanceState.containsKey("picker_path")) {
                 pickerPath = savedInstanceState.getString("picker_path");
             }

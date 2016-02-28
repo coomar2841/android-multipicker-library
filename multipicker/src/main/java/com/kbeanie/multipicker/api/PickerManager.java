@@ -25,6 +25,8 @@ public abstract class PickerManager {
 
     protected Bundle extras;
 
+    protected boolean allowMultiple;
+
     public PickerManager(Activity activity, int pickerType) {
         this.activity = activity;
         this.pickerType = pickerType;
@@ -66,7 +68,7 @@ public abstract class PickerManager {
      *
      * @return
      */
-    public abstract String pick();
+    protected abstract String pick();
 
     /**
      * This method should be called after {@link Activity#onActivityResult(int, int, Intent)} is  called.
@@ -107,6 +109,9 @@ public abstract class PickerManager {
     }
 
     protected void pickInternal(Intent intent, int type) {
+        if (allowMultiple) {
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        }
         if (activity != null) {
             activity.startActivityForResult(intent, type);
         } else if (fragment != null) {
