@@ -23,6 +23,12 @@
 - Get all metadata about the files that you would probably require.
 - Similar code base to implement irrespective of Android version of device.
 
+
+##### Gradle
+```groovy
+compile 'com.kbeanie:multipicker:0.9.0@aar'
+```
+
 ##### Maven
 ```xml
 <dependency>
@@ -31,9 +37,6 @@
     <version>0.9.0</version>
 </dependency>
 ```
-
-##### Configuring on Android Studio
-> compile 'com.kbeanie:multipicker:0.9.0@aar'
 
 _Try out the sample app if you want to test it out first._
 
