@@ -3,6 +3,7 @@ package com.kbeanie.multipicker.core;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -112,7 +113,9 @@ public abstract class PickerManager {
 
     protected void pickInternal(Intent intent, int type) {
         if (allowMultiple) {
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            }
         }
         if (activity != null) {
             activity.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);

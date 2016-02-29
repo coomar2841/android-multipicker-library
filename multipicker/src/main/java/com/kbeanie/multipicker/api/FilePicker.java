@@ -3,6 +3,7 @@ package com.kbeanie.multipicker.api;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -130,7 +131,11 @@ public final class FilePicker extends PickerManager {
         for (String uri : uris) {
             ChosenFile file = new ChosenFile();
             file.setQueryUri(uri);
-            file.setDirectoryType(Environment.DIRECTORY_DOCUMENTS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                file.setDirectoryType(Environment.DIRECTORY_DOCUMENTS);
+            } else {
+                file.setDirectoryType(Environment.DIRECTORY_DOWNLOADS);
+            }
             file.setType("file");
             files.add(file);
         }

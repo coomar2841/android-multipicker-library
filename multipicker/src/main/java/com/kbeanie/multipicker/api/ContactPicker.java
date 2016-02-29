@@ -74,27 +74,42 @@ public final class ContactPicker extends PickerManager {
         }
     }
 
+    private int getRawContactId(int contactId) {
+        int rawContactId = 0;
+        String[] projection = {ContactsContract.RawContacts._ID};
+        String selection = ContactsContract.RawContacts.CONTACT_ID + " = ?";
+        String[] selectionArgs = {contactId + ""};
+        Cursor cursor = getContext().getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI, projection, selection, selectionArgs, null);
+        cursor.moveToFirst();
+        rawContactId = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.RawContacts._ID));
+        cursor.close();
+        return rawContactId;
+    }
+
     private void queryForContact(Uri uri) {
         String[] projection = {
                 ContactsContract.Contacts.DISPLAY_NAME,
                 ContactsContract.Contacts.PHOTO_URI,
-                ContactsContract.Contacts.NAME_RAW_CONTACT_ID
+                ContactsContract.Contacts._ID
         };
 
         ChosenContact contact = new ChosenContact();
 
         Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
-        int rawContactId = 0;
+        int contactId = 0;
         if (cursor.moveToFirst()) {
-            rawContactId = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.NAME_RAW_CONTACT_ID));
+            contactId = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
             String displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             String photoUri = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.PHOTO_URI));
             contact.setDisplayName(displayName);
             contact.setPhotoUri(photoUri);
         }
 
+        int rawContactId = getRawContactId(contactId);
+
         String selection = ContactsContract.Data.RAW_CONTACT_ID + " = ?";
         String[] selectionArgs = {rawContactId + ""};
+
 
         Cursor rawContactCursor = getContext().getContentResolver().query(ContactsContract.Data.CONTENT_URI,
                 new String[]{
