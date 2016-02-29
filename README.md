@@ -49,7 +49,7 @@ _Try out the sample app if you want to test it out first._
 ##### License
 ---
 
-Copyright 2013 Kumar Bibek
+Copyright 2016 Kumar Bibek
 
 Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
