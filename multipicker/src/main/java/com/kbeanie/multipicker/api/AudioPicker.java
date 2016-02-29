@@ -11,13 +11,14 @@ import com.kbeanie.multipicker.api.callbacks.AudioPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
-import com.kbeanie.multipicker.threads.AudioProcessorThread;
+import com.kbeanie.multipicker.core.PickerManager;
+import com.kbeanie.multipicker.core.threads.AudioProcessorThread;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kbibek on 2/18/16.
+ * Class to pick an audio file.
  */
 public final class AudioPicker extends PickerManager {
     private final static String TAG = AudioPicker.class.getSimpleName();

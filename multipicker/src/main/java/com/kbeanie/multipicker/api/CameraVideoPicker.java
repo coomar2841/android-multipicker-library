@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.kbeanie.multipicker.api.exceptions.PickerException;
+import com.kbeanie.multipicker.core.VideoPickerImpl;
 
 /**
  * Created by kbibek on 2/28/16.

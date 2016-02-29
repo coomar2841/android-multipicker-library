@@ -11,6 +11,7 @@ import android.util.Log;
 import com.kbeanie.multipicker.api.callbacks.ContactPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenContact;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
+import com.kbeanie.multipicker.core.PickerManager;
 
 /**
  * Created by kbibek on 2/18/16.

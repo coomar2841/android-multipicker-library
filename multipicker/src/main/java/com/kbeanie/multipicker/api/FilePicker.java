@@ -1,7 +1,6 @@
 package com.kbeanie.multipicker.api;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Environment;
@@ -11,7 +10,8 @@ import android.util.Log;
 import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
-import com.kbeanie.multipicker.threads.FileProcessorThread;
+import com.kbeanie.multipicker.core.PickerManager;
+import com.kbeanie.multipicker.core.threads.FileProcessorThread;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.kbeanie.multipicker.api.exceptions.PickerException;
+import com.kbeanie.multipicker.core.ImagePickerImpl;
 
 /**
- * Created by kbibek on 2/27/16.
+ * Use this Picker to trigger device Camera and take a snap
  */
 public final class CameraImagePicker extends ImagePickerImpl {
     public CameraImagePicker(Activity activity) {

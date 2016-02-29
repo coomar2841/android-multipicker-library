@@ -18,6 +18,10 @@ public class ChosenContact {
         emails = new ArrayList<>();
     }
 
+    /**
+     * Returns display name that is available in the phone book
+     * @return
+     */
     public String getDisplayName() {
         return displayName;
     }
@@ -26,6 +30,10 @@ public class ChosenContact {
         this.displayName = displayName;
     }
 
+    /**
+     * Returns the photo URI of the contact
+     * @return
+     */
     public String getPhotoUri() {
         return photoUri;
     }
@@ -38,10 +46,18 @@ public class ChosenContact {
         phones.add(phone);
     }
 
+    /**
+     * Returns the phone numbers of the chosen contact
+     * @return
+     */
     public List<String> getPhones() {
         return phones;
     }
 
+    /**
+     * Returns the list of emails of the chosen contact
+     * @return
+     */
     public List<String> getEmails() {
         return emails;
     }

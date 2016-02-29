@@ -1,4 +1,4 @@
-package com.kbeanie.multipicker.api;
+package com.kbeanie.multipicker.core;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -9,10 +9,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.kbeanie.multipicker.api.CameraImagePicker;
+import com.kbeanie.multipicker.api.ImagePicker;
+import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
-import com.kbeanie.multipicker.threads.ImageProcessorThread;
+import com.kbeanie.multipicker.core.threads.ImageProcessorThread;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,8 +28,8 @@ import java.util.List;
 public abstract class ImagePickerImpl extends PickerManager {
     private final static String TAG = ImagePickerImpl.class.getSimpleName();
     private String path;
-    private boolean generateThumbnails;
-    private boolean generateMetadata;
+    private boolean generateThumbnails = true;
+    private boolean generateMetadata = true;
 
     private ImagePickerCallback callback;
 

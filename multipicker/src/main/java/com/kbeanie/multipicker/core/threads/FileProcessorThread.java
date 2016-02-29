@@ -1,4 +1,4 @@
-package com.kbeanie.multipicker.threads;
+package com.kbeanie.multipicker.core.threads;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

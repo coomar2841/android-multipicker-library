@@ -1,14 +1,12 @@
-package com.kbeanie.multipicker.threads;
+package com.kbeanie.multipicker.core.threads;
 
 import android.content.Context;
 import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 
 import com.kbeanie.multipicker.api.callbacks.AudioPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 
-import java.io.File;
 import java.util.List;
 
 /**

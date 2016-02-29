@@ -1,4 +1,4 @@
-package com.kbeanie.multipicker.api;
+package com.kbeanie.multipicker.core;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -9,10 +9,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
-import com.kbeanie.multipicker.threads.VideoProcessorThread;
+import com.kbeanie.multipicker.core.threads.VideoProcessorThread;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public abstract class VideoPickerImpl extends PickerManager {
     private String path;
 
     private VideoPickerCallback callback;
-    private boolean generatePreviewImages;
-    private boolean generateMetadata;
+    private boolean generatePreviewImages = true;
+    private boolean generateMetadata = true;
 
     public VideoPickerImpl(Activity activity, int pickerType) {
         super(activity, pickerType);
@@ -59,8 +60,8 @@ public abstract class VideoPickerImpl extends PickerManager {
     }
 
     @Override
-    protected String pick() throws PickerException{
-        if(callback == null){
+    protected String pick() throws PickerException {
+        if (callback == null) {
             throw new PickerException("VideoPickerCallback null!!! Please set one");
         }
         if (pickerType == Picker.PICK_VIDEO_DEVICE) {
