@@ -74,7 +74,7 @@ public class FilePickerActivity extends AbActivity implements FilePickerCallback
     @Override
     public void onFilesChosen(List<ChosenFile> files) {
         for (ChosenFile file : files) {
-            Log.i(TAG, "onFilesChosen: " + file);
+            Log.d(TAG, "onFilesChosen: " + file);
         }
 
         MediaResultsAdapter adapter = new MediaResultsAdapter(files, this);

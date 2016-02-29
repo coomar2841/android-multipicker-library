@@ -34,6 +34,7 @@ public final class AudioPicker extends PickerManager {
         super(fragment, Picker.PICK_AUDIO);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public AudioPicker(android.app.Fragment appFragment) {
         super(appFragment, Picker.PICK_AUDIO);
     }

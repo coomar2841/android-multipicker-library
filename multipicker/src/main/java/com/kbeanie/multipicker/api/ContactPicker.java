@@ -25,10 +25,12 @@ public final class ContactPicker extends PickerManager {
         super(activity, Picker.PICK_CONTACT);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public ContactPicker(Fragment fragment) {
         super(fragment, Picker.PICK_CONTACT);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public ContactPicker(android.app.Fragment appFragment) {
         super(appFragment, Picker.PICK_CONTACT);
     }
@@ -65,7 +67,7 @@ public final class ContactPicker extends PickerManager {
             if (data.getData() != null) {
                 if (data.getData() instanceof Uri) {
                     Uri uri = data.getData();
-                    Log.i(TAG, "submit: " + uri);
+                    Log.d(TAG, "submit: " + uri);
                     queryForContact(uri);
                 }
             }

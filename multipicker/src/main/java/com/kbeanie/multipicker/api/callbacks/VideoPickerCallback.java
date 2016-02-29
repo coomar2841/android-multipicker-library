@@ -1,6 +1,5 @@
 package com.kbeanie.multipicker.api.callbacks;
 
-import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 
 import java.util.List;

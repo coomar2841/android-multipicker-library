@@ -1,7 +1,6 @@
 package com.kbeanie.multipicker.api.callbacks;
 
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
-import com.kbeanie.multipicker.api.entity.ChosenFile;
 
 import java.util.List;
 

@@ -126,8 +126,6 @@ public class FileProcessorThread extends Thread {
         if (outputPath.equals(file.getOriginalPath())) {
             return;
         }
-        BufferedOutputStream outStream = null;
-        BufferedInputStream bStream = null;
         try {
             File inputFile = new File(file.getOriginalPath());
             File copyTo = new File(outputPath);
@@ -136,10 +134,6 @@ public class FileProcessorThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
             throw new PickerException(e);
-        } finally {
-            flush(outStream);
-            close(bStream);
-            close(outStream);
         }
     }
 
@@ -452,8 +446,6 @@ public class FileProcessorThread extends Thread {
             fileOutputStream.close();
             bStream.close();
             file.setOriginalPath(localFilePath);
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -524,9 +516,8 @@ public class FileProcessorThread extends Thread {
         }
         fileName = probableFileName;
 
-        String filePath = getTargetDirectory(file.getDirectoryType()) + File.separator
+        return getTargetDirectory(file.getDirectoryType()) + File.separator
                 + fileName;
-        return filePath;
     }
 
     protected String generateFileNameForVideoPreviewImage() {
@@ -536,9 +527,8 @@ public class FileProcessorThread extends Thread {
         if (extension != null && !extension.isEmpty()) {
             fileName += extension;
         }
-        String filePath = getTargetDirectory(Environment.DIRECTORY_PICTURES) + File.separator
+        return getTargetDirectory(Environment.DIRECTORY_PICTURES) + File.separator
                 + fileName;
-        return filePath;
     }
 
 
@@ -550,6 +540,7 @@ public class FileProcessorThread extends Thread {
         this.callback = callback;
     }
 
+    // TODO: Implement Ensure Max Width and Height
     protected String ensureMaxWidthAndHeight(int maxWidth, int maxHeight, String image) {
         String outPath = image;
         try {
@@ -581,7 +572,7 @@ public class FileProcessorThread extends Thread {
 
         FileOutputStream stream = null;
         BufferedInputStream bstream = null;
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         try {
             BitmapFactory.Options optionsForGettingDimensions = new BitmapFactory.Options();
             optionsForGettingDimensions.inJustDecodeBounds = true;
@@ -641,7 +632,7 @@ public class FileProcessorThread extends Thread {
 //            verifyBitmap(fileImage, bitmap);
             scaledInputStream.close();
             if (bitmap != null) {
-                File original = new File(URLDecoder.decode(image));
+                File original = new File(URLDecoder.decode(image, Charset.defaultCharset().name()));
                 File file = new File(
                         (original.getParent() + File.separator + original.getName()
                                 .replace(".", "-scale-" + scale + ".")));
@@ -692,8 +683,6 @@ public class FileProcessorThread extends Thread {
             if (height.equals("0")) {
                 height = Integer.toString(getBitmapImage(path).get().getHeight());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -701,7 +690,7 @@ public class FileProcessorThread extends Thread {
     }
 
     protected SoftReference<Bitmap> getBitmapImage(String path) {
-        SoftReference<Bitmap> bitmap = null;
+        SoftReference<Bitmap> bitmap;
         bitmap = new SoftReference<>(BitmapFactory.decodeFile(Uri.fromFile(new File(path)).getPath()));
         return bitmap;
     }

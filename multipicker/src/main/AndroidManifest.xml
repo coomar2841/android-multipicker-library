@@ -1,4 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kbeanie.multipicker">
+<manifest package="com.kbeanie.multipicker">
 
 </manifest>

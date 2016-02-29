@@ -89,7 +89,7 @@ public class AudioPickerFragment extends Fragment implements AudioPickerCallback
     @Override
     public void onAudiosChosen(List<ChosenAudio> audios) {
         for (ChosenAudio audio : audios) {
-            Log.i(TAG, "onFilesChosen: " + audio);
+            Log.d(TAG, "onFilesChosen: " + audio);
         }
 
         MediaResultsAdapter adapter = new MediaResultsAdapter(audios, getActivity());

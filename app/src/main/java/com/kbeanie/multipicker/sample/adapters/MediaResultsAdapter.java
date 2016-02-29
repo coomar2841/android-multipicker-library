@@ -60,7 +60,7 @@ public class MediaResultsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i(TAG, "getView: " + files.size());
+        Log.d(TAG, "getView: " + files.size());
         ChosenFile file = (ChosenFile) getItem(position);
         int itemViewType = getItemViewType(position);
         if (convertView == null) {

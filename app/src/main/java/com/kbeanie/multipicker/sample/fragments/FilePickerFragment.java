@@ -76,7 +76,7 @@ public class FilePickerFragment extends Fragment implements FilePickerCallback {
     @Override
     public void onFilesChosen(List<ChosenFile> files) {
         for (ChosenFile file : files) {
-            Log.i(TAG, "onFilesChosen: " + file);
+            Log.d(TAG, "onFilesChosen: " + file);
         }
 
         MediaResultsAdapter adapter = new MediaResultsAdapter(files, getActivity());

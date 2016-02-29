@@ -1,7 +1,5 @@
 package com.kbeanie.multipicker.api.entity;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by kbibek on 2/20/16.
  */
