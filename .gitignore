@@ -9,3 +9,5 @@
 multipicker/key-file.gpg
 gradle.properties
 app/fabric.properties
+/extras/secret.properties
+/extras/release.keystore
