@@ -38,6 +38,8 @@ compile 'com.kbeanie:multipicker:0.9.0@aar'
 </dependency>
 ```
 
+See [Wiki Pages](https://github.com/coomar2841/android-multipicker-library/wiki) for code snippets.
+
 _Try out the sample app if you want to test it out first._
 
 <a href="https://play.google.com/store/apps/details?id=com.kbeanie.multipicker.sample&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
