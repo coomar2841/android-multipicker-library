@@ -49,13 +49,17 @@ public final class AudioProcessorThread extends FileProcessorThread {
     }
 
     private void onDone() {
-        if (callback != null) {
-            getActivityFromContext().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onAudiosChosen((List<ChosenAudio>) files);
-                }
-            });
+        try {
+            if (callback != null) {
+                getActivityFromContext().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onAudiosChosen((List<ChosenAudio>) files);
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

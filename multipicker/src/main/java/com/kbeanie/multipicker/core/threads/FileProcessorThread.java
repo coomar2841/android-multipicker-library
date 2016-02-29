@@ -74,13 +74,17 @@ public class FileProcessorThread extends Thread {
     }
 
     private void onDone() {
-        if (callback != null) {
-            ((Activity) context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onFilesChosen((List<ChosenFile>) files);
-                }
-            });
+        try {
+            if (callback != null) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onFilesChosen((List<ChosenFile>) files);
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

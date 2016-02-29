@@ -164,13 +164,17 @@ public abstract class VideoPickerImpl extends PickerManager {
     }
 
     private void onError(final String errorMessage) {
-        if (callback != null) {
-            ((Activity) getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onError(errorMessage);
-                }
-            });
+        try {
+            if (callback != null) {
+                ((Activity) getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onError(errorMessage);
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 }

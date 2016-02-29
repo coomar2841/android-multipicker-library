@@ -41,13 +41,17 @@ public final class ImageProcessorThread extends FileProcessorThread {
     }
 
     private void onDone() {
-        if (callback != null) {
-            getActivityFromContext().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onImagesChosen((List<ChosenImage>) files);
-                }
-            });
+        try {
+            if (callback != null) {
+                getActivityFromContext().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onImagesChosen((List<ChosenImage>) files);
+                    }
+                });
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
 

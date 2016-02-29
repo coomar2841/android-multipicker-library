@@ -91,7 +91,7 @@ public abstract class ImagePickerImpl extends PickerManager {
     }
 
     @Override
-    protected String pick() throws PickerException{
+    protected String pick() throws PickerException {
         if (callback == null) {
             throw new PickerException("ImagePickerCallback is null!!! Please set one.");
         }
@@ -175,13 +175,17 @@ public abstract class ImagePickerImpl extends PickerManager {
     }
 
     private void onError(final String errorMessage) {
-        if (callback != null) {
-            ((Activity) getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onError(errorMessage);
-                }
-            });
+        try {
+            if (callback != null) {
+                ((Activity) getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onError(errorMessage);
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

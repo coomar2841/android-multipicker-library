@@ -100,13 +100,17 @@ public final class VideoProcessorThread extends FileProcessorThread {
     }
 
     private void onDone() {
-        if (callback != null) {
-            getActivityFromContext().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onVideosChosen((List<ChosenVideo>) files);
-                }
-            });
+        try {
+            if (callback != null) {
+                getActivityFromContext().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onVideosChosen((List<ChosenVideo>) files);
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

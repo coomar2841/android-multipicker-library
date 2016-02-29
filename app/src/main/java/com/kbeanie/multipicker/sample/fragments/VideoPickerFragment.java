@@ -15,12 +15,10 @@ import android.widget.ListView;
 import com.kbeanie.multipicker.api.CameraVideoPicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.VideoPicker;
-import com.kbeanie.multipicker.api.VideoPickerImpl;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
-import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.List;
 

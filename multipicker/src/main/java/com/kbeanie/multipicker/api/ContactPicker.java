@@ -121,8 +121,12 @@ public final class ContactPicker extends PickerManager {
             rawContactCursor.close();
         }
         cursor.close();
-        if (callback != null) {
-            callback.onContactChosen(contact);
+        try {
+            if (callback != null) {
+                callback.onContactChosen(contact);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 }

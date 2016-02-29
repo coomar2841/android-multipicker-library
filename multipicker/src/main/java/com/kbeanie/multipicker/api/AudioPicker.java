@@ -50,17 +50,17 @@ public final class AudioPicker extends PickerManager {
         this.mimeType = mimeType;
     }
 
-    public void pickAudio(){
+    public void pickAudio() {
         try {
             pick();
-        }catch (PickerException e){
+        } catch (PickerException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    protected String pick() throws PickerException{
-        if(callback == null){
+    protected String pick() throws PickerException {
+        if (callback == null) {
             throw new PickerException("AudioPickerCallback is null!!! Please set one");
         }
         String action = Intent.ACTION_GET_CONTENT;
@@ -112,13 +112,17 @@ public final class AudioPicker extends PickerManager {
     }
 
     private void onError(final String errorMessage) {
-        if (callback != null) {
-            ((Activity) getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    callback.onError(errorMessage);
-                }
-            });
+        try {
+            if (callback != null) {
+                ((Activity) getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onError(errorMessage);
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
