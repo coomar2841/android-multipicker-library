@@ -3,6 +3,7 @@ package com.kbeanie.multipicker.api;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -99,6 +100,12 @@ public final class FilePicker extends PickerManager {
                         Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
                         uris.add(item.getUri().toString());
                     }
+                }
+            }
+            if (intent.hasExtra("uris")) {
+                ArrayList<Uri> paths = intent.getParcelableArrayListExtra("uris");
+                for (int i = 0; i < paths.size(); i++) {
+                    uris.add(paths.get(i).toString());
                 }
             }
 

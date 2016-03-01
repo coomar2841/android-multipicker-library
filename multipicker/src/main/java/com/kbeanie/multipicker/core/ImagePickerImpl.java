@@ -168,6 +168,12 @@ public abstract class ImagePickerImpl extends PickerManager {
                     }
                 }
             }
+            if (intent.hasExtra("uris")) {
+                ArrayList<Uri> paths = intent.getParcelableArrayListExtra("uris");
+                for (int i = 0; i < paths.size(); i++) {
+                    uris.add(paths.get(i).toString());
+                }
+            }
 
             processImages(uris);
         }

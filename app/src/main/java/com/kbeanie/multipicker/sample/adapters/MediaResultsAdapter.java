@@ -101,10 +101,10 @@ public class MediaResultsAdapter extends BaseAdapter {
     private void showAudio(ChosenFile file, View view) {
         ChosenAudio audio = (ChosenAudio) file;
 
-        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        TextView tvName = (TextView) view.findViewById(R.id.tvName);
         tvName.setText(file.getDisplayName());
 
-        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        TextView tvCompleteMimeType = (TextView) view.findViewById(R.id.tvCompleteMimeType);
         tvCompleteMimeType.setText(file.getMimeType());
 
         TextView tvMimeType = (TextView) view.findViewById(R.id.tvMimeType);
@@ -120,14 +120,16 @@ public class MediaResultsAdapter extends BaseAdapter {
     private void showVideo(ChosenFile file, View view) {
         ChosenVideo video = (ChosenVideo) file;
 
-        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        TextView tvName = (TextView) view.findViewById(R.id.tvName);
         tvName.setText(file.getDisplayName());
 
-        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        TextView tvCompleteMimeType = (TextView) view.findViewById(R.id.tvCompleteMimeType);
         tvCompleteMimeType.setText(file.getMimeType());
 
         SimpleDraweeView ivImage = (SimpleDraweeView) view.findViewById(R.id.ivImage);
-        ivImage.setImageURI(Uri.fromFile(new File(video.getPreviewThumbnail())));
+        if (video.getPreviewThumbnail() != null) {
+            ivImage.setImageURI(Uri.fromFile(new File(video.getPreviewThumbnail())));
+        }
 
         TextView tvDimension = (TextView) view.findViewById(R.id.tvDimension);
         tvDimension.setText(String.format(FORMAT_IMAGE_VIDEO_DIMENSIONS, video.getWidth(), video.getHeight()));
@@ -148,10 +150,10 @@ public class MediaResultsAdapter extends BaseAdapter {
     private void showImage(ChosenFile file, View view) {
         ChosenImage image = (ChosenImage) file;
 
-        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        TextView tvName = (TextView) view.findViewById(R.id.tvName);
         tvName.setText(file.getDisplayName());
 
-        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        TextView tvCompleteMimeType = (TextView) view.findViewById(R.id.tvCompleteMimeType);
         tvCompleteMimeType.setText(file.getMimeType());
 
         SimpleDraweeView ivImage = (SimpleDraweeView) view.findViewById(R.id.ivImage);
@@ -174,10 +176,10 @@ public class MediaResultsAdapter extends BaseAdapter {
 
     private void showFile(ChosenFile file, View view) {
 
-        TextView tvName = (TextView)view.findViewById(R.id.tvName);
+        TextView tvName = (TextView) view.findViewById(R.id.tvName);
         tvName.setText(file.getDisplayName());
 
-        TextView tvCompleteMimeType = (TextView)view.findViewById(R.id.tvCompleteMimeType);
+        TextView tvCompleteMimeType = (TextView) view.findViewById(R.id.tvCompleteMimeType);
         tvCompleteMimeType.setText(file.getMimeType());
 
         TextView tvMimeType = (TextView) view.findViewById(R.id.tvMimeType);
