@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.ContactPicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -75,6 +76,6 @@ public class ContactPickerActivity extends AbActivity implements ContactPickerCa
 
     @Override
     public void onError(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

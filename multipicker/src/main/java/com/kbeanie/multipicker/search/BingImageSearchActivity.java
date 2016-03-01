@@ -33,7 +33,6 @@ public abstract class BingImageSearchActivity extends AppCompatActivity {
         pDialog.setTitle("Searching images");
         pDialog.setMessage("Please wait...");
         pDialog.show();
-        ;
     }
 
     private void hideProgress() {
@@ -55,8 +54,7 @@ public abstract class BingImageSearchActivity extends AppCompatActivity {
         protected List<RemoteImage> doInBackground(Void... params) {
             BingSearchApi api = new BingSearchApi();
             try {
-                List<RemoteImage> results = api.getImagesForQuery(query);
-                return results;
+                return api.getImagesForQuery(query);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -75,7 +75,7 @@ public final class ContactPicker extends PickerManager {
     }
 
     private int getRawContactId(int contactId) {
-        int rawContactId = 0;
+        int rawContactId;
         String[] projection = {ContactsContract.RawContacts._ID};
         String selection = ContactsContract.RawContacts.CONTACT_ID + " = ?";
         String[] selectionArgs = {contactId + ""};

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -116,7 +117,7 @@ public abstract class ImagePickerImpl extends PickerManager {
         return null;
     }
 
-    protected String takePictureWithCamera() {
+    protected String takePictureWithCamera() throws PickerException {
         String tempFilePath = buildFilePath("jpg", Environment.DIRECTORY_PICTURES);
         Uri uri = Uri.fromFile(new File(tempFilePath));
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -160,13 +161,15 @@ public abstract class ImagePickerImpl extends PickerManager {
                 String uri = intent.getDataString();
                 Log.d(TAG, "handleGalleryData: " + uri);
                 uris.add(uri);
-            } else if (intent.getClipData() != null) {
-                ClipData clipData = intent.getClipData();
-                Log.d(TAG, "handleGalleryData: Multiple images with ClipData");
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    ClipData.Item item = clipData.getItemAt(i);
-                    Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
-                    uris.add(item.getUri().toString());
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                if (intent.getClipData() != null) {
+                    ClipData clipData = intent.getClipData();
+                    Log.d(TAG, "handleGalleryData: Multiple images with ClipData");
+                    for (int i = 0; i < clipData.getItemCount(); i++) {
+                        ClipData.Item item = clipData.getItemAt(i);
+                        Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
+                        uris.add(item.getUri().toString());
+                    }
                 }
             }
 

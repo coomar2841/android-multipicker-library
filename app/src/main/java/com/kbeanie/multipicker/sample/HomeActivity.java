@@ -1,9 +1,14 @@
 package com.kbeanie.multipicker.sample;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -20,6 +25,8 @@ import com.kbeanie.multipicker.sample.prefs.AppPreferences;
  */
 public class HomeActivity extends AbActivity implements AdapterView.OnItemClickListener {
 
+    private final static int EXTERNAL_STORAGE_PERMISSION_REQUEST = 100;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +35,8 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
         ListView lvDemoTypes = (ListView) findViewById(R.id.lvDemoTypes);
         lvDemoTypes.setAdapter(new DemosAdapter(this));
         lvDemoTypes.setOnItemClickListener(this);
+
+        requestExternalStoragePermission();
     }
 
     @Override
@@ -157,5 +166,35 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
         });
 
         builder.create().show();
+    }
+
+    private void requestExternalStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        EXTERNAL_STORAGE_PERMISSION_REQUEST);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 }

@@ -10,8 +10,8 @@ public class ChosenContact {
     private final static String FORMAT_CONTACT = "Name: %s, Photo: %s, Phones: %s, Emails: %s";
     private String displayName;
     private String photoUri;
-    private List<String> phones;
-    private List<String> emails;
+    private final List<String> phones;
+    private final List<String> emails;
 
     public ChosenContact() {
         phones = new ArrayList<>();

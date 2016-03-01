@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.CameraVideoPicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -144,6 +145,6 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
 
     @Override
     public void onError(String message) {
-
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

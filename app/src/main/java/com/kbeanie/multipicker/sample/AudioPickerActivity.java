@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.AudioPicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -73,7 +74,7 @@ public class AudioPickerActivity extends AbActivity implements AudioPickerCallba
 
     @Override
     public void onError(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

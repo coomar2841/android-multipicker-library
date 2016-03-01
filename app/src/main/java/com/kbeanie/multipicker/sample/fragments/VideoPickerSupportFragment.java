@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.CameraVideoPicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -61,6 +62,7 @@ public class VideoPickerSupportFragment extends android.support.v4.app.Fragment 
         });
         return view;
     }
+
     private VideoPicker videoPicker;
 
     private void pickVideoSingle() {
@@ -106,8 +108,8 @@ public class VideoPickerSupportFragment extends android.support.v4.app.Fragment 
                     videoPicker.setVideoPickerCallback(this);
                 }
                 videoPicker.submit(requestCode, resultCode, data);
-            }else if(requestCode == Picker.PICK_VIDEO_CAMERA){
-                if(cameraPicker == null){
+            } else if (requestCode == Picker.PICK_VIDEO_CAMERA) {
+                if (cameraPicker == null) {
                     cameraPicker = new CameraVideoPicker(this, pickerPath);
                     cameraPicker.setVideoPickerCallback(this);
                     cameraPicker.setVideoPickerCallback(this);
@@ -143,6 +145,6 @@ public class VideoPickerSupportFragment extends android.support.v4.app.Fragment 
 
     @Override
     public void onError(String message) {
-
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

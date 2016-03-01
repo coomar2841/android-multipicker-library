@@ -18,11 +18,12 @@ import java.util.UUID;
  * Abstract class for all types of Pickers
  */
 public abstract class PickerManager {
+    private final static String TAG = PickerManager.class.getSimpleName();
     protected Activity activity;
     protected Fragment fragment;
     protected android.app.Fragment appFragment;
 
-    protected int pickerType;
+    protected final int pickerType;
 
     protected int cacheLocation = CacheLocation.EXTERNAL_STORAGE_APP_DIR;
 
@@ -82,16 +83,16 @@ public abstract class PickerManager {
      */
     public abstract void submit(int requestCode, int resultCode, Intent data);
 
-    protected String buildFilePath(String extension, String type) {
+    protected String buildFilePath(String extension, String type) throws PickerException{
         String directoryPath = getDirectory(type);
         return directoryPath + File.separator + UUID.randomUUID().toString() + "." + extension;
     }
 
-    private String getDirectory(String type) {
+    private String getDirectory(String type) throws PickerException{
         String directory = null;
         switch (cacheLocation) {
             case CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR:
-                directory = FileUtils.getExternalFilesDirectory(type);
+                directory = FileUtils.getExternalFilesDirectory(type, getContext());
                 break;
             case CacheLocation.EXTERNAL_STORAGE_APP_DIR:
                 directory = FileUtils.getExternalFilesDir(type, getContext());

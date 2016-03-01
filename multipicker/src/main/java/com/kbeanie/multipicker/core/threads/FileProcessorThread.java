@@ -53,9 +53,9 @@ public class FileProcessorThread extends Thread {
     protected final static int THUMBNAIL_BIG = 1;
     protected final static int THUMBNAIL_SMALL = 2;
     private final static String TAG = FileProcessorThread.class.getSimpleName();
-    private int cacheLocation;
-    protected Context context;
-    protected List<? extends ChosenFile> files;
+    private final int cacheLocation;
+    protected final Context context;
+    protected final List<? extends ChosenFile> files;
     private FilePickerCallback callback;
 
     public FileProcessorThread(Context context, List<? extends ChosenFile> files, int cacheLocation) {
@@ -452,11 +452,11 @@ public class FileProcessorThread extends Thread {
         return file;
     }
 
-    protected String getTargetDirectory(String type) {
+    protected String getTargetDirectory(String type) throws PickerException {
         String directory = null;
         switch (cacheLocation) {
             case CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR:
-                directory = FileUtils.getExternalFilesDirectory(type);
+                directory = FileUtils.getExternalFilesDirectory(type, context);
                 break;
             case CacheLocation.EXTERNAL_STORAGE_APP_DIR:
                 directory = FileUtils.getExternalFilesDir(type, context);
@@ -486,7 +486,7 @@ public class FileProcessorThread extends Thread {
         return mimeType;
     }
 
-    private String generateFileName(ChosenFile file) {
+    private String generateFileName(ChosenFile file) throws PickerException {
         String fileName = file.getDisplayName();
         if (fileName == null || fileName.isEmpty()) {
             fileName = UUID.randomUUID().toString();
@@ -522,7 +522,7 @@ public class FileProcessorThread extends Thread {
                 + fileName;
     }
 
-    protected String generateFileNameForVideoPreviewImage() {
+    protected String generateFileNameForVideoPreviewImage() throws PickerException {
         String fileName = UUID.randomUUID().toString();
         // If File name already contains an extension, we don't need to guess the extension
         String extension = ".jpg";
@@ -669,8 +669,6 @@ public class FileProcessorThread extends Thread {
             if (width.equals("0")) {
                 width = Integer.toString(getBitmapImage(path).get().getWidth());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

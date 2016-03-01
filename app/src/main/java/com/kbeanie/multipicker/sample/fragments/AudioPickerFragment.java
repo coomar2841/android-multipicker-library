@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.kbeanie.multipicker.api.AudioPicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -75,7 +76,7 @@ public class AudioPickerFragment extends Fragment implements AudioPickerCallback
 
     @Override
     public void onError(String message) {
-
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override

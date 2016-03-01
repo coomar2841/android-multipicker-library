@@ -91,13 +91,15 @@ public final class FilePicker extends PickerManager {
                 String uri = intent.getDataString();
                 Log.d(TAG, "handleFileData: " + uri);
                 uris.add(uri);
-            } else if (intent.getClipData() != null) {
-                ClipData clipData = intent.getClipData();
-                Log.d(TAG, "handleFileData: Multiple files with ClipData");
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    ClipData.Item item = clipData.getItemAt(i);
-                    Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
-                    uris.add(item.getUri().toString());
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                if (intent.getClipData() != null) {
+                    ClipData clipData = intent.getClipData();
+                    Log.d(TAG, "handleFileData: Multiple files with ClipData");
+                    for (int i = 0; i < clipData.getItemCount(); i++) {
+                        ClipData.Item item = clipData.getItemAt(i);
+                        Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
+                        uris.add(item.getUri().toString());
+                    }
                 }
             }
 

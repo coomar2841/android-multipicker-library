@@ -72,13 +72,32 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ImagesSearchActivity" android:label="Image Search by Bing"
+            android:name=".MultiPickerShareActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <data android:mimeType="*/*"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <data android:mimeType="*/*"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ImagesSearchActivity"
+            android:label="Image Search by Bing"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
                 <data android:mimeType="image/*" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.OPENABLE"/>
+                <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         </activity>
 

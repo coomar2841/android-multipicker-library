@@ -120,7 +120,7 @@ public class ImagePickerSupportFragment extends android.support.v4.app.Fragment 
 
     @Override
     public void onError(String message) {
-        Toast.makeText(getActivity(), "Failure", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
