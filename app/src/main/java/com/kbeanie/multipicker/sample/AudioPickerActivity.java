@@ -81,7 +81,7 @@ public class AudioPickerActivity extends AbActivity implements AudioPickerCallba
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Picker.PICK_AUDIO && resultCode == RESULT_OK) {
-            audioPicker.submit(requestCode, resultCode, data);
+            audioPicker.submit(data);
         }
     }
 

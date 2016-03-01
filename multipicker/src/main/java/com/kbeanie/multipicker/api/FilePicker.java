@@ -79,12 +79,8 @@ public final class FilePicker extends PickerManager {
     }
 
     @Override
-    public void submit(int requestCode, int resultCode, Intent data) {
-        if (requestCode != pickerType) {
-            onError("onActivityResult requestCode is different from the type the chooser was initialized with.");
-        } else {
-            handleFileData(data);
-        }
+    public void submit(Intent data) {
+        handleFileData(data);
     }
 
     private void handleFileData(Intent intent) {

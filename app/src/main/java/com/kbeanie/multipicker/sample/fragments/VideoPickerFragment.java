@@ -63,6 +63,7 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
         });
         return view;
     }
+
     private VideoPicker videoPicker;
 
     private void pickVideoSingle() {
@@ -107,14 +108,14 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
                     videoPicker = new VideoPicker(this);
                     videoPicker.setVideoPickerCallback(this);
                 }
-                videoPicker.submit(requestCode, resultCode, data);
-            }else if(requestCode == Picker.PICK_VIDEO_CAMERA){
-                if(cameraPicker == null){
+                videoPicker.submit(data);
+            } else if (requestCode == Picker.PICK_VIDEO_CAMERA) {
+                if (cameraPicker == null) {
                     cameraPicker = new CameraVideoPicker(this, pickerPath);
                     cameraPicker.setVideoPickerCallback(this);
                     cameraPicker.setVideoPickerCallback(this);
                 }
-                cameraPicker.submit(requestCode, resultCode, data);
+                cameraPicker.submit(data);
             }
         }
     }

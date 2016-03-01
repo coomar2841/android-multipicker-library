@@ -77,11 +77,9 @@ public abstract class PickerManager {
     /**
      * This method should be called after {@link Activity#onActivityResult(int, int, Intent)} is  called.
      *
-     * @param requestCode
-     * @param resultCode
      * @param data
      */
-    public abstract void submit(int requestCode, int resultCode, Intent data);
+    public abstract void submit(Intent data);
 
     protected String buildFilePath(String extension, String type) throws PickerException{
         String directoryPath = getDirectory(type);

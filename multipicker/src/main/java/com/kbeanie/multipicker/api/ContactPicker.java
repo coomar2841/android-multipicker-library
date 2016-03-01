@@ -65,7 +65,7 @@ public final class ContactPicker extends PickerManager {
     }
 
     @Override
-    public void submit(int requestCode, int resultCode, Intent data) {
+    public void submit(Intent data) {
         if (data != null) {
             if (data.getData() != null) {
                 if (data.getData() instanceof Uri) {

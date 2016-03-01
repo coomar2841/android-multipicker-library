@@ -91,7 +91,7 @@ public class FilePickerActivity extends AbActivity implements FilePickerCallback
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Picker.PICK_FILE && resultCode == RESULT_OK) {
-            filePicker.submit(requestCode, resultCode, data);
+            filePicker.submit(data);
         }
     }
 }

@@ -83,7 +83,7 @@ public class AudioPickerFragment extends Fragment implements AudioPickerCallback
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Picker.PICK_AUDIO && resultCode == Activity.RESULT_OK) {
-            audioPicker.submit(requestCode, resultCode, data);
+            audioPicker.submit(data);
         }
     }
 

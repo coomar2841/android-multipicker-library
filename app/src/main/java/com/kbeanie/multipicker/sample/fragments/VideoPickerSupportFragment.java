@@ -107,14 +107,14 @@ public class VideoPickerSupportFragment extends android.support.v4.app.Fragment 
                     videoPicker = new VideoPicker(this);
                     videoPicker.setVideoPickerCallback(this);
                 }
-                videoPicker.submit(requestCode, resultCode, data);
+                videoPicker.submit(data);
             } else if (requestCode == Picker.PICK_VIDEO_CAMERA) {
                 if (cameraPicker == null) {
                     cameraPicker = new CameraVideoPicker(this, pickerPath);
                     cameraPicker.setVideoPickerCallback(this);
                     cameraPicker.setVideoPickerCallback(this);
                 }
-                cameraPicker.submit(requestCode, resultCode, data);
+                cameraPicker.submit(data);
             }
         }
     }

@@ -81,12 +81,8 @@ public final class AudioPicker extends PickerManager {
     }
 
     @Override
-    public void submit(int requestCode, int resultCode, Intent data) {
-        if (requestCode != pickerType) {
-            onError("onActivityResult requestCode is different from the type the chooser was initialized with.");
-        } else {
-            handleAudioData(data);
-        }
+    public void submit(Intent data) {
+        handleAudioData(data);
     }
 
     private void handleAudioData(Intent intent) {

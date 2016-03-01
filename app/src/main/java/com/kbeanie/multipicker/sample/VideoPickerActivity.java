@@ -107,12 +107,12 @@ public class VideoPickerActivity extends AbActivity implements VideoPickerCallba
                     videoPicker = new VideoPicker(this);
                     videoPicker.setVideoPickerCallback(this);
                 }
-                videoPicker.submit(requestCode, resultCode, data);
+                videoPicker.submit(data);
             } else if (requestCode == Picker.PICK_VIDEO_CAMERA) {
                 if (cameraPicker == null) {
                     cameraPicker = new CameraVideoPicker(this, pickerPath);
                 }
-                cameraPicker.submit(requestCode, resultCode, data);
+                cameraPicker.submit(data);
             }
         }
     }

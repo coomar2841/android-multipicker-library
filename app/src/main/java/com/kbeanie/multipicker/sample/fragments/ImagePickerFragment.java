@@ -102,12 +102,13 @@ public class ImagePickerFragment extends Fragment implements ImagePickerCallback
                 if (imagePicker == null) {
                     imagePicker = new ImagePicker(this);
                 }
-                imagePicker.submit(requestCode, resultCode, data);
+                imagePicker.submit(data);
             } else if (requestCode == Picker.PICK_IMAGE_CAMERA) {
                 if (cameraPicker == null) {
                     cameraPicker = new CameraImagePicker(this);
                     cameraPicker.reinitialize(pickerPath);
                 }
+                cameraPicker.submit(data);
             }
         }
     }

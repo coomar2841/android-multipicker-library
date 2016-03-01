@@ -61,7 +61,7 @@ public class ContactPickerActivity extends AbActivity implements ContactPickerCa
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == Picker.PICK_CONTACT) {
-                picker.submit(requestCode, resultCode, data);
+                picker.submit(data);
             }
         }
     }

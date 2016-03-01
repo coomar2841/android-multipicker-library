@@ -93,7 +93,7 @@ public class FilePickerSupportFragment extends Fragment implements FilePickerCal
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Picker.PICK_FILE && resultCode == Activity.RESULT_OK) {
-            filePicker.submit(requestCode, resultCode, data);
+            filePicker.submit(data);
         }
     }
 }

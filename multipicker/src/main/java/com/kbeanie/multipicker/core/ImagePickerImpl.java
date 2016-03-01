@@ -131,15 +131,11 @@ public abstract class ImagePickerImpl extends PickerManager {
     }
 
     @Override
-    public void submit(int requestCode, int resultCode, Intent data) {
-        if (requestCode != pickerType) {
-            onError("onActivityResult requestCode is different from the type the chooser was initialized with.");
-        } else {
-            if (pickerType == Picker.PICK_IMAGE_CAMERA) {
-                handleCameraData();
-            } else if (pickerType == Picker.PICK_IMAGE_DEVICE) {
-                handleGalleryData(data);
-            }
+    public void submit(Intent data) {
+        if (pickerType == Picker.PICK_IMAGE_CAMERA) {
+            handleCameraData();
+        } else if (pickerType == Picker.PICK_IMAGE_DEVICE) {
+            handleGalleryData(data);
         }
     }
 

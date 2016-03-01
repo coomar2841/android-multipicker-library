@@ -74,7 +74,7 @@ public abstract class VideoPickerImpl extends PickerManager {
         return null;
     }
 
-    protected String takeVideoWithCamera() throws PickerException{
+    protected String takeVideoWithCamera() throws PickerException {
         String tempFilePath = buildFilePath("mp4", Environment.DIRECTORY_MOVIES);
         Uri uri = Uri.fromFile(new File(tempFilePath));
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -100,15 +100,11 @@ public abstract class VideoPickerImpl extends PickerManager {
     }
 
     @Override
-    public void submit(int requestCode, int resultCode, Intent data) {
-        if (requestCode != pickerType) {
-            onError("onActivityResult requestCode is different from the type the chooser was initialized with.");
-        } else {
-            if (pickerType == Picker.PICK_VIDEO_CAMERA) {
-                handleCameraData();
-            } else if (pickerType == Picker.PICK_VIDEO_DEVICE) {
-                handleGalleryData(data);
-            }
+    public void submit(Intent data) {
+        if (pickerType == Picker.PICK_VIDEO_CAMERA) {
+            handleCameraData();
+        } else if (pickerType == Picker.PICK_VIDEO_DEVICE) {
+            handleGalleryData(data);
         }
     }
 
