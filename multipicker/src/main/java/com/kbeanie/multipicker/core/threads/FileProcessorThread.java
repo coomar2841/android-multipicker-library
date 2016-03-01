@@ -516,6 +516,8 @@ public class FileProcessorThread extends Thread {
         }
         fileName = probableFileName;
 
+        file.setDisplayName(fileName);
+
         return getTargetDirectory(file.getDirectoryType()) + File.separator
                 + fileName;
     }
