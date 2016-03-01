@@ -31,6 +31,9 @@ public final class ImagePicker extends ImagePickerImpl {
             super.pick();
         } catch (PickerException e) {
             e.printStackTrace();
+            if (callback != null) {
+                callback.onError(e.getMessage());
+            }
         }
     }
 }

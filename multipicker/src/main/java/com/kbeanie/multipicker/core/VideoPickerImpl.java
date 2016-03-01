@@ -28,7 +28,7 @@ public abstract class VideoPickerImpl extends PickerManager {
 
     private String path;
 
-    private VideoPickerCallback callback;
+    protected VideoPickerCallback callback;
     private boolean generatePreviewImages = true;
     private boolean generateMetadata = true;
 

@@ -31,6 +31,9 @@ public final class VideoPicker extends VideoPickerImpl {
             super.pick();
         } catch (PickerException e) {
             e.printStackTrace();
+            if (callback != null) {
+                callback.onError(e.getMessage());
+            }
         }
     }
 }

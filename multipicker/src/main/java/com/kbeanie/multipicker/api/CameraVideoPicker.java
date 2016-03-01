@@ -44,6 +44,9 @@ public final class CameraVideoPicker extends VideoPickerImpl {
             path = super.pick();
         } catch (PickerException e) {
             e.printStackTrace();
+            if (callback != null) {
+                callback.onError(e.getMessage());
+            }
         }
         return path;
     }

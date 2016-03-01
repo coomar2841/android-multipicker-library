@@ -55,6 +55,9 @@ public final class FilePicker extends PickerManager {
             pick();
         } catch (PickerException e) {
             e.printStackTrace();
+            if (callback != null) {
+                callback.onError(e.getMessage());
+            }
         }
     }
 

@@ -32,7 +32,7 @@ public abstract class ImagePickerImpl extends PickerManager {
     private boolean generateThumbnails = true;
     private boolean generateMetadata = true;
 
-    private ImagePickerCallback callback;
+    protected ImagePickerCallback callback;
 
     /**
      * @param activity   {@link Activity}

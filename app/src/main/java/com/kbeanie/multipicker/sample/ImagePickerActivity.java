@@ -118,7 +118,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
 
     @Override
     public void onError(String message) {
-        Toast.makeText(this, "Failure", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
