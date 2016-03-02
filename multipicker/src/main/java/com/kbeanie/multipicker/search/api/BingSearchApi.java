@@ -1,6 +1,7 @@
 package com.kbeanie.multipicker.search.api;
 
-import org.apache.commons.io.IOUtils;
+import com.kbeanie.multipicker.utils.IOUtils;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,7 +28,7 @@ public class BingSearchApi {
         urlConnection.setRequestProperty("Authorization", "Basic Vy9veHdIbmNRYStPSktId3B1aU0wK2pXcUtQYm5wZEhVRjZHRWNZN2xYSTpXL294d0huY1FhK09KS0h3cHVpTTAraldxS1BibnBkSFVGNkdFY1k3bFhJ");
         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
-        JSONObject json = new JSONObject(IOUtils.toString(in));
+        JSONObject json = new JSONObject(IOUtils.convertStreamToString(in));
         JSONArray results = json.getJSONObject("d").getJSONArray("results");
         for (int i = 0; i < results.length(); i++) {
             JSONObject result = results.getJSONObject(i);

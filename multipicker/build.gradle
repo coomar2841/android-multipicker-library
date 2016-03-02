@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "0.9.1"
+version = "0.9.4"
 group = "com.kbeanie"
 
 signing {
@@ -78,9 +78,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'org.apache.commons:commons-io:1.3.2'
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    provided 'com.android.support:appcompat-v7:23.1.1'
 }
