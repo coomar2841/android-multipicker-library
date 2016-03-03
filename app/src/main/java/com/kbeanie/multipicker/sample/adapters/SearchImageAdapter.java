@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.search.api.RemoteImage;
 
@@ -52,7 +52,7 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageAdapter.
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         final RemoteImage image = images.get(position);
         String url = image.getThumb() != null && !image.getThumb().isEmpty() ? image.getThumb() : image.getUrl();
-        holder.ivImage.setImageURI(Uri.parse(url));
+        Glide.with(context).load(Uri.parse("url")).into(holder.ivImage);
         holder.ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,13 +103,13 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageAdapter.
     }
 
     class ImageViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView ivImage;
+        ImageView ivImage;
         ImageView ivOverlay;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
 
-            ivImage = (SimpleDraweeView) itemView.findViewById(R.id.ivImage);
+            ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
             ivOverlay = (ImageView) itemView.findViewById(R.id.ivOverlay);
         }
     }

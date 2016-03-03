@@ -4,13 +4,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ImageView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.ResizeOptions;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 
@@ -18,8 +14,7 @@ import java.io.File;
  * Created by kbibek on 3/3/16.
  */
 public class ImagePreviewActivity extends AbActivity {
-
-    private SimpleDraweeView ivImage;
+    private ImageView ivImageGlide;
     private String uri;
     private String mimeType;
 
@@ -31,9 +26,9 @@ public class ImagePreviewActivity extends AbActivity {
         uri = getIntent().getExtras().getString("uri");
         mimeType = getIntent().getExtras().getString("mimetype");
 
-        ivImage = (SimpleDraweeView) findViewById(R.id.ivImage);
+        ivImageGlide = (ImageView) findViewById(R.id.ivImageGlide);
 
-        ivImage.postDelayed(new Runnable() {
+        ivImageGlide.postDelayed(new Runnable() {
             @Override
             public void run() {
                 displayImage();
@@ -42,17 +37,12 @@ public class ImagePreviewActivity extends AbActivity {
     }
 
     private void displayImage() {
-        int width = ivImage.getWidth();
-        int height = ivImage.getHeight();
+        int width = ivImageGlide.getWidth();
+        int height = ivImageGlide.getHeight();
         Log.d(getClass().getSimpleName(), "displayImage: " + width + " x " + height);
-        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.fromFile(new File(uri)))
-                .setResizeOptions(new ResizeOptions(ivImage.getWidth(), ivImage.getHeight()))
-                .build();
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setOldController(ivImage.getController())
-                .setImageRequest(request)
-                .setAutoPlayAnimations(mimeType.toLowerCase().contains("gif"))
-                .build();
-        ivImage.setController(controller);
+
+
+        Glide.with(this)
+                .load(Uri.fromFile(new File(uri))).into(ivImageGlide);
     }
 }

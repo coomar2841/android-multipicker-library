@@ -11,14 +11,11 @@
         android:layout_width="80dp"
         android:layout_height="80dp">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fresco:placeholderImage="@drawable/ic_contacts"
-            fresco:roundedCornerRadius="5dp"
-            fresco:roundingBorderColor="@color/colorAccent"
-            fresco:roundingBorderWidth="1dp" />
+            android:src="@drawable/ic_contacts" />
     </RelativeLayout>
 
     <LinearLayout

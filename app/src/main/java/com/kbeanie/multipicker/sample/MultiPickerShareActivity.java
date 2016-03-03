@@ -61,19 +61,19 @@ public class MultiPickerShareActivity extends AbActivity implements ImagePickerC
         if (type.startsWith("image")) {
             ImagePicker picker = new ImagePicker(this);
             picker.setImagePickerCallback(this);
-            picker.submit(IntentUtils.getIntentForMultipleSelection(getIntent()));
+            picker.submit(IntentUtils.getPickerIntentForSharing(getIntent()));
         } else if (type.startsWith("video")) {
             VideoPicker picker = new VideoPicker(this);
             picker.setVideoPickerCallback(this);
-            picker.submit(IntentUtils.getIntentForMultipleSelection(getIntent()));
+            picker.submit(IntentUtils.getPickerIntentForSharing(getIntent()));
         } else if (type.startsWith("application") || type.startsWith("file") || type.startsWith("*")) {
             FilePicker picker = new FilePicker(this);
             picker.setFilePickerCallback(this);
-            picker.submit(IntentUtils.getIntentForMultipleSelection(getIntent()));
+            picker.submit(IntentUtils.getPickerIntentForSharing(getIntent()));
         } else if (type.startsWith("audio")) {
             AudioPicker picker = new AudioPicker(this);
             picker.setAudioPickerCallback(this);
-            picker.submit(IntentUtils.getIntentForMultipleSelection(getIntent()));
+            picker.submit(IntentUtils.getPickerIntentForSharing(getIntent()));
         }
     }
 

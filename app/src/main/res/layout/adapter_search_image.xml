@@ -6,14 +6,11 @@
     android:orientation="vertical"
     android:padding="4dp">
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
         android:id="@+id/ivImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        fresco:placeholderImage="@drawable/ic_image"
-        fresco:roundedCornerRadius="5dp"
-        fresco:roundingBorderColor="@color/colorAccent"
-        fresco:roundingBorderWidth="3dp" />
+        android:src="@drawable/ic_image" />
 
     <ImageView
         android:id="@+id/ivOverlay"

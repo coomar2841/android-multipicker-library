@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.kbeanie.multipicker.api.entity.ChosenContact;
 import com.kbeanie.multipicker.sample.R;
 
@@ -48,9 +49,9 @@ public class ContactResultsAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.adapter_contacts, null);
         }
 
-        SimpleDraweeView ivImage = (SimpleDraweeView) convertView.findViewById(R.id.ivImage);
+        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
         if (contact.getPhotoUri() != null && !contact.getPhotoUri().isEmpty()) {
-            ivImage.setImageURI(Uri.parse(contact.getPhotoUri()));
+            Glide.with(context).load(Uri.parse(contact.getPhotoUri())).into(ivImage);
         }
 
         TextView tvName = (TextView) convertView.findViewById(R.id.tvName);

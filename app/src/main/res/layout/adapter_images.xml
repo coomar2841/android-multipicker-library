@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,14 +10,11 @@
         android:layout_width="80dp"
         android:layout_height="80dp">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fresco:placeholderImage="@drawable/ic_image"
-            fresco:roundedCornerRadius="5dp"
-            fresco:roundingBorderColor="@color/colorAccent"
-            fresco:roundingBorderWidth="1dp" />
+            android:src="@drawable/ic_image" />
 
         <TextView
             android:id="@+id/tvMimeType"

@@ -8,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
@@ -128,9 +129,9 @@ public class MediaResultsAdapter extends BaseAdapter {
         TextView tvCompleteMimeType = (TextView) view.findViewById(R.id.tvCompleteMimeType);
         tvCompleteMimeType.setText(file.getMimeType());
 
-        SimpleDraweeView ivImage = (SimpleDraweeView) view.findViewById(R.id.ivImage);
+        ImageView ivImage = (ImageView) view.findViewById(R.id.ivImage);
         if (video.getPreviewThumbnail() != null) {
-            ivImage.setImageURI(Uri.fromFile(new File(video.getPreviewThumbnail())));
+            Glide.with(context).load(Uri.fromFile(new File(video.getPreviewThumbnail()))).into(ivImage);
         }
 
         TextView tvDimension = (TextView) view.findViewById(R.id.tvDimension);
@@ -158,9 +159,9 @@ public class MediaResultsAdapter extends BaseAdapter {
         TextView tvCompleteMimeType = (TextView) view.findViewById(R.id.tvCompleteMimeType);
         tvCompleteMimeType.setText(file.getMimeType());
 
-        SimpleDraweeView ivImage = (SimpleDraweeView) view.findViewById(R.id.ivImage);
+        ImageView ivImage = (ImageView) view.findViewById(R.id.ivImage);
         if (image.getThumbnailSmallPath() != null) {
-            ivImage.setImageURI(Uri.fromFile(new File(image.getThumbnailSmallPath())));
+            Glide.with(context).load(Uri.fromFile(new File(image.getThumbnailSmallPath()))).into(ivImage);
         }
 
         TextView tvDimension = (TextView) view.findViewById(R.id.tvDimension);
