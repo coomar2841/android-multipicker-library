@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:0.9.4@aar'
+compile 'com.kbeanie:multipicker:0.9.5@aar'
 ```
 
 ##### Maven
@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:0.9.4@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>0.9.4</version>
+    <version>0.9.5</version>
 </dependency>
 ```
 
