@@ -33,7 +33,7 @@ public class ImagePreviewActivity extends AbActivity {
             public void run() {
                 displayImage();
             }
-        }, 1000);
+        }, 500);
     }
 
     private void displayImage() {
@@ -43,6 +43,8 @@ public class ImagePreviewActivity extends AbActivity {
 
 
         Glide.with(this)
-                .load(Uri.fromFile(new File(uri))).into(ivImageGlide);
+                .load(Uri.fromFile(new File(uri)))
+                .placeholder(R.drawable.ic_image)
+                .into(ivImageGlide);
     }
 }
