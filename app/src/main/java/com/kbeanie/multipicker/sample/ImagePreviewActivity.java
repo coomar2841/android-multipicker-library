@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
 
 import java.io.File;
 
@@ -18,6 +19,8 @@ public class ImagePreviewActivity extends AbActivity {
     private String uri;
     private String mimeType;
 
+    private ChosenImage image;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class ImagePreviewActivity extends AbActivity {
 
         uri = getIntent().getExtras().getString("uri");
         mimeType = getIntent().getExtras().getString("mimetype");
+        image = getIntent().getExtras().getParcelable("chosen");
 
         ivImageGlide = (ImageView) findViewById(R.id.ivImageGlide);
 

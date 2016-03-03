@@ -1,6 +1,7 @@
 package com.kbeanie.multipicker.api.entity;
 
 import android.media.ExifInterface;
+import android.os.Parcel;
 
 /**
  * Contains details about the image that was chosen
@@ -12,8 +13,35 @@ public class ChosenImage extends ChosenFile {
     private int width;
     private int height;
 
+    public ChosenImage(){
+
+    }
+
+    protected ChosenImage(Parcel in) {
+        super(in);
+        this.orientation = in.readInt();
+        this.thumbnailPath = in.readString();
+        this.thumbnailSmallPath = in.readString();
+        this.width = in.readInt();
+        this.height = in.readInt();
+    }
+
+
+    public static final Creator<ChosenImage> CREATOR = new Creator<ChosenImage>() {
+        @Override
+        public ChosenImage createFromParcel(Parcel in) {
+            return new ChosenImage(in);
+        }
+
+        @Override
+        public ChosenImage[] newArray(int size) {
+            return new ChosenImage[size];
+        }
+    };
+
     /**
      * Get orientation of the actual image
+     *
      * @return
      */
     public int getOrientation() {
@@ -26,6 +54,7 @@ public class ChosenImage extends ChosenFile {
 
     /**
      * Get the path to the thumbnail(big) of the image
+     *
      * @return
      */
     public String getThumbnailPath() {
@@ -38,6 +67,7 @@ public class ChosenImage extends ChosenFile {
 
     /**
      * Get the path to the thumbnail(small) of the image
+     *
      * @return
      */
     public String getThumbnailSmallPath() {
@@ -50,6 +80,7 @@ public class ChosenImage extends ChosenFile {
 
     /**
      * Get the image width
+     *
      * @return
      */
     public int getWidth() {
@@ -62,6 +93,7 @@ public class ChosenImage extends ChosenFile {
 
     /**
      * Get the image height;
+     *
      * @return
      */
     public int getHeight() {
@@ -81,6 +113,7 @@ public class ChosenImage extends ChosenFile {
 
     /**
      * Get Orientation user friendly label
+     *
      * @return
      */
     public String getOrientationName() {
@@ -112,5 +145,15 @@ public class ChosenImage extends ChosenFile {
                 break;
         }
         return orientationName;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(orientation);
+        dest.writeString(thumbnailPath);
+        dest.writeString(thumbnailSmallPath);
+        dest.writeInt(width);
+        dest.writeInt(height);
     }
 }

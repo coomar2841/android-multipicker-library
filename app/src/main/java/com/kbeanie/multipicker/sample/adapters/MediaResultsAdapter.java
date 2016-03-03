@@ -181,6 +181,7 @@ public class MediaResultsAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.i(TAG, "onClick: Tapped: " + image.getOriginalPath());
                 Intent intent = new Intent(context, ImagePreviewActivity.class);
+                intent.putExtra("chosen", image);
                 intent.putExtra("uri", image.getOriginalPath());
                 intent.putExtra("mimetype", image.getMimeType());
                 context.startActivity(intent);

@@ -1,5 +1,7 @@
 package com.kbeanie.multipicker.api.entity;
 
+import android.os.Parcel;
+
 /**
  * Created by kbibek on 2/20/16.
  */
@@ -11,6 +13,45 @@ public class ChosenVideo extends ChosenFile {
     private String previewThumbnail;
     private String previewThumbnailSmall;
     private int orientation;
+
+    public ChosenVideo(){
+
+    }
+
+    protected ChosenVideo(Parcel in) {
+        super(in);
+        this.width = in.readInt();
+        this.height = in.readInt();
+        this.duration = in.readLong();
+        this.previewImage = in.readString();
+        this.previewThumbnail = in.readString();
+        this.previewThumbnailSmall = in.readString();
+        this.orientation = in.readInt();
+    }
+
+    public static final Creator<ChosenVideo> CREATOR = new Creator<ChosenVideo>() {
+        @Override
+        public ChosenVideo createFromParcel(Parcel in) {
+            return new ChosenVideo(in);
+        }
+
+        @Override
+        public ChosenVideo[] newArray(int size) {
+            return new ChosenVideo[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(width);
+        dest.writeInt(height);
+        dest.writeLong(duration);
+        dest.writeString(previewImage);
+        dest.writeString(previewThumbnail);
+        dest.writeString(previewThumbnailSmall);
+        dest.writeInt(orientation);
+    }
 
     /**
      * Get the width of the processed video

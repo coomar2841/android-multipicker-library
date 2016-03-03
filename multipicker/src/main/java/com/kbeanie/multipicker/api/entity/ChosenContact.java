@@ -1,18 +1,47 @@
 package com.kbeanie.multipicker.api.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by kbibek on 2/26/16.
  */
-public class ChosenContact {
+public class ChosenContact implements Parcelable{
     private final static String FORMAT_CONTACT = "Name: %s, Photo: %s, Phones: %s, Emails: %s";
     private String displayName;
     private String photoUri;
     private final List<String> phones;
     private final List<String> emails;
 
+    protected ChosenContact(Parcel in) {
+        displayName = in.readString();
+        photoUri = in.readString();
+        phones = in.createStringArrayList();
+        emails = in.createStringArrayList();
+    }
+
+    public static final Creator<ChosenContact> CREATOR = new Creator<ChosenContact>() {
+        @Override
+        public ChosenContact createFromParcel(Parcel in) {
+            return new ChosenContact(in);
+        }
+
+        @Override
+        public ChosenContact[] newArray(int size) {
+            return new ChosenContact[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(displayName);
+        dest.writeString(photoUri);
+        dest.writeStringList(phones);
+        dest.writeStringList(emails);
+    }
     public ChosenContact() {
         phones = new ArrayList<>();
         emails = new ArrayList<>();
@@ -85,5 +114,10 @@ public class ChosenContact {
             phonesString += "[" + phone + "]";
         }
         return phonesString;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

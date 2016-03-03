@@ -1,5 +1,8 @@
 package com.kbeanie.multipicker.api.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -7,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Contains details about the file that was chosen.
  */
-public class ChosenFile {
+public class ChosenFile implements Parcelable {
     private long id;
     private String queryUri;
     /**
@@ -37,6 +40,51 @@ public class ChosenFile {
      */
     private String displayName;
     private boolean success;
+
+    public ChosenFile() {
+
+    }
+
+    protected ChosenFile(Parcel in) {
+        id = in.readLong();
+        queryUri = in.readString();
+        originalPath = in.readString();
+        mimeType = in.readString();
+        size = in.readLong();
+        extension = in.readString();
+        createdAt = new Date(in.readLong());
+        type = in.readString();
+        displayName = in.readString();
+        success = in.readByte() != 0;
+        directoryType = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(queryUri);
+        dest.writeString(originalPath);
+        dest.writeString(mimeType);
+        dest.writeLong(size);
+        dest.writeString(extension);
+        dest.writeLong(createdAt.getTime());
+        dest.writeString(type);
+        dest.writeString(displayName);
+        dest.writeInt(success ? 1 : 0);
+        dest.writeString(directoryType);
+    }
+
+    public static final Creator<ChosenFile> CREATOR = new Creator<ChosenFile>() {
+        @Override
+        public ChosenFile createFromParcel(Parcel in) {
+            return new ChosenFile(in);
+        }
+
+        @Override
+        public ChosenFile[] newArray(int size) {
+            return new ChosenFile[size];
+        }
+    };
 
     /**
      * If this file has been successfully processed.
@@ -227,5 +275,10 @@ public class ChosenFile {
         return String.format(Locale.getDefault(), "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(duration),
                 TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
                 TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
