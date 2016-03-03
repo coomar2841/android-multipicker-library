@@ -124,4 +124,8 @@ public abstract class PickerManager {
             appFragment.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);
         }
     }
+
+    protected boolean isClipDataApi() {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN);
+    }
 }

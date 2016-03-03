@@ -75,23 +75,29 @@
             android:name=".MultiPickerShareActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND" />
                 <!-- Configure specific file types that you want to handle -->
                 <!-- <data android:mimeType="video/*" -->
-                <data android:mimeType="*/*"/>
+                <data android:mimeType="*/*" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <!-- Configure specific file types that you want to handle -->
                 <!-- <data android:mimeType="image/*" -->
-                <data android:mimeType="*/*"/>
+                <data android:mimeType="*/*" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ImagePreviewActivity"
+            android:label="Image Preview"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ImagesSearchActivity"
             android:label="Image Search by Bing"

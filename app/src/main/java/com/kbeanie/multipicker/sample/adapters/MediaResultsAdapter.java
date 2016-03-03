@@ -1,6 +1,7 @@
 package com.kbeanie.multipicker.sample.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.kbeanie.multipicker.api.entity.ChosenAudio;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
+import com.kbeanie.multipicker.sample.ImagePreviewActivity;
 import com.kbeanie.multipicker.sample.R;
 
 import java.io.File;
@@ -148,7 +150,7 @@ public class MediaResultsAdapter extends BaseAdapter {
     }
 
     private void showImage(ChosenFile file, View view) {
-        ChosenImage image = (ChosenImage) file;
+        final ChosenImage image = (ChosenImage) file;
 
         TextView tvName = (TextView) view.findViewById(R.id.tvName);
         tvName.setText(file.getDisplayName());
@@ -172,6 +174,17 @@ public class MediaResultsAdapter extends BaseAdapter {
 
         TextView tvOrientation = (TextView) view.findViewById(R.id.tvOrientation);
         tvOrientation.setText(String.format(FORMAT_ORIENTATION, image.getOrientationName()));
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick: Tapped: " + image.getOriginalPath());
+                Intent intent = new Intent(context, ImagePreviewActivity.class);
+                intent.putExtra("uri", image.getOriginalPath());
+                intent.putExtra("mimetype", image.getMimeType());
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void showFile(ChosenFile file, View view) {

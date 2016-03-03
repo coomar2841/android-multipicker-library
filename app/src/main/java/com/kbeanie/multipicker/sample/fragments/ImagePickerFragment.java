@@ -91,6 +91,7 @@ public class ImagePickerFragment extends Fragment implements ImagePickerCallback
         cameraPicker = new CameraImagePicker(this);
         cameraPicker.shouldGenerateMetadata(true);
         cameraPicker.shouldGenerateThumbnails(true);
+        cameraPicker.setImagePickerCallback(this);
         pickerPath = cameraPicker.pickImage();
     }
 
@@ -101,11 +102,13 @@ public class ImagePickerFragment extends Fragment implements ImagePickerCallback
             if (requestCode == Picker.PICK_IMAGE_DEVICE) {
                 if (imagePicker == null) {
                     imagePicker = new ImagePicker(this);
+                    imagePicker.setImagePickerCallback(this);
                 }
                 imagePicker.submit(data);
             } else if (requestCode == Picker.PICK_IMAGE_CAMERA) {
                 if (cameraPicker == null) {
                     cameraPicker = new CameraImagePicker(this);
+                    cameraPicker.setImagePickerCallback(this);
                     cameraPicker.reinitialize(pickerPath);
                 }
                 cameraPicker.submit(data);

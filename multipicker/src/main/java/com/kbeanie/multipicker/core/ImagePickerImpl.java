@@ -1,5 +1,6 @@
 package com.kbeanie.multipicker.core;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -150,14 +151,15 @@ public abstract class ImagePickerImpl extends PickerManager {
         }
     }
 
+    @SuppressLint("NewApi")
     private void handleGalleryData(Intent intent) {
         List<String> uris = new ArrayList<>();
         if (intent != null) {
-            if (intent.getDataString() != null) {
+            if (intent.getDataString() != null && isClipDataApi() && intent.getClipData() == null) {
                 String uri = intent.getDataString();
                 Log.d(TAG, "handleGalleryData: " + uri);
                 uris.add(uri);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            } else if (isClipDataApi()) {
                 if (intent.getClipData() != null) {
                     ClipData clipData = intent.getClipData();
                     Log.d(TAG, "handleGalleryData: Multiple images with ClipData");

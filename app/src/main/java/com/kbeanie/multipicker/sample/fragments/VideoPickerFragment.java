@@ -113,7 +113,6 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
                 if (cameraPicker == null) {
                     cameraPicker = new CameraVideoPicker(this, pickerPath);
                     cameraPicker.setVideoPickerCallback(this);
-                    cameraPicker.setVideoPickerCallback(this);
                 }
                 cameraPicker.submit(data);
             }
