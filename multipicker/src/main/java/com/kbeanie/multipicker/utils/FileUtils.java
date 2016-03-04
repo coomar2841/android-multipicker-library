@@ -2,6 +2,8 @@ package com.kbeanie.multipicker.utils;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
@@ -32,11 +34,27 @@ public class FileUtils {
                 throw new PickerException(Manifest.permission.WRITE_EXTERNAL_STORAGE + " permission not available");
             }
         }
-        File directory = Environment.getExternalStoragePublicDirectory(type);
-        if (directory == null) {
+        File directory = Environment.getExternalStorageDirectory();
+        String appName = getAppName(context).replaceAll(" ", "-");
+        String appDirectory = directory.getAbsolutePath() + File.separator + appName;
+        File fileAppDirectory = new File(appDirectory);
+        if (!fileAppDirectory.exists()) {
+            fileAppDirectory.mkdir();
+        }
+        String appTypeDirectory = fileAppDirectory.getAbsolutePath() + File.separator + appName + "-" + type;
+        File finalDirectory = new File(appTypeDirectory);
+        if (!finalDirectory.exists()) {
+            finalDirectory.mkdir();
+        }
+        if (finalDirectory == null) {
             throw new PickerException("Couldn't initialize External Storage Path");
         }
-        return directory.getAbsolutePath();
+        return finalDirectory.getAbsolutePath();
+    }
+
+    private static String getAppName(Context context) {
+        ApplicationInfo info = context.getApplicationInfo();
+        return context.getString(info.labelRes);
     }
 
     public static String getExternalFilesDir(String type, Context context) throws PickerException {
