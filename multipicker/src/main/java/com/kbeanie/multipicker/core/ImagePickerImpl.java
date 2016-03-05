@@ -198,6 +198,7 @@ public abstract class ImagePickerImpl extends PickerManager {
 
     private void processImages(List<String> uris) {
         ImageProcessorThread thread = new ImageProcessorThread(getContext(), getImageObjects(uris), cacheLocation);
+        thread.setRequestId(requestId);
         thread.setShouldGenerateThumbnails(generateThumbnails);
         thread.setShouldGenerateMetadata(generateMetadata);
         thread.setImagePickerCallback(callback);

@@ -116,6 +116,7 @@ public final class FilePicker extends PickerManager {
     private void processFiles(List<String> uris) {
         FileProcessorThread thread = new FileProcessorThread(getContext(), getFileObjects(uris), cacheLocation);
         thread.setFilePickerCallback(callback);
+        thread.setRequestId(requestId);
         thread.start();
     }
 

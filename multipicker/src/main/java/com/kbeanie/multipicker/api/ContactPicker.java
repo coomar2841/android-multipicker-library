@@ -97,6 +97,7 @@ public final class ContactPicker extends PickerManager {
         };
 
         ChosenContact contact = new ChosenContact();
+        contact.setRequestId(requestId);
 
         Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
         int contactId = 0;

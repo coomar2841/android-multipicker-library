@@ -116,6 +116,7 @@ public final class AudioPicker extends PickerManager {
 
     private void processFiles(List<String> uris) {
         AudioProcessorThread thread = new AudioProcessorThread(getContext(), getFileObjects(uris), cacheLocation);
+        thread.setRequestId(requestId);
         thread.setAudioPickerCallback(callback);
         thread.start();
     }

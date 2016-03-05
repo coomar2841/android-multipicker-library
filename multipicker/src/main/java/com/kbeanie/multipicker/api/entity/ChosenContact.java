@@ -15,12 +15,14 @@ public class ChosenContact implements Parcelable{
     private String photoUri;
     private final List<String> phones;
     private final List<String> emails;
+    private int requestId;
 
     protected ChosenContact(Parcel in) {
         displayName = in.readString();
         photoUri = in.readString();
         phones = in.createStringArrayList();
         emails = in.createStringArrayList();
+        requestId = in.readInt();
     }
 
     public static final Creator<ChosenContact> CREATOR = new Creator<ChosenContact>() {
@@ -41,10 +43,19 @@ public class ChosenContact implements Parcelable{
         dest.writeString(photoUri);
         dest.writeStringList(phones);
         dest.writeStringList(emails);
+        dest.writeInt(requestId);
     }
     public ChosenContact() {
         phones = new ArrayList<>();
         emails = new ArrayList<>();
+    }
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
     }
 
     /**

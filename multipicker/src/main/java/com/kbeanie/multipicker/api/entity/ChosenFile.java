@@ -38,6 +38,9 @@ public class ChosenFile implements Parcelable {
     /**
      * Display name of the file
      */
+
+    private int requestId;
+
     private String displayName;
     private boolean success;
 
@@ -57,6 +60,7 @@ public class ChosenFile implements Parcelable {
         displayName = in.readString();
         success = in.readByte() != 0;
         directoryType = in.readString();
+        requestId = in.readInt();
     }
 
     @Override
@@ -72,6 +76,7 @@ public class ChosenFile implements Parcelable {
         dest.writeString(displayName);
         dest.writeInt(success ? 1 : 0);
         dest.writeString(directoryType);
+        dest.writeInt(requestId);
     }
 
     public static final Creator<ChosenFile> CREATOR = new Creator<ChosenFile>() {
@@ -275,6 +280,14 @@ public class ChosenFile implements Parcelable {
         return String.format(Locale.getDefault(), "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(duration),
                 TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
                 TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+    }
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
     }
 
     @Override

@@ -58,10 +58,16 @@ public class FileProcessorThread extends Thread {
     protected final List<? extends ChosenFile> files;
     private FilePickerCallback callback;
 
+    private int requestId;
+
     public FileProcessorThread(Context context, List<? extends ChosenFile> files, int cacheLocation) {
         this.context = context;
         this.files = files;
         this.cacheLocation = cacheLocation;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
     }
 
     @Override
@@ -91,6 +97,7 @@ public class FileProcessorThread extends Thread {
     protected void processFiles() {
         for (ChosenFile file : files) {
             try {
+                file.setRequestId(requestId);
                 Log.d(TAG, "processFile: Before: " + file.toString());
                 processFile(file);
                 postProcess(file);

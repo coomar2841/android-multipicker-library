@@ -152,6 +152,7 @@ public abstract class VideoPickerImpl extends PickerManager {
 
     private void processVideos(List<String> uris) {
         VideoProcessorThread thread = new VideoProcessorThread(getContext(), getVideoObjects(uris), cacheLocation);
+        thread.setRequestId(requestId);
         thread.setShouldGeneratePreviewImages(generatePreviewImages);
         thread.setShouldGenerateMetadata(generateMetadata);
         thread.setVideoPickerCallback(callback);

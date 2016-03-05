@@ -25,6 +25,8 @@ public abstract class PickerManager {
 
     protected final int pickerType;
 
+    protected int requestId;
+
     protected int cacheLocation = CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR;
 
     protected Bundle extras;
@@ -127,5 +129,9 @@ public abstract class PickerManager {
 
     protected boolean isClipDataApi() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN);
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
     }
 }
