@@ -52,7 +52,7 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageAdapter.
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         final RemoteImage image = images.get(position);
         String url = image.getThumb() != null && !image.getThumb().isEmpty() ? image.getThumb() : image.getUrl();
-        Glide.with(context).load(Uri.parse("url")).into(holder.ivImage);
+        Glide.with(context).load(Uri.parse(url)).into(holder.ivImage);
         holder.ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +100,10 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageAdapter.
     public void clearSelections() {
         selectedItems.clear();
         notifyDataSetChanged();
+    }
+
+    public void setImages(List<RemoteImage> images) {
+        this.images = images;
     }
 
     class ImageViewHolder extends RecyclerView.ViewHolder {

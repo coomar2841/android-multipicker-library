@@ -72,12 +72,16 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
 
     @Override
     public void showResults(List<RemoteImage> images) {
-        adapter = new SearchImageAdapter(this, images);
-        adapter.setChoiceListener(this);
-        if (allowMultiple) {
-            adapter.setAllowMultiple();
+        if (adapter == null) {
+            adapter = new SearchImageAdapter(this, images);
+            adapter.setChoiceListener(this);
+            if (allowMultiple) {
+                adapter.setAllowMultiple();
+            }
+            rvImages.setAdapter(adapter);
+        }else{
+            adapter.setImages(images);
         }
-        rvImages.setAdapter(adapter);
     }
 
     /**
