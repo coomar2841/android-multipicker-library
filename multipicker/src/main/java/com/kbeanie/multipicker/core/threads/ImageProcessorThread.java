@@ -50,7 +50,7 @@ public final class ImageProcessorThread extends FileProcessorThread {
                     }
                 });
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -71,7 +71,12 @@ public final class ImageProcessorThread extends FileProcessorThread {
     private ChosenImage postProcessImage(ChosenImage image) throws PickerException {
         Log.d(TAG, "postProcessImage: " + image.getMimeType());
         if (shouldGenerateMetadata) {
-            image = generateMetadata(image);
+            try {
+                image = generateMetadata(image);
+            } catch (Exception e) {
+                Log.d(TAG, "postProcessImage: Error generating metadata");
+                e.printStackTrace();
+            }
         }
         if (shouldGenerateThumbnails) {
             image = generateThumbnails(image);

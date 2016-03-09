@@ -433,6 +433,11 @@ public class FileProcessorThread extends Thread {
                 mimeType = URLConnection.guessContentTypeFromStream(stream);
             }
 
+            if (mimeType == null && file.getQueryUri().contains(".")) {
+                int index = file.getQueryUri().lastIndexOf(".");
+                mimeType = file.getType() + "/" + file.getQueryUri().substring(index + 1);
+            }
+
             if (mimeType == null) {
                 mimeType = file.getType() + "/*";
             }
@@ -447,8 +452,9 @@ public class FileProcessorThread extends Thread {
 
             byte[] buffer = new byte[2048];
             int len;
-            while ((len = bStream.read(buffer)) > 0)
+            while ((len = bStream.read(buffer)) > 0) {
                 fileOutputStream.write(buffer, 0, len);
+            }
             fileOutputStream.flush();
             fileOutputStream.close();
             bStream.close();
@@ -481,7 +487,11 @@ public class FileProcessorThread extends Thread {
 
     // Guess File extension from the file name
     private String guessExtensionFromUrl(String url) {
-        return MimeTypeMap.getFileExtensionFromUrl(url);
+        try {
+            return MimeTypeMap.getFileExtensionFromUrl(url);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // Guess Mime Type from the file extension
@@ -490,9 +500,13 @@ public class FileProcessorThread extends Thread {
         String extension = guessExtensionFromUrl(url);
         if (extension != null && !extension.isEmpty()) {
             mimeType = type + "/" + extension;
+        } else if (url.contains(".")) {
+            int index = url.lastIndexOf(".");
+            mimeType = type + "/" + url.substring(index + 1);
         } else {
             mimeType = type + "/*";
         }
+
         return mimeType;
     }
 
@@ -511,7 +525,8 @@ public class FileProcessorThread extends Thread {
         }
 
         String probableFileName = fileName;
-        File probableFile = new File(probableFileName);
+        File probableFile = new File(getTargetDirectory(file.getDirectoryType()) + File.separator
+                + probableFileName);
         int counter = 0;
         while (probableFile.exists()) {
             counter++;

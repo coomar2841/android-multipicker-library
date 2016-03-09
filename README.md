@@ -49,6 +49,10 @@ _Try out the sample app if you want to test it out first._
 ##### Recent changes
 
 * Version 0.9.6
+- App Bugs
+- Use different filename if it already exists
+
+* Version 0.9.6
 - Added request ID to `ChosenFile` to provide a way to differentiate between callbacks.
 - Use app name when using `CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR`
 
