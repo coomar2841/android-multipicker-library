@@ -290,10 +290,14 @@ public class FileProcessorThread extends Thread {
                         null, null, null);
                 cursor.moveToFirst();
                 try {
-                    String path = cursor.getString(cursor
-                            .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
-                    if (path != null) {
-                        file.setOriginalPath(path);
+                    // Samsung Bug
+                    if (!file.getOriginalPath().contains("com.sec.android.gallery3d.provider")) {
+                        String path = cursor.getString(cursor
+                                .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
+                        Log.d(TAG, "processFile: Path: " + path);
+                        if (path != null) {
+                            file.setOriginalPath(path);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -328,6 +332,7 @@ public class FileProcessorThread extends Thread {
                 }
             }
         }
+
         return file;
     }
 

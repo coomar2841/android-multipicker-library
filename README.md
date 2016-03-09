@@ -50,7 +50,8 @@ _Try out the sample app if you want to test it out first._
 
 * Version 0.9.6
 - App Bugs
-- Use different filename if it already exists
+- Issue #6 - Use different filename if it already exists
+- Issue #7 - Picassa Gallery on Samsung phones
 
 * Version 0.9.6
 - Added request ID to `ChosenFile` to provide a way to differentiate between callbacks.
