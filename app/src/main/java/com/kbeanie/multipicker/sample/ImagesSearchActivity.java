@@ -97,7 +97,7 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
     public final static String TEST_DEVICE_ID_2 = "79B7F70DBE55777CD06F8FE2EBEB92A1";
     public final static String TEST_GALAXY_NEXUS = "E83F73F907EE7CBDDE5F97BD3A901D4A";
     public final static String TEST_OPO = "BF997DF77ED76DCABEC05DC2B9BF44D3";
-    public final static String TEMP_DEVICE = "3DA4EE1237EDE839B2003C9DD6675D97";
+    public final static String TEMP_DEVICE = "9A0C06FEDD6ACC454FB884B429A78D3F";
 
     private final static String[] TEST_DEVICES = {GALAXY_TAB, NEXUS_S, TEST_DEVICE_ID_2, TEST_GALAXY_NEXUS, TEST_OPO, TEMP_DEVICE};
 

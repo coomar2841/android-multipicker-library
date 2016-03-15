@@ -19,56 +19,43 @@
         </activity>
         <activity
             android:name=".ImagePickerActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ImagePickerFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ImagePickerSupportFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".VideoPickerActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".VideoPickerFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".VideoPickerSupportFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FilePickerActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FilePickerFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FilePickerSupportFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ContactPickerActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AudioPickerActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AudioPickerFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AudioPickerSupportFragmentActivity"
-            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
 
         <activity
