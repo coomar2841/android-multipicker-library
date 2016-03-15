@@ -49,7 +49,8 @@ _Try out the sample app if you want to test it out first._
 ##### Recent changes
 
 ###### Version 0.9.8 (Not yet released)
-- Minimum SDK - 10 Issue #9
+- Minimum SDK - 10 (Issue #9)
+- Duplicate images #10
 
 ###### Version 0.9.7
 - App Bugs

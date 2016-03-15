@@ -73,7 +73,6 @@ public class FileProcessorThread extends Thread {
     @Override
     public void run() {
         processFiles();
-        postProcessFiles();
         if (callback != null) {
             onDone();
         }
@@ -128,7 +127,7 @@ public class FileProcessorThread extends Thread {
     }
 
     private void copyFileToFolder(ChosenFile file) throws PickerException {
-        String outputPath = generateFileName(file);
+        String outputPath = getTargetLocationToCopy(file);
         // Check if file is already in the required destination
         if (outputPath.equals(file.getOriginalPath())) {
             return;
@@ -513,6 +512,26 @@ public class FileProcessorThread extends Thread {
         }
 
         return mimeType;
+    }
+
+    private String getTargetLocationToCopy(ChosenFile file) throws PickerException {
+        String fileName = file.getDisplayName();
+        if (fileName == null || fileName.isEmpty()) {
+            fileName = UUID.randomUUID().toString();
+        }
+        // If File name already contains an extension, we don't need to guess the extension
+        if (!fileName.contains(".")) {
+            String extension = file.getFileExtensionFromMimeType();
+            if (extension != null && !extension.isEmpty()) {
+                fileName += extension;
+                file.setExtension(extension);
+            }
+        }
+
+        String probableFileName = fileName;
+        File probableFile = new File(getTargetDirectory(file.getDirectoryType()) + File.separator
+                + probableFileName);
+        return probableFile.getAbsolutePath();
     }
 
     private String generateFileName(ChosenFile file) throws PickerException {
