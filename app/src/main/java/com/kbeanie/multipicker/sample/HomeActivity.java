@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.sample.adapters.DemosAdapter;
-import com.kbeanie.multipicker.sample.prefs.AppPreferences;
 
 /**
  * Created by kbibek on 2/18/16.
@@ -162,20 +159,7 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
         builder.setSingleChoiceItems(cacheLocations, preferences.getCacheLocation(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        preferences.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
-                        break;
-                    case 1:
-                        preferences.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR);
-                        break;
-                    case 2:
-                        preferences.setCacheLocation(CacheLocation.EXTERNAL_CACHE_DIR);
-                        break;
-                    default:
-                        preferences.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
-                        break;
-                }
+                preferences.setCacheLocation(which);
                 dialog.dismiss();
             }
         });

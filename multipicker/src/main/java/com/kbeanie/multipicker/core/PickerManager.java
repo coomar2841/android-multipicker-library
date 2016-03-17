@@ -1,11 +1,16 @@
 package com.kbeanie.multipicker.core;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
@@ -67,6 +72,10 @@ public abstract class PickerManager {
      */
     public void setCacheLocation(int cacheLocation) {
         this.cacheLocation = cacheLocation;
+
+        if (cacheLocation == CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR) {
+            checkIfPermissionsAvailable();
+        }
     }
 
     /**
@@ -83,12 +92,12 @@ public abstract class PickerManager {
      */
     public abstract void submit(Intent data);
 
-    protected String buildFilePath(String extension, String type) throws PickerException{
+    protected String buildFilePath(String extension, String type) throws PickerException {
         String directoryPath = getDirectory(type);
         return directoryPath + File.separator + UUID.randomUUID().toString() + "." + extension;
     }
 
-    private String getDirectory(String type) throws PickerException{
+    private String getDirectory(String type) throws PickerException {
         String directory = null;
         switch (cacheLocation) {
             case CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR:
@@ -101,6 +110,7 @@ public abstract class PickerManager {
         return directory;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected Context getContext() {
         if (activity != null) {
             return activity;
@@ -112,6 +122,7 @@ public abstract class PickerManager {
         return null;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void pickInternal(Intent intent, int type) {
         if (allowMultiple) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -133,5 +144,35 @@ public abstract class PickerManager {
 
     public void setRequestId(int requestId) {
         this.requestId = requestId;
+    }
+
+    private void checkIfPermissionsAvailable() {
+        boolean writePermissionInManifest = getContext().checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        Log.d(TAG, "checkIfPermissionsAvailable: In Manifest(WRITE_EXTERNAL_STORAGE): " + writePermissionInManifest);
+        boolean readPermissionInManifest = getContext().checkCallingOrSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        Log.d(TAG, "checkIfPermissionsAvailable: In Manifest(READ_EXTERNAL_STORAGE): " + readPermissionInManifest);
+
+        if (!writePermissionInManifest || !readPermissionInManifest) {
+            if (!writePermissionInManifest) {
+                Log.e(TAG, Manifest.permission.WRITE_EXTERNAL_STORAGE + " permission is missing in manifest file");
+            }
+            if (!readPermissionInManifest) {
+                Log.e(TAG, Manifest.permission.READ_EXTERNAL_STORAGE + " permission is missing in manifest file");
+            }
+            throw new RuntimeException("Permissions required in Manifest");
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                checkforRuntimePermissions();
+            }
+        }
+    }
+
+    private void checkforRuntimePermissions() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+        }
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+        }
     }
 }

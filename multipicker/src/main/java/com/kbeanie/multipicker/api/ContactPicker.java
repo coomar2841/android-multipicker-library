@@ -1,7 +1,9 @@
 package com.kbeanie.multipicker.api;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -41,6 +43,7 @@ public final class ContactPicker extends PickerManager {
 
     public void pickContact() {
         try {
+            checkPermission();
             pick();
         } catch (PickerException e) {
             e.printStackTrace();
@@ -148,6 +151,15 @@ public final class ContactPicker extends PickerManager {
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void checkPermission() {
+        boolean permissionGranted = getContext().checkCallingOrSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+        Log.d(TAG, "checkIfPermissionsAvailable: In Manifest(READ_CONTACTS): " + permissionGranted);
+        if (!permissionGranted) {
+            Log.e(TAG, Manifest.permission.READ_CONTACTS + " permission is missing in manifest file");
+            throw new RuntimeException("Permissions missing in Manifest");
         }
     }
 }
