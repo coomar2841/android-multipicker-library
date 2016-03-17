@@ -68,6 +68,11 @@ public abstract class PickerManager {
     /**
      * Default cache location is {@link CacheLocation#EXTERNAL_STORAGE_APP_DIR}
      *
+     * If you are setting the (@link CacheLocation#EXTERNAL_STORAGE_PUBLIC_DIR} make sure you have the required permissions
+     * available in the Manifest file. Else, a {@link RuntimeException} will be raised.
+     *
+     * Permissions required {@link android.Manifest.permission#WRITE_EXTERNAL_STORAGE} and
+     * {@link android.Manifest.permission#READ_EXTERNAL_STORAGE}
      * @param cacheLocation {@link CacheLocation}
      */
     public void setCacheLocation(int cacheLocation) {

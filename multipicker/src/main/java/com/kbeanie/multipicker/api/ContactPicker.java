@@ -41,6 +41,13 @@ public final class ContactPicker extends PickerManager {
         this.callback = callback;
     }
 
+    /**
+     * Initiate the Contact Chooser.
+     *
+     * Make sure you have {@link android.Manifest.permission#READ_CONTACTS} in your Manifest file.
+     *
+     * Else a {@link RuntimeException} will be raised.
+     */
     public void pickContact() {
         try {
             checkPermission();
