@@ -19,6 +19,9 @@ public final class ImageProcessorThread extends FileProcessorThread {
     private boolean shouldGenerateThumbnails;
     private boolean shouldGenerateMetadata;
 
+    private int maxImageWidth = -1;
+    private int maxImageHeight = -1;
+
     private ImagePickerCallback callback;
 
     public ImageProcessorThread(Context context, List<ChosenImage> paths, int cacheLocation) {
@@ -69,6 +72,9 @@ public final class ImageProcessorThread extends FileProcessorThread {
     }
 
     private ChosenImage postProcessImage(ChosenImage image) throws PickerException {
+        if (maxImageWidth != -1 && maxImageHeight != -1) {
+            image = ensureMaxWidthAndHeight(maxImageWidth, maxImageHeight, image);
+        }
         Log.d(TAG, "postProcessImage: " + image.getMimeType());
         if (shouldGenerateMetadata) {
             try {
@@ -81,6 +87,7 @@ public final class ImageProcessorThread extends FileProcessorThread {
         if (shouldGenerateThumbnails) {
             image = generateThumbnails(image);
         }
+        Log.d(TAG, "postProcessImage: " + image);
         return image;
     }
 
@@ -101,6 +108,11 @@ public final class ImageProcessorThread extends FileProcessorThread {
 
     public void setShouldGenerateMetadata(boolean shouldGenerateMetadata) {
         this.shouldGenerateMetadata = shouldGenerateMetadata;
+    }
+
+    public void setOutputImageDimensions(int maxWidth, int maxHeight) {
+        this.maxImageWidth = maxWidth;
+        this.maxImageHeight = maxHeight;
     }
 
 }

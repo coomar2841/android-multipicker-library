@@ -32,6 +32,8 @@ public abstract class ImagePickerImpl extends PickerManager {
     private String path;
     private boolean generateThumbnails = true;
     private boolean generateMetadata = true;
+    private int maxWidth = -1;
+    private int maxHeight = -1;
 
     protected ImagePickerCallback callback;
 
@@ -90,6 +92,20 @@ public abstract class ImagePickerImpl extends PickerManager {
 
     public void setImagePickerCallback(ImagePickerCallback callback) {
         this.callback = callback;
+    }
+
+    /**
+     * Use this method to set the max size of the generated image. The final bitmap will be downscaled based on
+     * these values.
+     *
+     * @param width
+     * @param height
+     */
+    public void ensureMaxSize(int width, int height) {
+        if (width > 0 && height > 0) {
+            this.maxWidth = width;
+            this.maxHeight = height;
+        }
     }
 
     @Override
@@ -198,6 +214,9 @@ public abstract class ImagePickerImpl extends PickerManager {
 
     private void processImages(List<String> uris) {
         ImageProcessorThread thread = new ImageProcessorThread(getContext(), getImageObjects(uris), cacheLocation);
+        if (maxWidth != -1 && maxHeight != -1) {
+            thread.setOutputImageDimensions(maxWidth, maxHeight);
+        }
         thread.setRequestId(requestId);
         thread.setShouldGenerateThumbnails(generateThumbnails);
         thread.setShouldGenerateMetadata(generateMetadata);

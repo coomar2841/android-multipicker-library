@@ -51,7 +51,8 @@ _Try out the sample app if you want to test it out first._
 ###### Version 0.9.8 (Not yet released)
 - Minimum SDK - 10 (Issue #9)
 - Duplicate images #10
-- Check permissions in manifest
+- Check permissions in manifest (Not Runtime permissions)
+- Feature: Specify max image dimensions
 
 ###### Version 0.9.7
 - App Bugs

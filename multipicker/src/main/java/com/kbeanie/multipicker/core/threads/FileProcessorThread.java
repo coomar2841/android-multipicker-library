@@ -21,7 +21,9 @@ import android.webkit.MimeTypeMap;
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
+import com.kbeanie.multipicker.utils.BitmapUtils;
 import com.kbeanie.multipicker.utils.FileUtils;
 
 import java.io.BufferedInputStream;
@@ -592,12 +594,11 @@ public class FileProcessorThread extends Thread {
     }
 
     // TODO: Implement Ensure Max Width and Height
-    protected String ensureMaxWidthAndHeight(int maxWidth, int maxHeight, String image) {
-        String outPath = image;
+    protected ChosenImage ensureMaxWidthAndHeight(int maxWidth, int maxHeight, ChosenImage image) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BufferedInputStream boundsOnlyStream = new BufferedInputStream(new FileInputStream(image));
+            BufferedInputStream boundsOnlyStream = new BufferedInputStream(new FileInputStream(image.getOriginalPath()));
             Bitmap bitmap = BitmapFactory.decodeStream(boundsOnlyStream, null, options);
             if (bitmap != null) {
                 bitmap.recycle();
@@ -608,15 +609,35 @@ public class FileProcessorThread extends Thread {
 
             int imageWidth = options.outWidth;
             int imageHeight = options.outHeight;
-            if (imageWidth <= maxWidth && imageHeight <= maxHeight) {
-                outPath = image;
-            } else {
 
+            int[] scaledDimension = BitmapUtils.getScaledDimensions(imageWidth, imageHeight, maxWidth, maxHeight);
+            if (!(scaledDimension[0] == imageWidth && scaledDimension[1] == imageHeight)) {
+                BufferedInputStream scaledInputStream = new BufferedInputStream(new FileInputStream(image.getOriginalPath()));
+                options.inJustDecodeBounds = false;
+                bitmap = BitmapFactory.decodeStream(scaledInputStream, null, options);
+                scaledInputStream.close();
+                if (bitmap != null) {
+                    File original = new File(image.getOriginalPath());
+                    File file = new File(
+                            (original.getParent() + File.separator + original.getName()
+                                    .replace(".", "-resized.")));
+                    FileOutputStream stream = new FileOutputStream(file);
+
+                    Matrix matrix = new Matrix();
+                    matrix.postScale((float) scaledDimension[0] / imageWidth, (float) scaledDimension[1] / imageHeight);
+
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                            bitmap.getHeight(), matrix, false);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    image.setOriginalPath(file.getAbsolutePath());
+                    image.setWidth(scaledDimension[0]);
+                    image.setHeight(scaledDimension[1]);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return outPath;
+        return image;
     }
 
     protected String downScaleAndSaveImage(String image, int scale) throws PickerException {

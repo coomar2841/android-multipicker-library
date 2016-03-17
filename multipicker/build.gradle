@@ -75,8 +75,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets{
+        main{
+            java {
+                exclude 'com.kbeanie.multipicker.test'
+            }
+        }
+    }
 }
 
 dependencies {
     provided 'com.android.support:appcompat-v7:23.1.1'
+    compile 'junit:junit:4.12'
 }
