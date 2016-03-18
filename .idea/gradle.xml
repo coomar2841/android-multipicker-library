@@ -10,7 +10,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/multipicker" />
-            <option value="$PROJECT_DIR$/searchandshare" />
           </set>
         </option>
         <option name="myModules">
@@ -18,7 +17,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/multipicker" />
-            <option value="$PROJECT_DIR$/searchandshare" />
           </set>
         </option>
       </GradleProjectSettings>
