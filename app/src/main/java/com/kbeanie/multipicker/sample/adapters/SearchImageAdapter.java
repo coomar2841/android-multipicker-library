@@ -7,8 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.kbeanie.multipicker.sample.R;
 import com.kbeanie.multipicker.search.api.RemoteImage;
 
@@ -49,10 +53,25 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ImageViewHolder holder, int position) {
+    public void onBindViewHolder(final ImageViewHolder holder, int position) {
         final RemoteImage image = images.get(position);
         String url = image.getThumb() != null && !image.getThumb().isEmpty() ? image.getThumb() : image.getUrl();
-        Glide.with(context).load(Uri.parse(url)).into(holder.ivImage);
+        Glide.with(context)
+                .load(Uri.parse(url))
+                .listener(new RequestListener<Uri, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, Uri model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        holder.pBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, Uri model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        holder.pBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(holder.ivImage);
         holder.ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,19 +121,27 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageAdapter.
         notifyDataSetChanged();
     }
 
+    public void clearData() {
+        images.clear();
+        notifyDataSetChanged();
+    }
+
     public void setImages(List<RemoteImage> images) {
         this.images = images;
+        notifyDataSetChanged();
     }
 
     class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImage;
         ImageView ivOverlay;
+        ProgressBar pBar;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
 
             ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
             ivOverlay = (ImageView) itemView.findViewById(R.id.ivOverlay);
+            pBar = (ProgressBar) itemView.findViewById(R.id.pBar);
         }
     }
 

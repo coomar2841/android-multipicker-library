@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="88dp"
+    android:layout_height="88dp"
+    android:background="@drawable/bg_search_image"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="4dp">
 
@@ -10,13 +11,24 @@
         android:id="@+id/ivImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_centerInParent="true"
         android:src="@drawable/ic_image" />
 
     <ImageView
         android:id="@+id/ivOverlay"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="#7700ffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="#6600ffff"
         android:scaleType="center"
         android:src="@drawable/ic_check_circle" />
+
+    <ProgressBar
+        android:id="@+id/pBar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

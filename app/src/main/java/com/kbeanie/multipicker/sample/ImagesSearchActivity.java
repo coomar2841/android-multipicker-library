@@ -1,8 +1,10 @@
 package com.kbeanie.multipicker.sample;
 
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -20,8 +21,11 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kbeanie.multipicker.sample.adapters.SearchImageAdapter;
+import com.kbeanie.multipicker.sample.utils.SearchImagesDecorator;
 import com.kbeanie.multipicker.search.BingImageSearchActivity;
 import com.kbeanie.multipicker.search.api.RemoteImage;
+
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
 import java.util.List;
 
@@ -54,6 +58,7 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
 
         rvImages = (RecyclerView) findViewById(R.id.rvImages);
         rvImages.setHasFixedSize(true);
+        rvImages.addItemDecoration(new SearchImagesDecorator((int) UIUtil.convertDpToPx(this, 5)));
 
         RecyclerView.LayoutManager lm = new GridLayoutManager(this, 3);
         rvImages.setLayoutManager(lm);
@@ -64,11 +69,20 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String query = etSearch.getText().toString();
                     Log.d(TAG, "onEditorAction: Query: " + query);
-                    search(query);
+                    startSearch(query);
                 }
                 return false;
             }
         });
+    }
+
+    private void startSearch(String query) {
+        UIUtil.hideKeyboard(ImagesSearchActivity.this);
+        search(query);
+        if (adapter != null) {
+            adapter.clearSelections();
+            adapter.clearData();
+        }
     }
 
     @Override
@@ -132,6 +146,7 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void selectionDone() {
         List<String> images = adapter.getSelectedImages();
         ClipData clipData = null;
