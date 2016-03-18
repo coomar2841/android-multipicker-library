@@ -112,7 +112,7 @@ public abstract class VideoPickerImpl extends PickerManager {
     private void handleCameraData() {
         Log.d(TAG, "handleCameraData: " + path);
         if (path == null || path.isEmpty()) {
-            onError("Path is null. You will need to re-initialize the object with proper path");
+            throw new RuntimeException("Camera Path cannot be null. Re-initialize with correct path value.");
         } else {
             List<String> uris = new ArrayList<>();
             uris.add(Uri.fromFile(new File(path)).toString());
