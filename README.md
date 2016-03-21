@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:0.9.7@aar'
+compile 'com.kbeanie:multipicker:0.9.8@aar'
 ```
 
 ##### Maven
@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:0.9.7@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>0.9.7</version>
+    <version>0.9.8</version>
 </dependency>
 ```
 
@@ -48,7 +48,7 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
-###### Version 0.9.8 (Not yet released)
+###### Version 0.9.8
 - Minimum SDK - 10 (Issue #9)
 - Duplicate images #10
 - Check permissions in manifest (Not Runtime permissions)
