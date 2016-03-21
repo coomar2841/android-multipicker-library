@@ -19,10 +19,10 @@ public abstract class BingImageSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    public void search(String query) {
+    public void search(String query, String authorizationHeader) {
         showProgress();
         SearchAsyncTask searchTask = new SearchAsyncTask();
-        searchTask.setQuery(query);
+        searchTask.setQuery(query, authorizationHeader);
         searchTask.execute((Void) null);
     }
 
@@ -45,16 +45,18 @@ public abstract class BingImageSearchActivity extends AppCompatActivity {
 
     private class SearchAsyncTask extends AsyncTask<Void, Void, List<RemoteImage>> {
         private String query;
+        private String authorizationHeader;
 
-        public void setQuery(String query) {
+        public void setQuery(String query, String authorizationHeader) {
             this.query = query;
+            this.authorizationHeader = authorizationHeader;
         }
 
         @Override
         protected List<RemoteImage> doInBackground(Void... params) {
             BingSearchApi api = new BingSearchApi();
             try {
-                return api.getImagesForQuery(query);
+                return api.getImagesForQuery(query, authorizationHeader);
             } catch (Exception e) {
                 e.printStackTrace();
             }

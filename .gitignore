@@ -11,3 +11,4 @@ gradle.properties
 app/fabric.properties
 /extras/secret.properties
 /extras/release.keystore
+/app/src/main/assets/api_keys.json

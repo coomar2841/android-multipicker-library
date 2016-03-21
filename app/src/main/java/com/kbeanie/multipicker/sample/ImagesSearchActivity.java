@@ -3,6 +3,7 @@ package com.kbeanie.multipicker.sample;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,9 +25,15 @@ import com.kbeanie.multipicker.sample.adapters.SearchImageAdapter;
 import com.kbeanie.multipicker.sample.utils.SearchImagesDecorator;
 import com.kbeanie.multipicker.search.BingImageSearchActivity;
 import com.kbeanie.multipicker.search.api.RemoteImage;
+import com.kbeanie.multipicker.utils.IOUtils;
 
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -41,6 +48,9 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
     private boolean allowMultiple;
 
     private SearchImageAdapter adapter;
+
+    private final static String AUTH_HEADER
+            = "Basic Vy9veHdIbmNRYStPSktId3B1aU0wK2pXcUtQYm5wZEhVRjZHRWNZN2xYSTpXL294d0huY1FhK09KS0h3cHVpTTAraldibnBkSFVGNkdFY1k3bFhJ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +88,7 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
 
     private void startSearch(String query) {
         UIUtil.hideKeyboard(ImagesSearchActivity.this);
-        search(query);
+        search(query, getBingApiKey());
         if (adapter != null) {
             adapter.clearSelections();
             adapter.clearData();
@@ -194,5 +204,23 @@ public class ImagesSearchActivity extends BingImageSearchActivity implements Sea
             adapter.clearSelections();
             isActionModeActive = false;
         }
+    }
+
+    private String getBingApiKey() {
+        AssetManager am = getAssets();
+        try {
+            InputStream stream = am.open("api_keys.properties");
+            String contents = IOUtils.convertStreamToString(stream);
+            JSONObject json = new JSONObject(contents);
+            if (json.has("bing_api_key")) {
+                return json.getString("bing_api_key");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return AUTH_HEADER;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return AUTH_HEADER;
     }
 }

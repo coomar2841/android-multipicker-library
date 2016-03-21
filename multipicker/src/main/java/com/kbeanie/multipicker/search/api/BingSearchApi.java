@@ -20,12 +20,12 @@ import java.util.List;
 public class BingSearchApi {
     private final static String BASE_URL = "https://api.datamarket.azure.com/Bing/Search/v1/Image?%24format=json&Query=";
 
-    public List<RemoteImage> getImagesForQuery(String query) throws Exception {
+    public List<RemoteImage> getImagesForQuery(String query, String authorizationHeader) throws Exception {
         List<RemoteImage> images = new ArrayList<>();
         URL
                 url = new URL(BASE_URL + "%27" + URLEncoder.encode(query, Charset.defaultCharset().name()) + "%27");
         URLConnection urlConnection = url.openConnection();
-        urlConnection.setRequestProperty("Authorization", "Basic Vy9veHdIbmNRYStPSktId3B1aU0wK2pXcUtQYm5wZEhVRjZHRWNZN2xYSTpXL294d0huY1FhK09KS0h3cHVpTTAraldxS1BibnBkSFVGNkdFY1k3bFhJ");
+        urlConnection.setRequestProperty("Authorization", authorizationHeader);
         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
         JSONObject json = new JSONObject(IOUtils.convertStreamToString(in));
