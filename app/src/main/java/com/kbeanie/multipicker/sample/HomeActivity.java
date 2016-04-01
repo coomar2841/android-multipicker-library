@@ -41,6 +41,8 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (id == DemosAdapter.PICKER_CONTACT) {
             launchRequiredActivity(DemosAdapter.CONTACT_PICKER_ACTIVITY);
+        } else if (id == DemosAdapter.PICKER_MEDIA) {
+            launchRequiredActivity(DemosAdapter.MEDIA_PICKER_ACTIVITY);
         } else {
             showOptionsDialog((int) id);
         }
@@ -108,6 +110,9 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
                 break;
             case DemosAdapter.AUDIO_PICKER_SUPPORT_FRAGMENT:
                 intent = new Intent(this, AudioPickerSupportFragmentActivity.class);
+                break;
+            case DemosAdapter.MEDIA_PICKER_ACTIVITY:
+                intent = new Intent(this, MediaPickerActivity.class);
                 break;
         }
 

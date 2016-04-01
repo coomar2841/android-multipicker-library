@@ -57,7 +57,9 @@
         <activity
             android:name=".AudioPickerSupportFragmentActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".MediaPickerActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MultiPickerShareActivity"
             android:screenOrientation="portrait">
@@ -95,7 +97,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
@@ -103,7 +105,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
 

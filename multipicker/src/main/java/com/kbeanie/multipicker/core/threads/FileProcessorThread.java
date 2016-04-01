@@ -169,7 +169,7 @@ public class FileProcessorThread extends Thread {
 
         // Check for URL Encoded file paths
         try {
-            String decodedURL = URLDecoder.decode(file.getOriginalPath(), Charset.defaultCharset().name());
+            String decodedURL = Uri.parse(Uri.decode(file.getOriginalPath())).toString();
             if (!decodedURL.equals(file.getOriginalPath())) {
                 file.setOriginalPath(decodedURL);
             }

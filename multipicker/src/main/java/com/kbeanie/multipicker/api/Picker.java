@@ -32,4 +32,9 @@ public interface Picker {
      * Pick an audio file
      */
     int PICK_AUDIO = 9777;
+
+    /**
+     * Pick an image or video
+     */
+    int PICK_MEDIA = 10888;
 }

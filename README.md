@@ -48,6 +48,9 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 0.9.9-beta
+- Problem with file names with '+' Issue #13
+
 ###### Version 0.9.8
 - Minimum SDK - 10 (Issue #9)
 - Duplicate images #10
