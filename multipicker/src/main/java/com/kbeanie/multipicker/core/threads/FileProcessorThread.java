@@ -25,6 +25,7 @@ import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.utils.BitmapUtils;
 import com.kbeanie.multipicker.utils.FileUtils;
+import com.kbeanie.multipicker.utils.MimeUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -504,15 +505,19 @@ public class FileProcessorThread extends Thread {
     private String guessMimeTypeFromUrl(String url, String type) {
         String mimeType;
         String extension = guessExtensionFromUrl(url);
-        if (extension != null && !extension.isEmpty()) {
-            mimeType = type + "/" + extension;
-        } else if (url.contains(".")) {
-            int index = url.lastIndexOf(".");
-            mimeType = type + "/" + url.substring(index + 1);
-        } else {
-            mimeType = type + "/*";
+        if (extension == null || extension.isEmpty()) {
+            if (url.contains(".")) {
+                int index = url.lastIndexOf(".");
+                extension = url.substring(index + 1);
+            } else {
+                extension = "*";
+            }
         }
-
+        if (type.equals("file")) {
+            mimeType = MimeUtils.guessMimeTypeFromExtension(extension);
+        } else {
+            mimeType = type + "/" + extension;
+        }
         return mimeType;
     }
 

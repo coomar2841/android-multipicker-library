@@ -71,7 +71,14 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
     protected String pick() throws PickerException {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*, video/*");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent.setType("*/*");
+            String[] mimeTypes = {"image/*", "video/*"};
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        } else {
+            intent.setType("image/*, video/*");
+        }
         if (extras != null) {
             intent.putExtras(extras);
         }
