@@ -3,7 +3,6 @@ package com.kbeanie.multipicker.utils;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
@@ -35,13 +34,13 @@ public class FileUtils {
             }
         }
         File directory = Environment.getExternalStorageDirectory();
-        String appName = getAppName(context).replaceAll(" ", "-");
+        String appName = getAppName(context);
         String appDirectory = directory.getAbsolutePath() + File.separator + appName;
         File fileAppDirectory = new File(appDirectory);
         if (!fileAppDirectory.exists()) {
             fileAppDirectory.mkdir();
         }
-        String appTypeDirectory = fileAppDirectory.getAbsolutePath() + File.separator + appName + "-" + type;
+        String appTypeDirectory = fileAppDirectory.getAbsolutePath() + File.separator + appName + " " + type;
         File finalDirectory = new File(appTypeDirectory);
         if (!finalDirectory.exists()) {
             finalDirectory.mkdir();
