@@ -32,7 +32,7 @@ public class MimeUtils {
     };
 
     private static Set<String> SET_IMAGE_EXTENSIONS = new HashSet<String>(Arrays.asList(IMAGE_EXTENSIONS));
-    private static Set<String> SET_VIDEO_EXTENSIONS = new HashSet<String>(Arrays.asList(IMAGE_EXTENSIONS));
+    private static Set<String> SET_VIDEO_EXTENSIONS = new HashSet<String>(Arrays.asList(VIDEO_EXTENSIONS));
 
     public static String guessMimeTypeFromExtension(String extension) {
         if (SET_IMAGE_EXTENSIONS.contains(extension.toLowerCase())) {
