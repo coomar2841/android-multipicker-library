@@ -617,6 +617,8 @@ public class FileProcessorThread extends Thread {
 
             int[] scaledDimension = BitmapUtils.getScaledDimensions(imageWidth, imageHeight, maxWidth, maxHeight);
             if (!(scaledDimension[0] == imageWidth && scaledDimension[1] == imageHeight)) {
+                ExifInterface originalExifInterface = new ExifInterface(image.getOriginalPath());
+                String originalRotation =  originalExifInterface.getAttribute(ExifInterface.TAG_ORIENTATION);
                 BufferedInputStream scaledInputStream = new BufferedInputStream(new FileInputStream(image.getOriginalPath()));
                 options.inJustDecodeBounds = false;
                 bitmap = BitmapFactory.decodeStream(scaledInputStream, null, options);
@@ -635,6 +637,9 @@ public class FileProcessorThread extends Thread {
                             bitmap.getHeight(), matrix, false);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     image.setOriginalPath(file.getAbsolutePath());
+                    ExifInterface resizedExifInterface = new ExifInterface(file.getAbsolutePath());
+                    resizedExifInterface.setAttribute(ExifInterface.TAG_ORIENTATION, originalRotation);
+                    resizedExifInterface.saveAttributes();
                     image.setWidth(scaledDimension[0]);
                     image.setHeight(scaledDimension[1]);
                 }
