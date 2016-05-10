@@ -130,7 +130,17 @@ public class FileProcessorThread extends Thread {
     }
 
     private void copyFileToFolder(ChosenFile file) throws PickerException {
+        Log.d(TAG, "copyFileToFolder: folder: " + file.getDirectoryType());
+        Log.d(TAG, "copyFileToFolder: extension: " + file.getExtension());
+        Log.d(TAG, "copyFileToFolder: mimeType: " + file.getMimeType());
+        Log.d(TAG, "copyFileToFolder: type: " + file.getType());
+        if (file.getType().equals("image")) {
+            file.setDirectoryType(Environment.DIRECTORY_PICTURES);
+        } else if (file.getType().equals("video")) {
+            file.setDirectoryType(Environment.DIRECTORY_MOVIES);
+        }
         String outputPath = getTargetLocationToCopy(file);
+        Log.d(TAG, "copyFileToFolder: Out Path: " + outputPath);
         // Check if file is already in the required destination
         if (outputPath.equals(file.getOriginalPath())) {
             return;
