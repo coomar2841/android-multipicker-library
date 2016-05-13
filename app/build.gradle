@@ -31,8 +31,8 @@ android {
         applicationId "com.kbeanie.multipicker.sample"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 8
-        versionName "0.9.8"
+        versionCode 9
+        versionName "1.0.10"
     }
     buildTypes {
         release {

@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:0.9.9@aar'
+compile 'com.kbeanie:multipicker:1.0.10@aar'
 ```
 
 ##### Maven
@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:0.9.9@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>0.9.9</version>
+    <version>1.0.10</version>
 </dependency>
 ```
 
@@ -47,6 +47,11 @@ _Try out the sample app if you want to test it out first._
 </a>
 
 ##### Recent changes
+
+###### Version 1.0.10
+- Issue #17: For some camera applications, video recording was not possible.
+- Issue #20: Exif Issue
+- Media Picker changes and some fixes
 
 ###### Version 0.9.9
 - Problem with file names with '+' Issue #13

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -103,19 +102,24 @@ public abstract class VideoPickerImpl extends PickerManager {
     @Override
     public void submit(Intent data) {
         if (pickerType == Picker.PICK_VIDEO_CAMERA) {
-            handleCameraData();
+            handleCameraData(data);
         } else if (pickerType == Picker.PICK_VIDEO_DEVICE) {
             handleGalleryData(data);
         }
     }
 
-    private void handleCameraData() {
+    private void handleCameraData(Intent data) {
         Log.d(TAG, "handleCameraData: " + path);
         if (path == null || path.isEmpty()) {
             throw new RuntimeException("Camera Path cannot be null. Re-initialize with correct path value.");
         } else {
             List<String> uris = new ArrayList<>();
-            uris.add(Uri.fromFile(new File(path)).toString());
+            File file = new File(path);
+            if (!file.exists()) {
+                uris.add(data.getDataString());
+            } else {
+                uris.add(Uri.fromFile(file).toString());
+            }
             processVideos(uris);
         }
     }
