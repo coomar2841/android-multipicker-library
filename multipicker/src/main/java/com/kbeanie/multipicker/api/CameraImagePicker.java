@@ -23,17 +23,17 @@ public final class CameraImagePicker extends ImagePickerImpl {
     }
 
     public CameraImagePicker(Activity activity, String path) {
-        super(activity, Picker.PICK_IMAGE_DEVICE);
+        super(activity, Picker.PICK_IMAGE_CAMERA);
         reinitialize(path);
     }
 
     public CameraImagePicker(Fragment fragment, String path) {
-        super(fragment, Picker.PICK_IMAGE_DEVICE);
+        super(fragment, Picker.PICK_IMAGE_CAMERA);
         reinitialize(path);
     }
 
     public CameraImagePicker(android.app.Fragment appFragment, String path) {
-        super(appFragment, Picker.PICK_IMAGE_DEVICE);
+        super(appFragment, Picker.PICK_IMAGE_CAMERA);
         reinitialize(path);
     }
 
