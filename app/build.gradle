@@ -44,6 +44,11 @@ android {
     dexOptions {
         incremental true
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 gradle.taskGraph.whenReady { taskGraph ->
