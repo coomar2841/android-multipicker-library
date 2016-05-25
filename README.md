@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:1.0.10@aar'
+compile 'com.kbeanie:multipicker:1.1.0@aar'
 ```
 
 ##### Maven
@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:1.0.10@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>1.0.10</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -47,6 +47,9 @@ _Try out the sample app if you want to test it out first._
 </a>
 
 ##### Recent changes
+
+###### Version 1.1.0 (Not yet released)
+- Issue #14 (Support for adding mimetype parameter for FilePicker)
 
 ###### Version 1.0.10
 - Issue #17: For some camera applications, video recording was not possible.
