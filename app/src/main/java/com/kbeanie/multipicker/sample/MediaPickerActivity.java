@@ -8,17 +8,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.kbeanie.multipicker.api.CameraImagePicker;
-import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.MediaPicker;
 import com.kbeanie.multipicker.api.Picker;
-import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.callbacks.MediaPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.sample.adapters.MediaResultsAdapter;
-import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 import java.util.ArrayList;
 import java.util.List;

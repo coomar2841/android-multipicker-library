@@ -1,7 +1,6 @@
 package com.kbeanie.multipicker.sample;
 
 import android.content.Intent;
-import android.hardware.camera2.CameraMetadata;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;

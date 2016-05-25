@@ -12,7 +12,6 @@ import com.kbeanie.multipicker.api.ContactPicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ContactPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenContact;
-import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.sample.adapters.ContactResultsAdapter;
 
 import java.util.ArrayList;
