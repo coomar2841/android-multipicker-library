@@ -48,7 +48,7 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
-###### Version 1.1.0 (Not yet released)
+###### Version 1.1.0
 - Issue #14 (Support for adding mimetype parameter for FilePicker)
 - Added JavaDocs
 - Removed Bing Image Search
