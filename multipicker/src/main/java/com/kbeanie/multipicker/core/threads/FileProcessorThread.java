@@ -291,7 +291,7 @@ public class FileProcessorThread extends Thread {
                 "content://com.android.gallery3d.provider")) {
             file.setOriginalPath(Uri.parse(file.getQueryUri().replace(
                     "com.android.gallery3d", "com.google.android.gallery3d")).toString());
-        } else {
+        }  else {
             file.setOriginalPath(file.getQueryUri());
         }
 
@@ -628,7 +628,7 @@ public class FileProcessorThread extends Thread {
             int[] scaledDimension = BitmapUtils.getScaledDimensions(imageWidth, imageHeight, maxWidth, maxHeight);
             if (!(scaledDimension[0] == imageWidth && scaledDimension[1] == imageHeight)) {
                 ExifInterface originalExifInterface = new ExifInterface(image.getOriginalPath());
-                String originalRotation =  originalExifInterface.getAttribute(ExifInterface.TAG_ORIENTATION);
+                String originalRotation = originalExifInterface.getAttribute(ExifInterface.TAG_ORIENTATION);
                 BufferedInputStream scaledInputStream = new BufferedInputStream(new FileInputStream(image.getOriginalPath()));
                 options.inJustDecodeBounds = false;
                 bitmap = BitmapFactory.decodeStream(scaledInputStream, null, options);
