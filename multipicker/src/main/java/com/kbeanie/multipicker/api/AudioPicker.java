@@ -28,31 +28,56 @@ public final class AudioPicker extends PickerManager {
 
     private String mimeType = "audio/*";
 
+    /**
+     * Constructor to choose an audio file from an {@link Activity}
+     * @param activity
+     */
     public AudioPicker(Activity activity) {
         super(activity, Picker.PICK_AUDIO);
     }
 
+    /**
+     * Constructor to choose an audio file from a {@link Fragment}
+     * @param fragment
+     */
     public AudioPicker(Fragment fragment) {
         super(fragment, Picker.PICK_AUDIO);
     }
 
-    @SuppressWarnings("WeakerAccess")
+    /**
+     * Constructor to choose an audio file from a {@link android.app.Fragment}
+     * @param appFragment
+     */
     public AudioPicker(android.app.Fragment appFragment) {
         super(appFragment, Picker.PICK_AUDIO);
     }
 
+    /**
+     * Listener which gets callbacks when the audio file is ready to be used
+     * @param callback
+     */
     public void setAudioPickerCallback(AudioPickerCallback callback) {
         this.callback = callback;
     }
 
+    /**
+     * Set this to true if you want to choose Multiple audio files
+     */
     public void allowMultiple() {
         this.allowMultiple = true;
     }
 
+    /**
+     * Set mimeType parameter if you want to choose a specific type of audio
+     * @param mimeType
+     */
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 
+    /**
+     * Triggers audio selection
+     */
     public void pickAudio() {
         try {
             pick();
@@ -81,6 +106,15 @@ public final class AudioPicker extends PickerManager {
         return null;
     }
 
+    /**
+     * Call this method from
+     * {@link Activity#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link Fragment#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     * @param data
+     */
     @Override
     public void submit(Intent data) {
         handleAudioData(data);

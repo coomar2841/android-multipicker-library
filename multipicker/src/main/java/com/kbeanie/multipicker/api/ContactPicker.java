@@ -16,27 +16,41 @@ import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.core.PickerManager;
 
 /**
- * Created by kbibek on 2/18/16.
+ * Choose a contact from your address book
  */
 public final class ContactPicker extends PickerManager {
     private final static String TAG = ContactPicker.class.getSimpleName();
 
     private ContactPickerCallback callback;
 
+    /**
+     * Constructor for choosing a contact from an {@link Activity}
+     * @param activity
+     */
     public ContactPicker(Activity activity) {
         super(activity, Picker.PICK_CONTACT);
     }
 
-    @SuppressWarnings("WeakerAccess")
+    /**
+     * Constructor for choosing a contact from a {@link Fragment}
+     * @param fragment
+     */
     public ContactPicker(Fragment fragment) {
         super(fragment, Picker.PICK_CONTACT);
     }
 
-    @SuppressWarnings("WeakerAccess")
+    /**
+     * Constructor for choosing a contact from a {@link android.app.Fragment}
+     * @param appFragment
+     */
     public ContactPicker(android.app.Fragment appFragment) {
         super(appFragment, Picker.PICK_CONTACT);
     }
 
+    /**
+     * Listener which gets callbacks when the choosen contact is ready to be used
+     * @param callback
+     */
     public void setContactPickerCallback(ContactPickerCallback callback) {
         this.callback = callback;
     }
@@ -74,6 +88,15 @@ public final class ContactPicker extends PickerManager {
         return null;
     }
 
+    /**
+     * Call this method from
+     * {@link Activity#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link Fragment#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     * @param data
+     */
     @Override
     public void submit(Intent data) {
         if (data != null) {

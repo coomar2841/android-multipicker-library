@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kbibek on 2/18/16.
+ * Class to pick images (Stored or capture a new image using the device's camera)
+ * This class cannot be used directly. User {@link com.kbeanie.multipicker.api.VideoPicker} or {@link com.kbeanie.multipicker.api.CameraVideoPicker}
  */
 public abstract class VideoPickerImpl extends PickerManager {
     private final static String TAG = VideoPickerImpl.class.getSimpleName();

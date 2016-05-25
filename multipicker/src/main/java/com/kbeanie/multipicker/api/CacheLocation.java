@@ -10,9 +10,9 @@ package com.kbeanie.multipicker.api;
 public interface CacheLocation {
     /**
      * Save files directly under various folders of the external storage,
-     * ex: /sdcard/App-Name/App-Name-Pictures/, /sdcard/App-Name/App-Name/Videos, /sdcard/App-Name/App-Name-Files etc
+     * ex: /sdcard/App Name/App Name Pictures/, /sdcard/App Name/App Name/Videos, /sdcard/App Name/App Name Files etc
      *
-     * These files won't be delete when the application is deleted.
+     * These files won't be deleted when the application is deleted.
      */
     int EXTERNAL_STORAGE_PUBLIC_DIR = 100;
     /**

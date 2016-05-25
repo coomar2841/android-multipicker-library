@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kbibek on 2/18/16.
+ * Choose a file from your device. Gallery, Downloads, Dropbox etc.
  */
 public final class FilePicker extends PickerManager {
     private final static String TAG = FilePicker.class.getSimpleName();
@@ -27,30 +27,58 @@ public final class FilePicker extends PickerManager {
 
     private String mimeType = "*/*";
 
+    /**
+     * Constructor for choosing a file from an {@link Activity}
+     * @param activity
+     */
     public FilePicker(Activity activity) {
         super(activity, Picker.PICK_FILE);
     }
 
+    /**
+     * Constructor for choosing a file from a {@link Fragment}
+     * @param fragment
+     */
     public FilePicker(Fragment fragment) {
         super(fragment, Picker.PICK_FILE);
     }
 
+    /**
+     * Constructor for choosing a file from a {@link android.app.Fragment}
+     * @param appFragment
+     */
     public FilePicker(android.app.Fragment appFragment) {
         super(appFragment, Picker.PICK_FILE);
     }
 
+    /**
+     * Allow multiple files to be chosen. Default is false. This will only work for applications that support multiple file selection. Else, you will get only one result.
+     */
     public void allowMultiple() {
         this.allowMultiple = true;
     }
 
+    /**
+     * Listener which gets callbacks when your file is processed and ready to be used.
+     * @param callback
+     */
     public void setFilePickerCallback(FilePickerCallback callback) {
         this.callback = callback;
     }
 
+    /**
+     * Default: All types of files. Set this value to a specific mimetype to pick.
+     *
+     * ex: application/pdf, application/xls
+     * @param mimeType
+     */
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 
+    /**
+     * Triggers file selection
+     */
     public void pickFile() {
         try {
             pick();
@@ -79,6 +107,15 @@ public final class FilePicker extends PickerManager {
         return null;
     }
 
+    /**
+     * Call this method from
+     * {@link Activity#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link Fragment#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     * @param data
+     */
     @Override
     public void submit(Intent data) {
         handleFileData(data);

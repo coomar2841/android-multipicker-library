@@ -146,6 +146,15 @@ public abstract class ImagePickerImpl extends PickerManager {
         return tempFilePath;
     }
 
+    /**
+     * Call this method from
+     * {@link Activity#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link Fragment#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     * @param data
+     */
     @Override
     public void submit(Intent data) {
         if (pickerType == Picker.PICK_IMAGE_CAMERA) {

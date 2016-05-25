@@ -38,14 +38,26 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
     private boolean generateMetadata = true;
     private boolean generatePreviewImages = true;
 
+    /**
+     * Constructor for choosing media from an {@link Activity}
+     * @param activity
+     */
     public MediaPicker(Activity activity) {
         super(activity, Picker.PICK_MEDIA);
     }
 
+    /**
+     * Constructor for choosing media from a {@link Fragment}
+     * @param fragment
+     */
     public MediaPicker(Fragment fragment) {
         super(fragment, Picker.PICK_MEDIA);
     }
 
+    /**
+     * Constructor for choosing media from a {@link android.app.Fragment}
+     * @param appFragment
+     */
     public MediaPicker(android.app.Fragment appFragment) {
         super(appFragment, Picker.PICK_MEDIA);
     }
@@ -55,14 +67,26 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
     }
 
 
+    /**
+     * Set this to true if you want thumbnails of the media files to be generated.
+     * @param generateThumbnails
+     */
     public void shouldGenerateThumbnails(boolean generateThumbnails) {
         this.generateThumbnails = generateThumbnails;
     }
 
+    /**
+     * Set this to true if you want the metadata of the chosen media to be processed
+     * @param generateMetadata
+     */
     public void shouldGenerateMetadata(boolean generateMetadata) {
         this.generateMetadata = generateMetadata;
     }
 
+    /**
+     * Set this to true if you want to generate a preview thumnail for video files
+     * @param generatePreviewImages
+     */
     public void shouldGeneratePreviewImages(boolean generatePreviewImages) {
         this.generatePreviewImages = generatePreviewImages;
     }
@@ -89,6 +113,9 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
         return null;
     }
 
+    /**
+     * Triggers media selection
+     */
     public void pickMedia() {
         try {
             pick();
@@ -97,6 +124,15 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
         }
     }
 
+    /**
+     * Call this method from
+     * {@link Activity#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link Fragment#onActivityResult(int, int, Intent)}
+     * OR
+     * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     * @param intent
+     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void submit(Intent intent) {
@@ -134,6 +170,10 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
         thread.start();
     }
 
+    /**
+     * Listener which gets callbacks when your media is processed and ready to be used.
+     * @param callback
+     */
     public void setMediaPickerCallback(MediaPickerCallback callback) {
         this.callback = callback;
     }

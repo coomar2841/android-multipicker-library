@@ -50,6 +50,7 @@ _Try out the sample app if you want to test it out first._
 
 ###### Version 1.1.0 (Not yet released)
 - Issue #14 (Support for adding mimetype parameter for FilePicker)
+- Added JavaDocs
 
 ###### Version 1.0.10
 - Issue #17: For some camera applications, video recording was not possible.
