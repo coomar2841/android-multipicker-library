@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -291,7 +292,7 @@ public class FileProcessorThread extends Thread {
                 "content://com.android.gallery3d.provider")) {
             file.setOriginalPath(Uri.parse(file.getQueryUri().replace(
                     "com.android.gallery3d", "com.google.android.gallery3d")).toString());
-        }  else {
+        } else {
             file.setOriginalPath(file.getQueryUri());
         }
 
@@ -565,6 +566,10 @@ public class FileProcessorThread extends Thread {
             }
         }
 
+        if (TextUtils.isEmpty(file.getMimeType())) {
+            file.setMimeType(guessMimeTypeFromUrl(file.getOriginalPath(), file.getType()));
+        }
+
         String probableFileName = fileName;
         File probableFile = new File(getTargetDirectory(file.getDirectoryType()) + File.separator
                 + probableFileName);
@@ -572,8 +577,8 @@ public class FileProcessorThread extends Thread {
         while (probableFile.exists()) {
             counter++;
             if (fileName.contains(".")) {
-                String[] parts = fileName.split("\\.");
-                probableFileName = parts[0] + "-" + counter + "." + parts[1];
+                int indexOfDot = fileName.lastIndexOf(".");
+                probableFileName = fileName.substring(0, indexOfDot - 1) + "-" + counter + "." + fileName.substring(indexOfDot + 1);
             } else {
                 probableFileName = fileName + "(" + counter + ")";
             }

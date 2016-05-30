@@ -48,6 +48,9 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 1.1.1 (Not Released Yet)
+- Fixed problem where for some files, mimetypes were not being properly set
+
 ###### Version 1.1.0
 - Issue #14 (Support for adding mimetype parameter for FilePicker)
 - Added JavaDocs

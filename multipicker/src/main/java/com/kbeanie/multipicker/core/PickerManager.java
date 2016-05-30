@@ -6,8 +6,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -66,12 +69,13 @@ public abstract class PickerManager {
 
     /**
      * Default cache location is {@link CacheLocation#EXTERNAL_STORAGE_APP_DIR}
-     *
+     * <p/>
      * If you are setting the (@link CacheLocation#EXTERNAL_STORAGE_PUBLIC_DIR} make sure you have the required permissions
      * available in the Manifest file. Else, a {@link RuntimeException} will be raised.
-     *
+     * <p/>
      * Permissions required {@link android.Manifest.permission#WRITE_EXTERNAL_STORAGE} and
      * {@link android.Manifest.permission#READ_EXTERNAL_STORAGE}
+     *
      * @param cacheLocation {@link CacheLocation}
      */
     public void setCacheLocation(int cacheLocation) {
@@ -165,5 +169,27 @@ public abstract class PickerManager {
             }
             throw new RuntimeException("Permissions required in Manifest");
         }
+    }
+
+    public static long querySizeOfFile(Uri uri, Context context) {
+        if (uri.toString().startsWith("file")) {
+            File file = new File(uri.getPath());
+            return file.length();
+        } else if (uri.toString().startsWith("content")) {
+            Cursor cursor = null;
+            try {
+                cursor = context.getContentResolver().query(uri, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    return cursor.getLong(cursor.getColumnIndex(OpenableColumns.SIZE));
+                } else {
+                    return 0;
+                }
+            } catch (Exception e) {
+                return 0;
+            } finally {
+                cursor.close();
+            }
+        }
+        return 0;
     }
 }
