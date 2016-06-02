@@ -138,11 +138,11 @@ public abstract class PickerManager {
             }
         }
         if (activity != null) {
-            activity.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);
+            activity.startActivityForResult(intent, type);
         } else if (fragment != null) {
-            fragment.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);
+            fragment.startActivityForResult(intent, type);
         } else if (appFragment != null) {
-            appFragment.startActivityForResult(Intent.createChooser(intent, "Choose an action"), type);
+            appFragment.startActivityForResult(intent, type);
         }
     }
 

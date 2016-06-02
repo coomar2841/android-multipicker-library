@@ -50,6 +50,7 @@ _Try out the sample app if you want to test it out first._
 
 ###### Version 1.1.1 (Not Released Yet)
 - Fixed problem where for some files, mimetypes were not being properly set
+- Removed `Intent.createChooser` implementation Issue #33
 
 ###### Version 1.1.0
 - Issue #14 (Support for adding mimetype parameter for FilePicker)
