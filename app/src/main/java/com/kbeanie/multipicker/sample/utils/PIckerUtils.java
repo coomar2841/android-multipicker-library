@@ -18,6 +18,8 @@ public class PickerUtils {
                 return CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR;
             case 2:
                 return CacheLocation.EXTERNAL_CACHE_DIR;
+            case 3:
+                return CacheLocation.INTERNAL_APP_DIR;
         }
         return CacheLocation.EXTERNAL_STORAGE_APP_DIR;
     }

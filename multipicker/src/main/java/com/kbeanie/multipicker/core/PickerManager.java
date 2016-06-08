@@ -114,6 +114,12 @@ public abstract class PickerManager {
             case CacheLocation.EXTERNAL_STORAGE_APP_DIR:
                 directory = FileUtils.getExternalFilesDir(type, getContext());
                 break;
+            case CacheLocation.EXTERNAL_CACHE_DIR:
+                directory = FileUtils.getExternalCacheDir(getContext());
+                break;
+            case CacheLocation.INTERNAL_APP_DIR:
+                directory = FileUtils.getInternalFileDirectory(getContext());
+                break;
         }
         return directory;
     }

@@ -51,6 +51,7 @@ _Try out the sample app if you want to test it out first._
 ###### Version 1.1.1 (Not Released Yet)
 - Fixed problem where for some files, mimetypes were not being properly set
 - Removed `Intent.createChooser` implementation Issue #33
+- Added option for `CacheLocation.INTERNAL_APP_DIR` for saving files into application's internal storage.
 
 ###### Version 1.1.0
 - Issue #14 (Support for adding mimetype parameter for FilePicker)
@@ -61,24 +62,6 @@ _Try out the sample app if you want to test it out first._
 - Issue #17: For some camera applications, video recording was not possible.
 - Issue #20: Exif Issue
 - Media Picker changes and some fixes
-
-###### Version 0.9.9
-- Problem with file names with '+' Issue #13
-
-###### Version 0.9.8
-- Minimum SDK - 10 (Issue #9)
-- Duplicate images #10
-- Check permissions in manifest (Not Runtime permissions)
-- Feature: Specify max image dimensions
-
-###### Version 0.9.7
-- App Bugs
-- Use different filename if it already exists (Issue #6)
-- Picassa Gallery on Samsung phones (Issue #7)
-
-###### Version 0.9.6
-- Added request ID to `ChosenFile` to provide a way to differentiate between callbacks.
-- Use app name when using `CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR`
 
 ##### License
 ---

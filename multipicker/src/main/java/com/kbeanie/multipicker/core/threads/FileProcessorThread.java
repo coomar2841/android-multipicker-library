@@ -495,6 +495,9 @@ public class FileProcessorThread extends Thread {
             case CacheLocation.EXTERNAL_CACHE_DIR:
                 directory = FileUtils.getExternalCacheDir(context);
                 break;
+            case CacheLocation.INTERNAL_APP_DIR:
+                directory = FileUtils.getInternalFileDirectory(context);
+                break;
             default:
                 directory = FileUtils.getExternalFilesDirectory(type, context);
                 break;

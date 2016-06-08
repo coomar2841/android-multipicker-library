@@ -165,4 +165,8 @@ public class FileUtils {
         }
         return count;
     }
+
+    public static String getInternalFileDirectory(Context context) {
+        return context.getFilesDir().getAbsolutePath();
+    }
 }

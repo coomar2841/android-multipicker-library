@@ -71,7 +71,7 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
 
     private void launchRequiredActivity(int which) {
         Intent intent = null;
-        switch ((int) which) {
+        switch (which) {
             case DemosAdapter.IMAGE_PICKER_ACTIVITY:
                 intent = new Intent(this, ImagePickerActivity.class);
                 break;
@@ -157,10 +157,12 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
     private void showStorageSettingsMenu() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Cache Location");
-        CharSequence[] cacheLocations = new CharSequence[3];
+        CharSequence[] cacheLocations = new CharSequence[4];
         cacheLocations[0] = "Ext Storage - App Directory";
         cacheLocations[1] = "Ext Storage - Public Directory";
         cacheLocations[2] = "Ext Storage - Cache Directory";
+        cacheLocations[3] = "Internal - App Directory";
+
         builder.setSingleChoiceItems(cacheLocations, preferences.getCacheLocation(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
