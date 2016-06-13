@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:1.1.0@aar'
+compile 'com.kbeanie:multipicker:1.1.1@aar'
 ```
 
 ##### Maven
@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:1.1.0@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
@@ -48,7 +48,7 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
-###### Version 1.1.1 (Not Released Yet)
+###### Version 1.1.1
 - Fixed problem where for some files, mimetypes were not being properly set
 - Removed `Intent.createChooser` implementation Issue #33
 - Added option for `CacheLocation.INTERNAL_APP_DIR` for saving files into application's internal storage.
