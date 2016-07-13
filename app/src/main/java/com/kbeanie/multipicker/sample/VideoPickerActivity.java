@@ -78,7 +78,7 @@ public class VideoPickerActivity extends AbActivity implements VideoPickerCallba
         videoPicker.shouldGenerateMetadata(true);
         videoPicker.shouldGeneratePreviewImages(true);
         videoPicker.setVideoPickerCallback(this);
-        videoPicker.allowMultple();
+        videoPicker.allowMultiple();
         videoPicker.pickVideo();
     }
 

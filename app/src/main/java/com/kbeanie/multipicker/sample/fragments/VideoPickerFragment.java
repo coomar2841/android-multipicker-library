@@ -79,7 +79,7 @@ public class VideoPickerFragment extends Fragment implements VideoPickerCallback
         videoPicker.setVideoPickerCallback(this);
         videoPicker.shouldGenerateMetadata(true);
         videoPicker.shouldGeneratePreviewImages(true);
-        videoPicker.allowMultple();
+        videoPicker.allowMultiple();
         videoPicker.pickVideo();
     }
 

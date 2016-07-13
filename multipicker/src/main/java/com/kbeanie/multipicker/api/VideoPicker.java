@@ -35,9 +35,9 @@ public final class VideoPicker extends VideoPickerImpl {
     }
 
     /**
-     * Default is false. Set this to true if you want to choose mutliple videos. This will only work with applications which support multiple video selections
+     * Default is false. Set this to true if you want to choose multiple videos. This will only work with applications which support multiple video selections
      */
-    public void allowMultple() {
+    public void allowMultiple() {
         this.allowMultiple = true;
     }
 
