@@ -78,7 +78,7 @@ public class VideoPickerSupportFragment extends android.support.v4.app.Fragment 
         videoPicker.setVideoPickerCallback(this);
         videoPicker.shouldGenerateMetadata(true);
         videoPicker.shouldGeneratePreviewImages(true);
-        videoPicker.allowMultple();
+        videoPicker.allowMultiple();
         videoPicker.pickVideo();
     }
 
