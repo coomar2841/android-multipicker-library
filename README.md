@@ -48,6 +48,9 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 1.1.2 (Not yet Released)
+- Pull Request: #43
+
 ###### Version 1.1.1
 - Fixed problem where for some files, mimetypes were not being properly set
 - Removed `Intent.createChooser` implementation Issue #33

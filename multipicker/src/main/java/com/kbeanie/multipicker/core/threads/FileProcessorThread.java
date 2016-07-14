@@ -159,7 +159,7 @@ public class FileProcessorThread extends Thread {
 
     private void processFile(ChosenFile file) throws PickerException {
         String uri = file.getQueryUri();
-        if (uri.startsWith("file://")) {
+        if (uri.startsWith("file://") || uri.startsWith("/")) {
             file = sanitizeUri(file);
             file.setDisplayName(Uri.parse(file.getOriginalPath()).getLastPathSegment());
             file.setMimeType(guessMimeTypeFromUrl(file.getOriginalPath(), file.getType()));
