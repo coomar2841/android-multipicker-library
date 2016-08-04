@@ -52,8 +52,12 @@ public class FileUtils {
     }
 
     private static String getAppName(Context context) {
-        ApplicationInfo info = context.getApplicationInfo();
-        return context.getString(info.labelRes);
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return context.getString(info.labelRes);
+        } catch (Exception e) {
+            return context.getPackageName();
+        }
     }
 
     public static String getExternalFilesDir(String type, Context context) throws PickerException {
