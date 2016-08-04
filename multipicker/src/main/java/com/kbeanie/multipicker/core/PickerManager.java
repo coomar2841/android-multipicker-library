@@ -21,6 +21,8 @@ import com.kbeanie.multipicker.utils.FileUtils;
 import java.io.File;
 import java.util.UUID;
 
+import storage.StoragePreferences;
+
 /**
  * Abstract class for all types of Pickers
  */
@@ -84,6 +86,11 @@ public abstract class PickerManager {
         if (cacheLocation == CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR) {
             checkIfPermissionsAvailable();
         }
+    }
+
+    public void setFolderName(String folderName) {
+        StoragePreferences preferences = new StoragePreferences(getContext());
+        preferences.setFolderName(folderName);
     }
 
     /**

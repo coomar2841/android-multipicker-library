@@ -67,6 +67,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
 
     public void pickImageSingle() {
         imagePicker = new ImagePicker(this);
+        imagePicker.setFolderName("Random");
         imagePicker.setRequestId(1234);
         imagePicker.ensureMaxSize(5090, 5090);
         imagePicker.shouldGenerateMetadata(true);

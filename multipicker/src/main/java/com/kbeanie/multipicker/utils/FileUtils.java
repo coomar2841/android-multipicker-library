@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import storage.StoragePreferences;
+
 /**
  * Created by kbibek on 2/20/16.
  */
@@ -52,12 +54,24 @@ public class FileUtils {
     }
 
     private static String getAppName(Context context) {
-        try {
-            ApplicationInfo info = context.getApplicationInfo();
-            return context.getString(info.labelRes);
-        } catch (Exception e) {
-            return context.getPackageName();
+        StoragePreferences preferences = new StoragePreferences(context);
+        String savedFolderName = preferences.getFolderName();
+        if (savedFolderName == null || savedFolderName.isEmpty()) {
+            try {
+                ApplicationInfo info = context.getApplicationInfo();
+                savedFolderName = context.getString(info.labelRes);
+            } catch (Exception e) {
+                String packageName = context.getPackageName();
+                if (packageName.contains(".")) {
+                    int index = packageName.lastIndexOf(".");
+                    savedFolderName = packageName.substring(index + 1);
+                } else {
+                    savedFolderName = context.getPackageName();
+                }
+                preferences.setFolderName(savedFolderName);
+            }
         }
+        return savedFolderName;
     }
 
     public static String getExternalFilesDir(String type, Context context) throws PickerException {
