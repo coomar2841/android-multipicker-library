@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
@@ -76,8 +79,17 @@ public abstract class VideoPickerImpl extends PickerManager {
     }
 
     protected String takeVideoWithCamera() throws PickerException {
-        String tempFilePath = buildFilePath("mp4", Environment.DIRECTORY_MOVIES);
-        Uri uri = Uri.fromFile(new File(tempFilePath));
+        Uri uri = null;
+        String tempFilePath;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            tempFilePath = getNewFileLocation("mp4", Environment.DIRECTORY_MOVIES);
+            File file = new File(tempFilePath);
+            uri = FileProvider.getUriForFile(getContext(), "com.kbeanie.multipicker", file);
+            Log.d(TAG, "takeVideoWithCamera: Temp Uri: " + uri.getPath());
+        } else {
+            tempFilePath = buildFilePath("mp4", Environment.DIRECTORY_MOVIES);
+            uri = Uri.fromFile(new File(tempFilePath));
+        }
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         if (extras != null) {

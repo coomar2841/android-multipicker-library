@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.kbeanie.multipicker.api.CameraImagePicker;
@@ -134,8 +136,17 @@ public abstract class ImagePickerImpl extends PickerManager {
     }
 
     protected String takePictureWithCamera() throws PickerException {
-        String tempFilePath = buildFilePath("jpg", Environment.DIRECTORY_PICTURES);
-        Uri uri = Uri.fromFile(new File(tempFilePath));
+        Uri uri = null;
+        String tempFilePath;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            tempFilePath = getNewFileLocation("jpeg", Environment.DIRECTORY_PICTURES);
+            File file = new File(tempFilePath);
+            uri = FileProvider.getUriForFile(getContext(), "com.kbeanie.multipicker", file);
+            Log.d(TAG, "takeVideoWithCamera: Temp Uri: " + uri.getPath());
+        } else {
+            tempFilePath = buildFilePath("jpeg", Environment.DIRECTORY_PICTURES);
+            uri = Uri.fromFile(new File(tempFilePath));
+        }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         if (extras != null) {
@@ -153,6 +164,7 @@ public abstract class ImagePickerImpl extends PickerManager {
      * {@link Fragment#onActivityResult(int, int, Intent)}
      * OR
      * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     *
      * @param data
      */
     @Override

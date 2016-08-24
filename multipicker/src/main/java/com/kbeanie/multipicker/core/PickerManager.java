@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -112,7 +113,7 @@ public abstract class PickerManager {
         return directoryPath + File.separator + UUID.randomUUID().toString() + "." + extension;
     }
 
-    private String getDirectory(String type) throws PickerException {
+    protected String getDirectory(String type) throws PickerException {
         String directory = null;
         switch (cacheLocation) {
             case CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR:
@@ -204,5 +205,20 @@ public abstract class PickerManager {
             }
         }
         return 0;
+    }
+
+
+    protected String getNewFileLocation(String extension, String type) throws PickerException {
+        File file;
+        String filePathName = "";
+        if (type.equals(Environment.DIRECTORY_MOVIES)) {
+            filePathName = "movies";
+        } else if (type.equals(Environment.DIRECTORY_PICTURES)) {
+            filePathName = "pictures";
+        }
+        file = new File(getContext().getFilesDir(), filePathName);
+
+        file = new File(file.getAbsolutePath() + File.separator + UUID.randomUUID().toString() + extension);
+        return file.getAbsolutePath();
     }
 }

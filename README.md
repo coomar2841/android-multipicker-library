@@ -48,10 +48,11 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
-###### Version 1.1.2 (Not yet Released)
+###### Version 1.1.2-beta (Not yet Released)
 - Pull Request: #43
 - #44: Crash when application label is not specified
 - #37: Set Custom folder name
+- #46: FileUriExposedException
 
 ###### Version 1.1.1
 - Fixed problem where for some files, mimetypes were not being properly set

@@ -1,3 +1,15 @@
-<manifest package="com.kbeanie.multipicker">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kbeanie.multipicker">
 
+    <application>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.kbeanie.multipicker"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths" />
+        </provider>
+    </application>
 </manifest>
