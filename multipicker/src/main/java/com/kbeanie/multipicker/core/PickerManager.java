@@ -221,4 +221,8 @@ public abstract class PickerManager {
         file = new File(file.getAbsolutePath() + File.separator + UUID.randomUUID().toString() + extension);
         return file.getAbsolutePath();
     }
+
+    protected String getFileProviderAuthority(){
+        return getContext().getPackageName()+".multipicker.fileprovider";
+    }
 }

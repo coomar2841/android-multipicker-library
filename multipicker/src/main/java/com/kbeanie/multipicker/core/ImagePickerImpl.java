@@ -141,7 +141,7 @@ public abstract class ImagePickerImpl extends PickerManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             tempFilePath = getNewFileLocation("jpeg", Environment.DIRECTORY_PICTURES);
             File file = new File(tempFilePath);
-            uri = FileProvider.getUriForFile(getContext(), "com.kbeanie.multipicker", file);
+            uri = FileProvider.getUriForFile(getContext(), getFileProviderAuthority(), file);
             Log.d(TAG, "takeVideoWithCamera: Temp Uri: " + uri.getPath());
         } else {
             tempFilePath = buildFilePath("jpeg", Environment.DIRECTORY_PICTURES);

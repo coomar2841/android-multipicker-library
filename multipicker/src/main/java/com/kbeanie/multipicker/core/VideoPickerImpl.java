@@ -84,7 +84,7 @@ public abstract class VideoPickerImpl extends PickerManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             tempFilePath = getNewFileLocation("mp4", Environment.DIRECTORY_MOVIES);
             File file = new File(tempFilePath);
-            uri = FileProvider.getUriForFile(getContext(), "com.kbeanie.multipicker", file);
+            uri = FileProvider.getUriForFile(getContext(), getFileProviderAuthority(), file);
             Log.d(TAG, "takeVideoWithCamera: Temp Uri: " + uri.getPath());
         } else {
             tempFilePath = buildFilePath("mp4", Environment.DIRECTORY_MOVIES);
