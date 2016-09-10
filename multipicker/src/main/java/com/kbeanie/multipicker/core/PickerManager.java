@@ -219,7 +219,7 @@ public abstract class PickerManager {
         file = new File(getContext().getFilesDir(), filePathName);
         file.mkdirs();
 
-        file = new File(file.getAbsolutePath() + File.separator + UUID.randomUUID().toString() + "." + extension);
+        file = new File(file.getAbsolutePath() + File.separator + UUID.randomUUID().toString() + File.separator + extension);
         return file.getAbsolutePath();
     }
 
