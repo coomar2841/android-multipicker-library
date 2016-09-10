@@ -217,8 +217,9 @@ public abstract class PickerManager {
             filePathName = "pictures";
         }
         file = new File(getContext().getFilesDir(), filePathName);
+        file.mkdirs();
 
-        file = new File(file.getAbsolutePath() + File.separator + UUID.randomUUID().toString() + extension);
+        file = new File(file.getAbsolutePath() + File.separator + UUID.randomUUID().toString() + "." + extension);
         return file.getAbsolutePath();
     }
 
