@@ -8,7 +8,7 @@ import com.kbeanie.multipicker.sample.prefs.AppPreferences;
 /**
  * Created by kbibek on 2/26/16.
  */
-public class PickerUtils1 {
+public class PickerUtils {
     public static int getSavedCacheLocation(Context context) {
         AppPreferences preferences = new AppPreferences(context);
         switch (preferences.getCacheLocation()) {
