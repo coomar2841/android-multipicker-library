@@ -48,7 +48,7 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
-###### Version 1.1.23-beta (Not yet Released)
+###### Version 1.1.2
 - Pull Request: #43
 - #44: Crash when application label is not specified
 - #37: Set Custom folder name
