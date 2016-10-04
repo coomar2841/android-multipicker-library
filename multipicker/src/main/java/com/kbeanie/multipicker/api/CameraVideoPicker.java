@@ -81,4 +81,12 @@ public final class CameraVideoPicker extends VideoPickerImpl {
         }
         return path;
     }
+
+    @Override
+    public void setCacheLocation(int cacheLocation) {
+        if (cacheLocation == CacheLocation.INTERNAL_APP_DIR) {
+            throw new RuntimeException("Cannot use CacheLocation.INTERNAL_APP_DIR for taking videos. Please use another cache location.");
+        }
+        super.setCacheLocation(cacheLocation);
+    }
 }

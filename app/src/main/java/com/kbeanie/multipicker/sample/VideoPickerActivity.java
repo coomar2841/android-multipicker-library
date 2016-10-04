@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.CameraVideoPicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.VideoPicker;
@@ -87,6 +88,7 @@ public class VideoPickerActivity extends AbActivity implements VideoPickerCallba
     private void takeVideo() {
         cameraPicker = new CameraVideoPicker(this);
         cameraPicker.shouldGenerateMetadata(true);
+        cameraPicker.setCacheLocation(CacheLocation.INTERNAL_APP_DIR);
         cameraPicker.shouldGeneratePreviewImages(true);
         Bundle extras = new Bundle();
         // For capturing Low quality videos; Default is 1: HIGH

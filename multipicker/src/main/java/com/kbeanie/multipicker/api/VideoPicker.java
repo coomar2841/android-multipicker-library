@@ -12,6 +12,7 @@ import com.kbeanie.multipicker.core.VideoPickerImpl;
 public final class VideoPicker extends VideoPickerImpl {
     /**
      * Constructor to choose a video from an {@link Activity}
+     *
      * @param activity
      */
     public VideoPicker(Activity activity) {
@@ -20,6 +21,7 @@ public final class VideoPicker extends VideoPickerImpl {
 
     /**
      * Constructor to choose a video from a {@link Fragment}
+     *
      * @param fragment
      */
     public VideoPicker(Fragment fragment) {
@@ -28,6 +30,7 @@ public final class VideoPicker extends VideoPickerImpl {
 
     /**
      * Constructor to choose a video from a {@link android.app.Fragment}
+     *
      * @param appFragment
      */
     public VideoPicker(android.app.Fragment appFragment) {
