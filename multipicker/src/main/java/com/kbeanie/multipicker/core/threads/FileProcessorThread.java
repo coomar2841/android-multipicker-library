@@ -616,7 +616,6 @@ public class FileProcessorThread extends Thread {
         this.callback = callback;
     }
 
-    // TODO: Implement Ensure Max Width and Height
     protected ChosenImage ensureMaxWidthAndHeight(int maxWidth, int maxHeight, ChosenImage image) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -643,6 +642,7 @@ public class FileProcessorThread extends Thread {
                 scaledInputStream.close();
                 if (bitmap != null) {
                     File original = new File(image.getOriginalPath());
+                    image.setTempFile(original.getAbsolutePath());
                     File file = new File(
                             (original.getParent() + File.separator + original.getName()
                                     .replace(".", "-resized.")));

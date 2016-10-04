@@ -55,6 +55,7 @@ _Try out the sample app if you want to test it out first._
 - #46: FileUriExposedException
 - #48: Provider Conflict
 - #50: Wrong file name for PickerUtils.java
+- #56: If use ensureMaxSize with CameraImagePicker, unable to delete original photo
 
 ###### Version 1.1.1
 - Fixed problem where for some files, mimetypes were not being properly set

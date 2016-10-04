@@ -44,6 +44,8 @@ public class ChosenFile implements Parcelable {
     private String displayName;
     private boolean success;
 
+    private String tempFile = "";
+
     public ChosenFile() {
 
     }
@@ -61,6 +63,7 @@ public class ChosenFile implements Parcelable {
         success = in.readByte() != 0;
         directoryType = in.readString();
         requestId = in.readInt();
+        tempFile = in.readString();
     }
 
     @Override
@@ -77,6 +80,7 @@ public class ChosenFile implements Parcelable {
         dest.writeInt(success ? 1 : 0);
         dest.writeString(directoryType);
         dest.writeInt(requestId);
+        dest.writeString(tempFile);
     }
 
     public static final Creator<ChosenFile> CREATOR = new Creator<ChosenFile>() {
@@ -293,5 +297,14 @@ public class ChosenFile implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+
+    public String getTempFile() {
+        return tempFile;
+    }
+
+    public void setTempFile(String tempFile) {
+        this.tempFile = tempFile;
     }
 }
