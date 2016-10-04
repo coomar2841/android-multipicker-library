@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -90,6 +91,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
 
     public void takePicture() {
         cameraPicker = new CameraImagePicker(this);
+        cameraPicker.setCacheLocation(CacheLocation.INTERNAL_APP_DIR);
         cameraPicker.setImagePickerCallback(this);
         cameraPicker.shouldGenerateMetadata(true);
         cameraPicker.shouldGenerateThumbnails(true);

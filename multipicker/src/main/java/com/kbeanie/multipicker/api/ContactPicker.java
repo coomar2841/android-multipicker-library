@@ -25,6 +25,7 @@ public final class ContactPicker extends PickerManager {
 
     /**
      * Constructor for choosing a contact from an {@link Activity}
+     *
      * @param activity
      */
     public ContactPicker(Activity activity) {
@@ -33,6 +34,7 @@ public final class ContactPicker extends PickerManager {
 
     /**
      * Constructor for choosing a contact from a {@link Fragment}
+     *
      * @param fragment
      */
     public ContactPicker(Fragment fragment) {
@@ -41,6 +43,7 @@ public final class ContactPicker extends PickerManager {
 
     /**
      * Constructor for choosing a contact from a {@link android.app.Fragment}
+     *
      * @param appFragment
      */
     public ContactPicker(android.app.Fragment appFragment) {
@@ -49,6 +52,7 @@ public final class ContactPicker extends PickerManager {
 
     /**
      * Listener which gets callbacks when the choosen contact is ready to be used
+     *
      * @param callback
      */
     public void setContactPickerCallback(ContactPickerCallback callback) {
@@ -57,9 +61,9 @@ public final class ContactPicker extends PickerManager {
 
     /**
      * Initiate the Contact Chooser.
-     *
+     * <p>
      * Make sure you have {@link android.Manifest.permission#READ_CONTACTS} in your Manifest file.
-     *
+     * <p>
      * Else a {@link RuntimeException} will be raised.
      */
     public void pickContact() {
@@ -76,9 +80,6 @@ public final class ContactPicker extends PickerManager {
 
     @Override
     protected String pick() throws PickerException {
-        if (callback == null) {
-            throw new PickerException("ContactPickerCallback is null!!! Please set one");
-        }
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
         if (extras != null) {
@@ -95,6 +96,7 @@ public final class ContactPicker extends PickerManager {
      * {@link Fragment#onActivityResult(int, int, Intent)}
      * OR
      * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     *
      * @param data
      */
     @Override
