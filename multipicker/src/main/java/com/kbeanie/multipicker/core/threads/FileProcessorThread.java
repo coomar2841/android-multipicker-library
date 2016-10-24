@@ -242,9 +242,10 @@ public class FileProcessorThread extends Thread {
 
         BufferedInputStream inputStream = null;
         BufferedOutputStream outStream = null;
+        ParcelFileDescriptor parcelFileDescriptor = null;
         try {
             String localFilePath = generateFileName(file);
-            ParcelFileDescriptor parcelFileDescriptor = context
+            parcelFileDescriptor = context
                     .getContentResolver().openFileDescriptor(Uri.parse(file.getOriginalPath()),
                             "r");
             verifyStream(file.getOriginalPath(), parcelFileDescriptor);
@@ -275,6 +276,9 @@ public class FileProcessorThread extends Thread {
         } catch (IOException e) {
             throw new PickerException(e);
         } finally {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                close(parcelFileDescriptor);
+            }
             flush(outStream);
             close(outStream);
             close(inputStream);
@@ -765,7 +769,9 @@ public class FileProcessorThread extends Thread {
             ExifInterface exif = new ExifInterface(path);
             width = exif.getAttribute(ExifInterface.TAG_IMAGE_WIDTH);
             if (width.equals("0")) {
-                width = Integer.toString(getBitmapImage(path).get().getWidth());
+                SoftReference<Bitmap> bmp = getBitmapImage(path);
+                width = Integer.toString(bmp.get().getWidth());
+                bmp.clear();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -779,7 +785,9 @@ public class FileProcessorThread extends Thread {
             ExifInterface exif = new ExifInterface(path);
             height = exif.getAttribute(ExifInterface.TAG_IMAGE_LENGTH);
             if (height.equals("0")) {
-                height = Integer.toString(getBitmapImage(path).get().getHeight());
+                SoftReference<Bitmap> bmp = getBitmapImage(path);
+                height = Integer.toString(bmp.get().getHeight());
+                bmp.clear();
             }
         } catch (Exception e) {
             e.printStackTrace();

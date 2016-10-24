@@ -48,6 +48,9 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 1.1.3
+- #60: Bug: resource leak found in strict mode
+
 ###### Version 1.1.2
 - Pull Request: #43
 - #44: Crash when application label is not specified
@@ -62,16 +65,6 @@ _Try out the sample app if you want to test it out first._
 - Fixed problem where for some files, mimetypes were not being properly set
 - Removed `Intent.createChooser` implementation Issue #33
 - Added option for `CacheLocation.INTERNAL_APP_DIR` for saving files into application's internal storage.
-
-###### Version 1.1.0
-- Issue #14 (Support for adding mimetype parameter for FilePicker)
-- Added JavaDocs
-- Removed Bing Image Search
-
-###### Version 1.0.10
-- Issue #17: For some camera applications, video recording was not possible.
-- Issue #20: Exif Issue
-- Media Picker changes and some fixes
 
 ##### License
 ---

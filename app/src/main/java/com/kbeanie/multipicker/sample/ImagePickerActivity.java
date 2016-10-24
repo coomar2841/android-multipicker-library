@@ -2,8 +2,11 @@ package com.kbeanie.multipicker.sample;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -32,6 +35,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
 
     private String pickerPath;
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,20 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
                 takePicture();
             }
         });
+
+        StrictMode.setThreadPolicy (new StrictMode.ThreadPolicy.Builder ()
+                .detectDiskReads ()
+                .detectDiskWrites ()
+                .detectNetwork ()
+                .detectAll ()// or .detectAll() for all detectable problems
+                .penaltyLog ()
+                .build ());
+        StrictMode.setVmPolicy (new StrictMode.VmPolicy.Builder ()
+                .detectLeakedSqlLiteObjects ()
+                .detectLeakedClosableObjects ()
+                .penaltyLog ()
+                .penaltyDeath ()
+                .build ());
     }
 
     private ImagePicker imagePicker;
