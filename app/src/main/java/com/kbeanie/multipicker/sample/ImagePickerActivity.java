@@ -110,7 +110,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
     public void takePicture() {
         cameraPicker = new CameraImagePicker(this);
         cameraPicker.setDebugglable(true);
-        cameraPicker.setCacheLocation(CacheLocation.INTERNAL_APP_DIR);
+        cameraPicker.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
         cameraPicker.setImagePickerCallback(this);
         cameraPicker.shouldGenerateMetadata(true);
         cameraPicker.shouldGenerateThumbnails(true);

@@ -98,6 +98,14 @@ public abstract class PickerManager {
         }
     }
 
+    /**
+     * Since {@link CacheLocation#EXTERNAL_STORAGE_PUBLIC_DIR} is deprecated, you will have no
+     * option to set the folder name now. If at all you need to copy the files into the public
+     * sotrage for exposing them to other applications, you will have to implement the
+     * copying/moving the files code yourself.
+     * @param folderName
+     */
+    @Deprecated
     public void setFolderName(String folderName) {
         StoragePreferences preferences = new StoragePreferences(getContext());
         preferences.setFolderName(folderName);

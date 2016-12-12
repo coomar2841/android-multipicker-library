@@ -12,6 +12,7 @@ import com.kbeanie.multipicker.core.ImagePickerImpl;
 public final class CameraImagePicker extends ImagePickerImpl {
     /**
      * Constructor for triggering capture from an {@link Activity}
+     *
      * @param activity
      */
     public CameraImagePicker(Activity activity) {
@@ -20,6 +21,7 @@ public final class CameraImagePicker extends ImagePickerImpl {
 
     /**
      * Constructor for triggering capture from a {@link Fragment}
+     *
      * @param fragment
      */
     public CameraImagePicker(Fragment fragment) {
@@ -28,6 +30,7 @@ public final class CameraImagePicker extends ImagePickerImpl {
 
     /**
      * Constructor for triggering capture from a {@link android.app.Fragment}
+     *
      * @param appFragment
      */
     public CameraImagePicker(android.app.Fragment appFragment) {
@@ -36,6 +39,7 @@ public final class CameraImagePicker extends ImagePickerImpl {
 
     /**
      * Re-initialize the {@link CameraImagePicker} object if your activity is destroyed
+     *
      * @param activity
      * @param path
      */
@@ -46,6 +50,7 @@ public final class CameraImagePicker extends ImagePickerImpl {
 
     /**
      * Re-initialize the {@link CameraImagePicker} object if your activity is destroyed
+     *
      * @param fragment
      * @param path
      */
@@ -56,6 +61,7 @@ public final class CameraImagePicker extends ImagePickerImpl {
 
     /**
      * Re-initialize the {@link CameraImagePicker} object if your activity is destroyed
+     *
      * @param appFragment
      * @param path
      */
@@ -66,6 +72,7 @@ public final class CameraImagePicker extends ImagePickerImpl {
 
     /**
      * Triggers image capture using the device's camera
+     *
      * @return
      */
     public String pickImage() {
@@ -79,13 +86,5 @@ public final class CameraImagePicker extends ImagePickerImpl {
             }
         }
         return path;
-    }
-
-    @Override
-    public void setCacheLocation(int cacheLocation) {
-//        if(cacheLocation == CacheLocation.INTERNAL_APP_DIR){
-//            throw new RuntimeException("Cannot use CacheLocation.INTERNAL_APP_DIR for taking pictures. Please use another cache location.");
-//        }
-        super.setCacheLocation(cacheLocation);
     }
 }

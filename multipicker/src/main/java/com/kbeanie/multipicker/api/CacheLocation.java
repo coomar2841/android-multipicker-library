@@ -15,6 +15,7 @@ public interface CacheLocation {
      * These files won't be deleted when the application is deleted.
      *
      * This will be eventually deprecated due to security reasons in Android Nougat.
+     * Please use another cache location, which are more restricted for other applications to read from.
      */
 
     @Deprecated
@@ -25,6 +26,7 @@ public interface CacheLocation {
      * <p/>
      * These files will be deleted when your app is uninstalled.
      * These files are internal to the applications, and not typically visible to the user as media.
+     *
      */
     int EXTERNAL_STORAGE_APP_DIR = 200;
     /**
