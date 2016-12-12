@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.FilePickerCallback;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
@@ -22,6 +21,7 @@ import com.kbeanie.multipicker.core.PickerManager;
 import com.kbeanie.multipicker.core.threads.FileProcessorThread;
 import com.kbeanie.multipicker.core.threads.ImageProcessorThread;
 import com.kbeanie.multipicker.core.threads.VideoProcessorThread;
+import com.kbeanie.multipicker.utils.LogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -140,14 +140,14 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
         if (intent != null) {
             if (intent.getDataString() != null && isClipDataApi() && intent.getClipData() == null) {
                 String uri = intent.getDataString();
-                Log.d(TAG, "submit: Uri: " + uri);
+                LogUtils.d(TAG, "submit: Uri: " + uri);
                 uris.add(uri);
             } else if (isClipDataApi()) {
                 if (intent.getClipData() != null) {
                     ClipData clipData = intent.getClipData();
                     for (int i = 0; i < clipData.getItemCount(); i++) {
                         ClipData.Item item = clipData.getItemAt(i);
-                        Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
+                        LogUtils.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
                         uris.add(item.getUri().toString());
                     }
                 }

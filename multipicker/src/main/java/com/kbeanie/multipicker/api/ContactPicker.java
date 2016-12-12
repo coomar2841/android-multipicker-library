@@ -14,6 +14,7 @@ import com.kbeanie.multipicker.api.callbacks.ContactPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenContact;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.core.PickerManager;
+import com.kbeanie.multipicker.utils.LogUtils;
 
 /**
  * Choose a contact from your address book
@@ -105,7 +106,7 @@ public final class ContactPicker extends PickerManager {
             if (data.getData() != null) {
                 if (data.getData() instanceof Uri) {
                     Uri uri = data.getData();
-                    Log.d(TAG, "submit: " + uri);
+                    LogUtils.d(TAG, "submit: " + uri);
                     queryForContact(uri);
                 }
             }
@@ -188,7 +189,7 @@ public final class ContactPicker extends PickerManager {
 
     private void checkPermission() {
         boolean permissionGranted = getContext().checkCallingOrSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
-        Log.d(TAG, "checkIfPermissionsAvailable: In Manifest(READ_CONTACTS): " + permissionGranted);
+        LogUtils.d(TAG, "checkIfPermissionsAvailable: In Manifest(READ_CONTACTS): " + permissionGranted);
         if (!permissionGranted) {
             Log.e(TAG, Manifest.permission.READ_CONTACTS + " permission is missing in manifest file");
             throw new RuntimeException("Permissions missing in Manifest");

@@ -5,12 +5,12 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
+import com.kbeanie.multipicker.utils.LogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -93,7 +93,7 @@ public final class VideoProcessorThread extends FileProcessorThread {
                     video.setWidth(Integer.parseInt(width));
                 }
             } catch (Exception e) {
-                Log.d(TAG, "postProcessVideo: Error generating metadata");
+                LogUtils.d(TAG, "postProcessVideo: Error generating metadata");
                 e.printStackTrace();
             } finally {
                 metadataRetriever.release();

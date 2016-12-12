@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.AudioPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenAudio;
@@ -15,6 +14,7 @@ import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.core.PickerManager;
 import com.kbeanie.multipicker.core.threads.AudioProcessorThread;
+import com.kbeanie.multipicker.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,15 +125,15 @@ public final class AudioPicker extends PickerManager {
         if (intent != null) {
             if (intent.getDataString() != null) {
                 String uri = intent.getDataString();
-                Log.d(TAG, "handleAudioData: " + uri);
+                LogUtils.d(TAG, "handleAudioData: " + uri);
                 uris.add(uri);
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 if (intent.getClipData() != null) {
                     ClipData clipData = intent.getClipData();
-                    Log.d(TAG, "handleAudioData: Multiple audios with ClipData");
+                    LogUtils.d(TAG, "handleAudioData: Multiple audios with ClipData");
                     for (int i = 0; i < clipData.getItemCount(); i++) {
                         ClipData.Item item = clipData.getItemAt(i);
-                        Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
+                        LogUtils.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
                         uris.add(item.getUri().toString());
                     }
                 }

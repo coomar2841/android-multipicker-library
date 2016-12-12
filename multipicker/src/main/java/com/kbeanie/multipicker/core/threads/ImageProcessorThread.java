@@ -1,12 +1,12 @@
 package com.kbeanie.multipicker.core.threads;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenFile;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
+import com.kbeanie.multipicker.utils.LogUtils;
 
 import java.util.List;
 
@@ -75,19 +75,19 @@ public final class ImageProcessorThread extends FileProcessorThread {
         if (maxImageWidth != -1 && maxImageHeight != -1) {
             image = ensureMaxWidthAndHeight(maxImageWidth, maxImageHeight, image);
         }
-        Log.d(TAG, "postProcessImage: " + image.getMimeType());
+        LogUtils.d(TAG, "postProcessImage: " + image.getMimeType());
         if (shouldGenerateMetadata) {
             try {
                 image = generateMetadata(image);
             } catch (Exception e) {
-                Log.d(TAG, "postProcessImage: Error generating metadata");
+                LogUtils.d(TAG, "postProcessImage: Error generating metadata");
                 e.printStackTrace();
             }
         }
         if (shouldGenerateThumbnails) {
             image = generateThumbnails(image);
         }
-        Log.d(TAG, "postProcessImage: " + image);
+        LogUtils.d(TAG, "postProcessImage: " + image);
         return image;
     }
 

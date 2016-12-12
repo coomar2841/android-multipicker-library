@@ -16,7 +16,6 @@ import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.kbeanie.multipicker.api.CacheLocation;
@@ -26,6 +25,7 @@ import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.utils.BitmapUtils;
 import com.kbeanie.multipicker.utils.FileUtils;
+import com.kbeanie.multipicker.utils.LogUtils;
 import com.kbeanie.multipicker.utils.MimeUtils;
 
 import java.io.BufferedInputStream;
@@ -101,11 +101,11 @@ public class FileProcessorThread extends Thread {
         for (ChosenFile file : files) {
             try {
                 file.setRequestId(requestId);
-                Log.d(TAG, "processFile: Before: " + file.toString());
+                LogUtils.d(TAG, "processFile: Before: " + file.toString());
                 processFile(file);
                 postProcess(file);
                 file.setSuccess(true);
-                Log.d(TAG, "processFile: Final Path: " + file.toString());
+                LogUtils.d(TAG, "processFile: Final Path: " + file.toString());
             } catch (PickerException e) {
                 e.printStackTrace();
                 file.setSuccess(false);
@@ -131,17 +131,17 @@ public class FileProcessorThread extends Thread {
     }
 
     private void copyFileToFolder(ChosenFile file) throws PickerException {
-        Log.d(TAG, "copyFileToFolder: folder: " + file.getDirectoryType());
-        Log.d(TAG, "copyFileToFolder: extension: " + file.getExtension());
-        Log.d(TAG, "copyFileToFolder: mimeType: " + file.getMimeType());
-        Log.d(TAG, "copyFileToFolder: type: " + file.getType());
+        LogUtils.d(TAG, "copyFileToFolder: folder: " + file.getDirectoryType());
+        LogUtils.d(TAG, "copyFileToFolder: extension: " + file.getExtension());
+        LogUtils.d(TAG, "copyFileToFolder: mimeType: " + file.getMimeType());
+        LogUtils.d(TAG, "copyFileToFolder: type: " + file.getType());
         if (file.getType().equals("image")) {
             file.setDirectoryType(Environment.DIRECTORY_PICTURES);
         } else if (file.getType().equals("video")) {
             file.setDirectoryType(Environment.DIRECTORY_MOVIES);
         }
         String outputPath = getTargetLocationToCopy(file);
-        Log.d(TAG, "copyFileToFolder: Out Path: " + outputPath);
+        LogUtils.d(TAG, "copyFileToFolder: Out Path: " + outputPath);
         // Check if file is already in the required destination
         if (outputPath.equals(file.getOriginalPath())) {
             return;
@@ -311,7 +311,7 @@ public class FileProcessorThread extends Thread {
                     if (!file.getOriginalPath().contains("com.sec.android.gallery3d.provider")) {
                         String path = cursor.getString(cursor
                                 .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
-                        Log.d(TAG, "processFile: Path: " + path);
+                        LogUtils.d(TAG, "processFile: Path: " + path);
                         if (path != null) {
                             file.setOriginalPath(path);
                         }

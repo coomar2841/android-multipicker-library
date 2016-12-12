@@ -10,14 +10,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 
-import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.core.threads.VideoProcessorThread;
+import com.kbeanie.multipicker.utils.LogUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -85,7 +84,7 @@ public abstract class VideoPickerImpl extends PickerManager {
             tempFilePath = getNewFileLocation("mp4", Environment.DIRECTORY_MOVIES);
             File file = new File(tempFilePath);
             uri = FileProvider.getUriForFile(getContext(), getFileProviderAuthority(), file);
-            Log.d(TAG, "takeVideoWithCamera: Temp Uri: " + uri.getPath());
+            LogUtils.d(TAG, "takeVideoWithCamera: Temp Uri: " + uri.getPath());
         } else {
             tempFilePath = buildFilePath("mp4", Environment.DIRECTORY_MOVIES);
             uri = Uri.fromFile(new File(tempFilePath));
@@ -95,7 +94,7 @@ public abstract class VideoPickerImpl extends PickerManager {
         if (extras != null) {
             intent.putExtras(extras);
         }
-        Log.d(TAG, "Temp Path for Camera capture: " + tempFilePath);
+        LogUtils.d(TAG, "Temp Path for Camera capture: " + tempFilePath);
         pickInternal(intent, Picker.PICK_VIDEO_CAMERA);
         return tempFilePath;
     }
@@ -122,7 +121,7 @@ public abstract class VideoPickerImpl extends PickerManager {
     }
 
     private void handleCameraData(Intent data) {
-        Log.d(TAG, "handleCameraData: " + path);
+        LogUtils.d(TAG, "handleCameraData: " + path);
         if (path == null || path.isEmpty()) {
             throw new RuntimeException("Camera Path cannot be null. Re-initialize with correct path value.");
         } else {
@@ -143,15 +142,15 @@ public abstract class VideoPickerImpl extends PickerManager {
         if (intent != null) {
             if (intent.getDataString() != null && isClipDataApi() && intent.getClipData() == null) {
                 String uri = intent.getDataString();
-                Log.d(TAG, "handleGalleryData: " + uri);
+                LogUtils.d(TAG, "handleGalleryData: " + uri);
                 uris.add(uri);
             } else if (isClipDataApi()) {
                 if (intent.getClipData() != null) {
                     ClipData clipData = intent.getClipData();
-                    Log.d(TAG, "handleGalleryData: Multiple videos with ClipData");
+                    LogUtils.d(TAG, "handleGalleryData: Multiple videos with ClipData");
                     for (int i = 0; i < clipData.getItemCount(); i++) {
                         ClipData.Item item = clipData.getItemAt(i);
-                        Log.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
+                        LogUtils.d(TAG, "Item [" + i + "]: " + item.getUri().toString());
                         uris.add(item.getUri().toString());
                     }
                 }

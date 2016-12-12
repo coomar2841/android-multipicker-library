@@ -13,11 +13,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.utils.FileUtils;
+import com.kbeanie.multipicker.utils.LogUtils;
 
 import java.io.File;
 import java.util.UUID;
@@ -33,6 +33,8 @@ public abstract class PickerManager {
     protected Fragment fragment;
     protected android.app.Fragment appFragment;
 
+    public static boolean debugglable;
+
     protected final int pickerType;
 
     protected int requestId;
@@ -46,16 +48,23 @@ public abstract class PickerManager {
     public PickerManager(Activity activity, int pickerType) {
         this.activity = activity;
         this.pickerType = pickerType;
+        initProperties();
     }
 
     public PickerManager(Fragment fragment, int pickerType) {
         this.fragment = fragment;
         this.pickerType = pickerType;
+        initProperties();
     }
 
     public PickerManager(android.app.Fragment appFragment, int pickerType) {
         this.appFragment = appFragment;
         this.pickerType = pickerType;
+        initProperties();
+    }
+
+    private void initProperties(){
+        debugglable = new StoragePreferences(getContext()).isDebuggable();
     }
 
     /**
@@ -170,16 +179,16 @@ public abstract class PickerManager {
 
     private void checkIfPermissionsAvailable() {
         boolean writePermissionInManifest = getContext().checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        Log.d(TAG, "checkIfPermissionsAvailable: In Manifest(WRITE_EXTERNAL_STORAGE): " + writePermissionInManifest);
+        LogUtils.d(TAG, "checkIfPermissionsAvailable: In Manifest(WRITE_EXTERNAL_STORAGE): " + writePermissionInManifest);
         boolean readPermissionInManifest = getContext().checkCallingOrSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        Log.d(TAG, "checkIfPermissionsAvailable: In Manifest(READ_EXTERNAL_STORAGE): " + readPermissionInManifest);
+        LogUtils.d(TAG, "checkIfPermissionsAvailable: In Manifest(READ_EXTERNAL_STORAGE): " + readPermissionInManifest);
 
         if (!writePermissionInManifest || !readPermissionInManifest) {
             if (!writePermissionInManifest) {
-                Log.e(TAG, Manifest.permission.WRITE_EXTERNAL_STORAGE + " permission is missing in manifest file");
+                LogUtils.e(TAG, Manifest.permission.WRITE_EXTERNAL_STORAGE + " permission is missing in manifest file");
             }
             if (!readPermissionInManifest) {
-                Log.e(TAG, Manifest.permission.READ_EXTERNAL_STORAGE + " permission is missing in manifest file");
+                LogUtils.e(TAG, Manifest.permission.READ_EXTERNAL_STORAGE + " permission is missing in manifest file");
             }
             throw new RuntimeException("Permissions required in Manifest");
         }
