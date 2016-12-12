@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -138,7 +139,7 @@ public abstract class ImagePickerImpl extends PickerManager {
     protected String takePictureWithCamera() throws PickerException {
         Uri uri = null;
         String tempFilePath;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N || cacheLocation == CacheLocation.INTERNAL_APP_DIR) {
             tempFilePath = getNewFileLocation("jpeg", Environment.DIRECTORY_PICTURES);
             File file = new File(tempFilePath);
             uri = FileProvider.getUriForFile(getContext(), getFileProviderAuthority(), file);

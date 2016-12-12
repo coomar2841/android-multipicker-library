@@ -83,9 +83,9 @@ public final class CameraImagePicker extends ImagePickerImpl {
 
     @Override
     public void setCacheLocation(int cacheLocation) {
-        if(cacheLocation == CacheLocation.INTERNAL_APP_DIR){
-            throw new RuntimeException("Cannot use CacheLocation.INTERNAL_APP_DIR for taking pictures. Please use another cache location.");
-        }
+//        if(cacheLocation == CacheLocation.INTERNAL_APP_DIR){
+//            throw new RuntimeException("Cannot use CacheLocation.INTERNAL_APP_DIR for taking pictures. Please use another cache location.");
+//        }
         super.setCacheLocation(cacheLocation);
     }
 }

@@ -50,6 +50,7 @@ _Try out the sample app if you want to test it out first._
 
 ###### Version 1.1.3
 - #60: Bug: resource leak found in strict mode
+- Take picture/video with ```CacheLocation.INTERNAL_APP_DIR```
 
 ###### Version 1.1.2
 - Pull Request: #43
