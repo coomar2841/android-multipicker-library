@@ -235,4 +235,8 @@ public abstract class PickerManager {
     protected String getFileProviderAuthority(){
         return getContext().getPackageName()+".multipicker.fileprovider";
     }
+
+    public void setDebugglable(boolean debugglable){
+        new StoragePreferences(getContext()).setDebuggable(debugglable);
+    }
 }

@@ -664,6 +664,7 @@ public class FileProcessorThread extends Thread {
                     resizedExifInterface.saveAttributes();
                     image.setWidth(scaledDimension[0]);
                     image.setHeight(scaledDimension[1]);
+                    stream.close();
                 }
             }
         } catch (Exception e) {

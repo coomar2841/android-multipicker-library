@@ -13,7 +13,6 @@ public class StoragePreferences {
 
     private final static String KEY_FOLDER_NAME = "folder_name";
     private final static String KEY_DEBUG = "key_debug";
-    private boolean debuggable;
 
     public StoragePreferences(Context context) {
         prefs = context.getSharedPreferences(FILE, Context.MODE_PRIVATE);
@@ -29,10 +28,10 @@ public class StoragePreferences {
 
 
     public void setDebuggable(boolean debug){
-        prefs.edit().putBoolean(KEY_DEBUG, debug);
+        prefs.edit().putBoolean(KEY_DEBUG, debug).apply();
     }
 
     public boolean isDebuggable() {
-        return debuggable;
+        return prefs.getBoolean(KEY_DEBUG, false);
     }
 }
