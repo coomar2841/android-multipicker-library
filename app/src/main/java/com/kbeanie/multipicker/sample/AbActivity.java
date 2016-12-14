@@ -40,8 +40,8 @@ public class AbActivity extends AppCompatActivity {
     public final static String TEST_DEVICE_ID_2 = "79B7F70DBE55777CD06F8FE2EBEB92A1";
     public final static String TEST_GALAXY_NEXUS = "E83F73F907EE7CBDDE5F97BD3A901D4A";
     public final static String TEST_OPO = "4D770FE855ACB535BBC528C73DDB872A";
-    public final static String TEMP_DEVICE = "F60A56ABBAEF39154F47C43E1CFA32F8";
     public final static String XIAOMI = "EEAEE535D859D6F87E56B88B7A65D984";
+    public final static String TEMP_DEVICE = "6AD51385081B9D970E623E078AADEA4A";
 
     private final static String[] TEST_DEVICES = {GALAXY_TAB, NEXUS_S, TEST_DEVICE_ID_2, TEST_GALAXY_NEXUS, TEST_OPO, TEMP_DEVICE, XIAOMI};
 

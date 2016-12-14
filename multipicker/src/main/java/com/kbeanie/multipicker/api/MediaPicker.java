@@ -40,6 +40,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
 
     /**
      * Constructor for choosing media from an {@link Activity}
+     *
      * @param activity
      */
     public MediaPicker(Activity activity) {
@@ -48,6 +49,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
 
     /**
      * Constructor for choosing media from a {@link Fragment}
+     *
      * @param fragment
      */
     public MediaPicker(Fragment fragment) {
@@ -56,6 +58,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
 
     /**
      * Constructor for choosing media from a {@link android.app.Fragment}
+     *
      * @param appFragment
      */
     public MediaPicker(android.app.Fragment appFragment) {
@@ -69,6 +72,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
 
     /**
      * Set this to true if you want thumbnails of the media files to be generated.
+     *
      * @param generateThumbnails
      */
     public void shouldGenerateThumbnails(boolean generateThumbnails) {
@@ -77,6 +81,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
 
     /**
      * Set this to true if you want the metadata of the chosen media to be processed
+     *
      * @param generateMetadata
      */
     public void shouldGenerateMetadata(boolean generateMetadata) {
@@ -85,6 +90,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
 
     /**
      * Set this to true if you want to generate a preview thumnail for video files
+     *
      * @param generatePreviewImages
      */
     public void shouldGeneratePreviewImages(boolean generatePreviewImages) {
@@ -131,6 +137,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
      * {@link Fragment#onActivityResult(int, int, Intent)}
      * OR
      * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     *
      * @param intent
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -158,6 +165,13 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
                     uris.add(paths.get(i).toString());
                 }
             }
+            // For Xiaomi Phones
+            if (uris.size() == 0 && intent.hasExtra("pick-result-data")) {
+                ArrayList<Uri> paths = intent.getParcelableArrayListExtra("pick-result-data");
+                for (int i = 0; i < paths.size(); i++) {
+                    uris.add(paths.get(i).toString());
+                }
+            }
         }
 
         processMedia(uris);
@@ -172,6 +186,7 @@ public class MediaPicker extends PickerManager implements FilePickerCallback, Im
 
     /**
      * Listener which gets callbacks when your media is processed and ready to be used.
+     *
      * @param callback
      */
     public void setMediaPickerCallback(MediaPickerCallback callback) {

@@ -52,6 +52,7 @@ _Try out the sample app if you want to test it out first._
 - #60: Bug: resource leak found in strict mode
 - Take picture/video with ```CacheLocation.INTERNAL_APP_DIR```
 - By default logs are disabled. Use ```PickerManager.setDebuggable(boolean debug)``` to enable logging
+- Fix for Xiaomi Devices when picking images/files
 
 ###### Version 1.1.2
 - Pull Request: #43
