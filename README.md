@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:1.1.2@aar'
+compile 'com.kbeanie:multipicker:1.1.31@aar'
 ```
 
 ##### Maven
@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:1.1.2@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.31</version>
 </dependency>
 ```
 
@@ -48,7 +48,7 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
-###### Version 1.1.3
+###### Version 1.1.31
 - #60: Bug: resource leak found in strict mode
 - Take picture/video with ```CacheLocation.INTERNAL_APP_DIR```
 - By default logs are disabled. Use ```PickerManager.setDebuggable(boolean debug)``` to enable logging
