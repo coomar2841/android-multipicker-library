@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidMultipickerLibrary.iml" filepath="$PROJECT_DIR$/AndroidMultipickerLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-multipicker-library.iml" filepath="$PROJECT_DIR$/android-multipicker-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/multipicker/multipicker.iml" filepath="$PROJECT_DIR$/multipicker/multipicker.iml" />
     </modules>

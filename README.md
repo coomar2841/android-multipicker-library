@@ -48,6 +48,9 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 1.1.4-beta
+- library conflict issue #93
+
 ###### Version 1.1.31
 - #60: Bug: resource leak found in strict mode
 - Take picture/video with ```CacheLocation.INTERNAL_APP_DIR```
