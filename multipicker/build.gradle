@@ -5,15 +5,16 @@ apply plugin: 'signing'
 version = "1.1.4-beta"
 group = "com.kbeanie"
 
-def sonatypeRepo = ""
-def sonatypeUsername = ""
-def sonatypePassword = ""
-def scmUrl = ""
+//def sonatypeRepo = ""
+//def sonatypeUsername = ""
+//def sonatypePassword = ""
+//def scmUrl = ""
 
 signing {
     required {
-        has("release") && gradle.taskGraph.hasTask("uploadArchives")
+        gradle.taskGraph.hasTask("uploadArchives")
     }
+    println 'Signing...'
     sign configurations.archives
 }
 
@@ -65,6 +66,15 @@ uploadArchives {
 }
 
 android {
+    signingConfigs {
+        release {
+            keyAlias ""
+            keyPassword ""
+            storeFile file('../extras/release.keystore')
+            storePassword ""
+        }
+    }
+
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
 
@@ -87,6 +97,19 @@ android {
                 exclude 'com.kbeanie.multipicker.test'
             }
         }
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(':app:assembleRelease') || taskGraph.hasTask(':app:packageRelease')) {
+        /**
+         * Configure Release key
+         */
+        def props = new Properties()
+        props.load(new FileInputStream(rootProject.file("extras/secret.properties")))
+        android.signingConfigs.release.keyAlias props.getProperty("alias")
+        android.signingConfigs.release.storePassword props.getProperty('keyStorePassword')
+        android.signingConfigs.release.keyPassword props.getProperty('keyAliasPassword')
     }
 }
 

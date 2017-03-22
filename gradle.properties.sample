@@ -1,0 +1,9 @@
+sonatypeRepo=sonatypeRepo
+sonatypeUsername=sonatypeUsername
+sonatypePassword=sonatypePassword
+scmUrl=repo_url
+
+
+signing.keyId=gpg_key_id
+signing.password=gpg_password
+signing.secretKeyRingFile=key-file.gpg.sample
