@@ -48,7 +48,10 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
-###### Version 1.1.4-beta  (compile 'com.kbeanie:multipicker:1.1.4-beta@aar)
+###### Version 1.3
+- Updated build tools and min SDK version
+
+###### Version 1.1.4-beta
 - library conflict issue #93
 
 ###### Version 1.1.31
