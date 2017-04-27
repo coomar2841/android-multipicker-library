@@ -56,6 +56,7 @@ public class FilePickerActivity extends AbActivity implements FilePickerCallback
 
     private void pickFilesSingle() {
         filePicker = getFilePicker();
+        filePicker.setMimeType("application/pdf");
         filePicker.pickFile();
     }
 

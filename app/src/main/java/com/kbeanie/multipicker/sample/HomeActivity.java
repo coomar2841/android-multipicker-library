@@ -73,7 +73,8 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
         Intent intent = null;
         switch (which) {
             case DemosAdapter.IMAGE_PICKER_ACTIVITY:
-                intent = new Intent(this, ImagePickerActivity.class);
+//                intent = new Intent(this, ImagePickerActivity.class);
+                intent = new Intent(this, SimpleImagePickerActivity.class);
                 break;
             case DemosAdapter.IMAGE_PICKER_FRAGMENT:
                 intent = new Intent(this, ImagePickerFragmentActivity.class);

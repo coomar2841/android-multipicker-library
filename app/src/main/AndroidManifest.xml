@@ -22,6 +22,9 @@
             android:name=".ImagePickerActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".SimpleImagePickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ImagePickerFragmentActivity"
             android:screenOrientation="portrait" />
         <activity
