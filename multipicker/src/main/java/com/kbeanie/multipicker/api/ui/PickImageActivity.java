@@ -12,7 +12,7 @@ import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.core.ImagePickerImpl;
 
 /**
- * Created by kbibek on 27/04/17.
+ * Helper activity to pick images from your device's storage or using Camera.
  */
 
 public abstract class PickImageActivity extends AppCompatActivity implements ImagePickerCallback {
@@ -22,12 +22,18 @@ public abstract class PickImageActivity extends AppCompatActivity implements Ima
     private int pickerType;
     private String pickerPath;
 
+    /**
+     * Used to return a single image from your phone's storage
+     */
     protected void pickSingleImage() {
         imagePicker = prepareImagePicker();
         imagePicker.pickImage();
         pickerType = Picker.PICK_IMAGE_DEVICE;
     }
 
+    /**
+     * Used to return multiple images from your phone's storage
+     */
     protected void pickMultipleImages() {
         imagePicker = prepareImagePicker();
         imagePicker.allowMultiple();
@@ -35,6 +41,9 @@ public abstract class PickImageActivity extends AppCompatActivity implements Ima
         pickerType = Picker.PICK_IMAGE_DEVICE;
     }
 
+    /**
+     * Used to return single image using your phone's camera
+     */
     protected void pickImageFromCamera() {
         cameraImagePicker = prepareCameraImagePicker();
         pickerPath = cameraImagePicker.pickImage();
@@ -48,8 +57,15 @@ public abstract class PickImageActivity extends AppCompatActivity implements Ima
             if (requestCode == Picker.PICK_IMAGE_CAMERA || requestCode == Picker.PICK_IMAGE_DEVICE) {
                 ImagePickerImpl imagePickerImpl = null;
                 if (pickerType == Picker.PICK_IMAGE_DEVICE) {
+                    if (imagePicker == null) {
+                        imagePicker = prepareImagePicker();
+                    }
                     imagePickerImpl = imagePicker;
                 } else if (pickerType == Picker.PICK_IMAGE_CAMERA) {
+                    if (cameraImagePicker == null) {
+                        cameraImagePicker = prepareCameraImagePicker();
+                        cameraImagePicker.reinitialize(pickerPath);
+                    }
                     imagePickerImpl = cameraImagePicker;
                 }
                 imagePickerImpl.submit(data);
@@ -62,6 +78,13 @@ public abstract class PickImageActivity extends AppCompatActivity implements Ima
         outState.putInt("mpl_picker_type", pickerType);
         outState.putString("mpl_picker_path", pickerPath);
         super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        pickerType = savedInstanceState.getInt("mpl_picker_type");
+        pickerPath = savedInstanceState.getString("mpl_picker_path");
     }
 
     private ImagePicker prepareImagePicker() {

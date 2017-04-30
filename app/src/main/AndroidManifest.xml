@@ -35,6 +35,9 @@
             android:name=".VideoPickerActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".SimpleVideoPickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".VideoPickerFragmentActivity"
             android:screenOrientation="portrait" />
         <activity

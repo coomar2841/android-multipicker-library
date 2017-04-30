@@ -83,7 +83,8 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
                 intent = new Intent(this, ImagePickerSupportFragmentActivity.class);
                 break;
             case DemosAdapter.VIDEO_PICKER_ACTIVITY:
-                intent = new Intent(this, VideoPickerActivity.class);
+//                intent = new Intent(this, VideoPickerActivity.class);
+                intent = new Intent(this, SimpleVideoPickerActivity.class);
                 break;
             case DemosAdapter.VIDEO_PICKER_FRAGMENT:
                 intent = new Intent(this, VideoPickerFragmentActivity.class);
