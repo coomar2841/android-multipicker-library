@@ -21,6 +21,7 @@ public final class ImageProcessorThread extends FileProcessorThread {
 
     private int maxImageWidth = -1;
     private int maxImageHeight = -1;
+    private int quality = 100;
 
     private ImagePickerCallback callback;
 
@@ -73,7 +74,7 @@ public final class ImageProcessorThread extends FileProcessorThread {
 
     private ChosenImage postProcessImage(ChosenImage image) throws PickerException {
         if (maxImageWidth != -1 && maxImageHeight != -1) {
-            image = ensureMaxWidthAndHeight(maxImageWidth, maxImageHeight, image);
+            image = ensureMaxWidthAndHeight(maxImageWidth, maxImageHeight, quality, image);
         }
         LogUtils.d(TAG, "postProcessImage: " + image.getMimeType());
         if (shouldGenerateMetadata) {
@@ -99,9 +100,9 @@ public final class ImageProcessorThread extends FileProcessorThread {
     }
 
     private ChosenImage generateThumbnails(ChosenImage image) throws PickerException {
-        String thumbnailBig = downScaleAndSaveImage(image.getOriginalPath(), THUMBNAIL_BIG);
+        String thumbnailBig = downScaleAndSaveImage(image.getOriginalPath(), THUMBNAIL_BIG, quality);
         image.setThumbnailPath(thumbnailBig);
-        String thumbnailSmall = downScaleAndSaveImage(image.getOriginalPath(), THUMBNAIL_SMALL);
+        String thumbnailSmall = downScaleAndSaveImage(image.getOriginalPath(), THUMBNAIL_SMALL, quality);
         image.setThumbnailSmallPath(thumbnailSmall);
         return image;
     }
@@ -113,6 +114,10 @@ public final class ImageProcessorThread extends FileProcessorThread {
     public void setOutputImageDimensions(int maxWidth, int maxHeight) {
         this.maxImageWidth = maxWidth;
         this.maxImageHeight = maxHeight;
+    }
+
+    public void setOutputImageQuality(int quality) {
+        this.quality = quality;
     }
 
 }

@@ -620,7 +620,7 @@ public class FileProcessorThread extends Thread {
         this.callback = callback;
     }
 
-    protected ChosenImage ensureMaxWidthAndHeight(int maxWidth, int maxHeight, ChosenImage image) {
+    protected ChosenImage ensureMaxWidthAndHeight(int maxWidth, int maxHeight, int quality, ChosenImage image) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -657,7 +657,7 @@ public class FileProcessorThread extends Thread {
 
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                             bitmap.getHeight(), matrix, false);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
                     image.setOriginalPath(file.getAbsolutePath());
                     ExifInterface resizedExifInterface = new ExifInterface(file.getAbsolutePath());
                     resizedExifInterface.setAttribute(ExifInterface.TAG_ORIENTATION, originalRotation);
@@ -673,7 +673,7 @@ public class FileProcessorThread extends Thread {
         return image;
     }
 
-    protected String downScaleAndSaveImage(String image, int scale) throws PickerException {
+    protected String downScaleAndSaveImage(String image, int scale, int quality) throws PickerException {
 
         FileOutputStream stream = null;
         BufferedInputStream bstream = null;
@@ -749,7 +749,7 @@ public class FileProcessorThread extends Thread {
                             bitmap.getHeight(), matrix, false);
                 }
 
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
                 return file.getAbsolutePath();
             }
 
