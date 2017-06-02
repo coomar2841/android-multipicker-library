@@ -34,6 +34,7 @@ public abstract class ImagePickerImpl extends PickerManager {
     private String path;
     private boolean generateThumbnails = true;
     private boolean generateMetadata = true;
+    private int quality = 100;
     private int maxWidth = -1;
     private int maxHeight = -1;
 
@@ -94,6 +95,19 @@ public abstract class ImagePickerImpl extends PickerManager {
 
     public void setImagePickerCallback(ImagePickerCallback callback) {
         this.callback = callback;
+    }
+
+    /**
+     * Set quality of generated images.
+     * For this property to work on original picture, ensureMaxSize must be set, so the original
+     * image is processed and the compression level applied.
+     * @param quality  Hint to the compressor, 0-100. 0 meaning compress for
+     *                 small size, 100 meaning compress for max quality. Some
+     *                 formats, like PNG which is lossless, will ignore the
+     *                 quality setting. Defaults to 100 (max quality)
+     */
+    public void setQuality(int quality) {
+        this.quality = quality;
     }
 
     /**
@@ -241,6 +255,7 @@ public abstract class ImagePickerImpl extends PickerManager {
         thread.setRequestId(requestId);
         thread.setShouldGenerateThumbnails(generateThumbnails);
         thread.setShouldGenerateMetadata(generateMetadata);
+        thread.setOutputImageQuality(quality);
         thread.setImagePickerCallback(callback);
         thread.start();
     }

@@ -30,6 +30,7 @@ public final class VideoProcessorThread extends FileProcessorThread {
     private VideoPickerCallback callback;
     private boolean shouldGenerateMetadata;
     private boolean shouldGeneratePreviewImages;
+    private int quality = 100;
 
     public VideoProcessorThread(Context context, List<? extends ChosenFile> files, int cacheLocation) {
         super(context, files, cacheLocation);
@@ -103,8 +104,8 @@ public final class VideoProcessorThread extends FileProcessorThread {
         if (shouldGeneratePreviewImages) {
             String previewPath = createPreviewImage(video.getOriginalPath());
             video.setPreviewImage(previewPath);
-            String previewThumbnail = downScaleAndSaveImage(previewPath, THUMBNAIL_BIG);
-            String previewThumbnailSmall = downScaleAndSaveImage(previewPath, THUMBNAIL_SMALL);
+            String previewThumbnail = downScaleAndSaveImage(previewPath, THUMBNAIL_BIG, quality);
+            String previewThumbnailSmall = downScaleAndSaveImage(previewPath, THUMBNAIL_SMALL, quality);
             video.setPreviewThumbnail(previewThumbnail);
             video.setPreviewThumbnailSmall(previewThumbnailSmall);
         }
@@ -155,5 +156,9 @@ public final class VideoProcessorThread extends FileProcessorThread {
 
         }
         return previewImage;
+    }
+
+    public void setThumbnailsImageQuality(int quality) {
+        this.quality = quality;
     }
 }

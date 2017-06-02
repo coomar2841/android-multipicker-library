@@ -34,6 +34,7 @@ public abstract class VideoPickerImpl extends PickerManager {
     protected VideoPickerCallback callback;
     private boolean generatePreviewImages = true;
     private boolean generateMetadata = true;
+    private int quality = 100;
 
     public VideoPickerImpl(Activity activity, int pickerType) {
         super(activity, pickerType);
@@ -61,6 +62,17 @@ public abstract class VideoPickerImpl extends PickerManager {
 
     public void shouldGenerateMetadata(boolean generateMetadata) {
         this.generateMetadata = generateMetadata;
+    }
+
+    /**
+     * Set quality of generated thumbnail images
+     * @param quality  Hint to the compressor, 0-100. 0 meaning compress for
+     *                 small size, 100 meaning compress for max quality. Some
+     *                 formats, like PNG which is lossless, will ignore the
+     *                 quality setting. Defaults to 100 (max quality)
+     */
+    public void setQuality(int quality) {
+        this.quality = quality;
     }
 
     @Override
@@ -171,6 +183,7 @@ public abstract class VideoPickerImpl extends PickerManager {
         thread.setRequestId(requestId);
         thread.setShouldGeneratePreviewImages(generatePreviewImages);
         thread.setShouldGenerateMetadata(generateMetadata);
+        thread.setThumbnailsImageQuality(quality);
         thread.setVideoPickerCallback(callback);
         thread.start();
     }
