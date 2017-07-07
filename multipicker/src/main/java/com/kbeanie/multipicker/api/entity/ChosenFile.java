@@ -307,4 +307,22 @@ public class ChosenFile implements Parcelable {
     public void setTempFile(String tempFile) {
         this.tempFile = tempFile;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        ChosenFile other = (ChosenFile)obj;
+        String otherString = getIdString(other);
+        String thisString = getIdString(this);
+        return otherString.equals(thisString);
+    }
+
+    @Override
+    public int hashCode() {
+        return getIdString(this).hashCode();
+    }
+
+    private String getIdString(ChosenFile file){
+        String id = queryUri + ":" + originalPath + ":" + mimeType + ":" +size;
+        return id;
+    }
 }

@@ -48,6 +48,9 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 1.4
+- Issue #86: Added equals and hashcode methods
+
 ###### Version 1.3
 - Updated build tools and min SDK version
 
