@@ -114,13 +114,14 @@ public final class ContactPicker extends PickerManager {
     }
 
     private int getRawContactId(int contactId) {
-        int rawContactId;
+        int rawContactId = -1;
         String[] projection = {ContactsContract.RawContacts._ID};
         String selection = ContactsContract.RawContacts.CONTACT_ID + " = ?";
         String[] selectionArgs = {contactId + ""};
         Cursor cursor = getContext().getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI, projection, selection, selectionArgs, null);
-        cursor.moveToFirst();
-        rawContactId = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.RawContacts._ID));
+        if (cursor.moveToFirst()) {
+            rawContactId = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.RawContacts._ID));
+        }
         cursor.close();
         return rawContactId;
     }
@@ -147,43 +148,48 @@ public final class ContactPicker extends PickerManager {
 
         int rawContactId = getRawContactId(contactId);
 
-        String selection = ContactsContract.Data.RAW_CONTACT_ID + " = ?";
-        String[] selectionArgs = {rawContactId + ""};
+        if (rawContactId != -1) {
+
+            String selection = ContactsContract.Data.RAW_CONTACT_ID + " = ?";
+            String[] selectionArgs = {rawContactId + ""};
 
 
-        Cursor rawContactCursor = getContext().getContentResolver().query(ContactsContract.Data.CONTENT_URI,
-                new String[]{
-                        ContactsContract.Data.MIMETYPE,
-                        ContactsContract.Data.DATA1
-                }, selection, selectionArgs, null);
+            Cursor rawContactCursor = getContext().getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                    new String[]{
+                            ContactsContract.Data.MIMETYPE,
+                            ContactsContract.Data.DATA1
+                    }, selection, selectionArgs, null);
 
-        try {
-            while (rawContactCursor.moveToNext()) {
-                String mimeType = rawContactCursor.getString(0);
-                String data = rawContactCursor.getString(1);
+            try {
+                while (rawContactCursor.moveToNext()) {
+                    String mimeType = rawContactCursor.getString(0);
+                    String data = rawContactCursor.getString(1);
 
-                if (mimeType.equals(ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)) {
-                    contact.setDisplayName(data);
+                    if (mimeType.equals(ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)) {
+                        contact.setDisplayName(data);
+                    }
+                    if (mimeType.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
+                        contact.addPhone(data);
+                    }
+                    if (mimeType.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
+                        contact.addEmail(data);
+                    }
                 }
-                if (mimeType.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
-                    contact.addPhone(data);
-                }
-                if (mimeType.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
-                    contact.addEmail(data);
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                rawContactCursor.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            rawContactCursor.close();
-        }
-        cursor.close();
-        try {
-            if (callback != null) {
-                callback.onContactChosen(contact);
+            cursor.close();
+            try {
+                if (callback != null) {
+                    callback.onContactChosen(contact);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        } else {
+            callback.onError("Contact Not found - Error - Please report to developer");
         }
     }
 
