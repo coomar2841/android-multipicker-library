@@ -9,7 +9,7 @@ import com.kbeanie.multipicker.core.VideoPickerImpl;
 /**
  * Choose a video on your device. Gallery, Google Photos, Dropbox, Downloads etc.
  */
-public final class VideoPicker extends VideoPickerImpl {
+public class VideoPicker extends VideoPickerImpl {
     /**
      * Constructor to choose a video from an {@link Activity}
      *

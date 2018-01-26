@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Choose a file from your device. Gallery, Downloads, Dropbox etc.
  */
-public final class FilePicker extends PickerManager {
+public class FilePicker extends PickerManager {
     private final static String TAG = FilePicker.class.getSimpleName();
     private FilePickerCallback callback;
 

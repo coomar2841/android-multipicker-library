@@ -9,7 +9,7 @@ import com.kbeanie.multipicker.core.ImagePickerImpl;
 /**
  * Capture an image using the device's camera.
  */
-public final class CameraImagePicker extends ImagePickerImpl {
+public class CameraImagePicker extends ImagePickerImpl {
     /**
      * Constructor for triggering capture from an {@link Activity}
      *

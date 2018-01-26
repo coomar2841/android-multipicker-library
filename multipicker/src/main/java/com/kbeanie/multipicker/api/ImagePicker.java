@@ -9,7 +9,7 @@ import com.kbeanie.multipicker.core.ImagePickerImpl;
 /**
  * Choose an image(s) on your device. Gallery, Google Photos, Dropbox etc.
  */
-public final class ImagePicker extends ImagePickerImpl {
+public class ImagePicker extends ImagePickerImpl {
     /**
      * Constructor for choosing an image from an {@link Activity}
      * @param activity

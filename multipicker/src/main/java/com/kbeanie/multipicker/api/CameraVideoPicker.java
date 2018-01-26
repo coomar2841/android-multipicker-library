@@ -9,7 +9,7 @@ import com.kbeanie.multipicker.core.VideoPickerImpl;
 /**
  * Captures a video using the device's Camera
  */
-public final class CameraVideoPicker extends VideoPickerImpl {
+public class CameraVideoPicker extends VideoPickerImpl {
 
     /**
      * Constructor for triggering Video capture from an {@link Activity}
