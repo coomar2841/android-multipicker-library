@@ -19,7 +19,7 @@ import com.kbeanie.multipicker.utils.LogUtils;
 /**
  * Choose a contact from your address book
  */
-public final class ContactPicker extends PickerManager {
+public class ContactPicker extends PickerManager {
     private final static String TAG = ContactPicker.class.getSimpleName();
 
     private ContactPickerCallback callback;

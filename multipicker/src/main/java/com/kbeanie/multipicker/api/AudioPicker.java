@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Class to pick an audio file.
  */
-public final class AudioPicker extends PickerManager {
+public class AudioPicker extends PickerManager {
     private final static String TAG = AudioPicker.class.getSimpleName();
     private AudioPickerCallback callback;
 
