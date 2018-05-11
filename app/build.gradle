@@ -24,8 +24,8 @@ android {
             storePassword ""
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.kbeanie.multipicker.sample"
@@ -65,17 +65,17 @@ gradle.taskGraph.whenReady { taskGraph ->
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile project(':multipicker')
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation project(':multipicker')
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;
     }
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.google.android.gms:play-services-base:10.2.1'
-    compile 'com.google.android.gms:play-services-ads:10.2.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:1.0.1'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:25.3.1'
+    implementation 'com.google.android.gms:play-services-base:15.0.1'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:1.0.1'
 }

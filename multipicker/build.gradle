@@ -75,8 +75,8 @@ android {
         }
     }
 
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -114,7 +114,7 @@ gradle.taskGraph.whenReady { taskGraph ->
 }
 
 dependencies {
-    provided 'com.android.support:appcompat-v7:25.3.1'
-    compile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:25.3.1'
+    compileOnly 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'junit:junit:4.12'
+    implementation 'com.android.support:support-v4:25.3.1'
 }
