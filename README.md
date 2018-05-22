@@ -52,6 +52,7 @@ _Try out the sample app if you want to test it out first._
 - Issue #126: UPT: Made picker classes non final
 - Issue #47: Add quality/compression level property
 - Issue #130: android.database.CursorIndexOutOfBoundsException
+- Issue #121: CursorIndexOutOfBoundsException
 
 ###### Version 1.3
 - Updated build tools and min SDK version
