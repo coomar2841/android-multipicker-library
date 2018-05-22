@@ -119,10 +119,12 @@ public class ContactPicker extends PickerManager {
         String selection = ContactsContract.RawContacts.CONTACT_ID + " = ?";
         String[] selectionArgs = {contactId + ""};
         Cursor cursor = getContext().getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI, projection, selection, selectionArgs, null);
-        if (cursor.moveToFirst()) {
-            rawContactId = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.RawContacts._ID));
+        if(cursor!=null && cursor.getCount()>0) {
+            if (cursor.moveToFirst()) {
+                rawContactId = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.RawContacts._ID));
+            }
+            cursor.close();
         }
-        cursor.close();
         return rawContactId;
     }
 
