@@ -16,7 +16,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.kbeanie.multipicker.api.Picker;
+import com.kbeanie.multipicker.core.PickerManager;
 import com.kbeanie.multipicker.sample.adapters.DemosAdapter;
+import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 /**
  * Created by kbibek on 2/18/16.
@@ -35,6 +38,8 @@ public class HomeActivity extends AbActivity implements AdapterView.OnItemClickL
         lvDemoTypes.setOnItemClickListener(this);
 
         requestExternalStoragePermission();
+
+        PickerManager.debugglable = true;
     }
 
     @Override

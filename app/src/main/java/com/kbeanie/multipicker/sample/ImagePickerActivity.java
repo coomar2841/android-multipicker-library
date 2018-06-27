@@ -86,6 +86,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
 
     public void pickImageSingle() {
         imagePicker = new ImagePicker(this);
+        imagePicker.setDebugglable(true);
         imagePicker.setFolderName("Random");
         imagePicker.setRequestId(1234);
         imagePicker.ensureMaxSize(500, 500);
@@ -94,7 +95,7 @@ public class ImagePickerActivity extends AbActivity implements ImagePickerCallba
         imagePicker.setImagePickerCallback(this);
         Bundle bundle = new Bundle();
         bundle.putInt("android.intent.extras.CAMERA_FACING", 1);
-        imagePicker.setCacheLocation(PickerUtils.getSavedCacheLocation(this));
+        imagePicker.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR);
         imagePicker.pickImage();
     }
 
