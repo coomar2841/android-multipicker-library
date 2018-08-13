@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:1.5@aar'
+compile 'com.kbeanie:multipicker:1.6@aar'
 ```
 
 ##### Maven
@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:1.5@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>1.5</version>
+    <version>1.6</version>
 </dependency>
 ```
 
@@ -48,6 +48,8 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 1.6
+
 ###### Version 1.5
 - Issue #126: UPT: Made picker classes non final
 - Issue #47: Add quality/compression level property
@@ -58,34 +60,11 @@ _Try out the sample app if you want to test it out first._
 - Updated build tools and min SDK version
 - Issue #86: Added equals and hashcode methods
 
-###### Version 1.1.4-beta
-- library conflict issue #93
-
-###### Version 1.1.31
-- #60: Bug: resource leak found in strict mode
-- Take picture/video with ```CacheLocation.INTERNAL_APP_DIR```
-- By default logs are disabled. Use ```PickerManager.setDebuggable(boolean debug)``` to enable logging
-- Fix for Xiaomi Devices when picking images/files
-
-###### Version 1.1.2
-- Pull Request: #43
-- #44: Crash when application label is not specified
-- #37: Set Custom folder name
-- #46: FileUriExposedException
-- #48: Provider Conflict
-- #50: Wrong file name for PickerUtils.java
-- #56: If use ensureMaxSize with CameraImagePicker, unable to delete original photo
-- #55: resultCode always return RESULT_CANCELED when configure CameraImagePicker to use internal app directory
-
-###### Version 1.1.1
-- Fixed problem where for some files, mimetypes were not being properly set
-- Removed `Intent.createChooser` implementation Issue #33
-- Added option for `CacheLocation.INTERNAL_APP_DIR` for saving files into application's internal storage.
 
 ##### License
 ---
 
-Copyright 2016 Kumar Bibek
+Copyright 2018 Kumar Bibek
 
 Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />

@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "1.5"
+version = "1.6"
 group = "com.kbeanie"
 
-//def sonatypeRepo = ""
-//def sonatypeUsername = ""
-//def sonatypePassword = ""
-//def scmUrl = ""
+def sonatypeRepo = ""
+def sonatypeUsername = ""
+def sonatypePassword = ""
+def scmUrl = ""
 
 signing {
     required {
@@ -80,7 +80,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -114,7 +114,7 @@ gradle.taskGraph.whenReady { taskGraph ->
 }
 
 dependencies {
-    compileOnly 'com.android.support:appcompat-v7:25.3.1'
+    compileOnly 'com.android.support:appcompat-v7:27.1.1'
     implementation 'junit:junit:4.12'
-    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.android.support:support-v4:27.1.1'
 }
