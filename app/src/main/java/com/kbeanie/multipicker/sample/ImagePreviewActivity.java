@@ -48,7 +48,7 @@ public class ImagePreviewActivity extends AbActivity {
 
         Glide.with(this)
                 .load(Uri.fromFile(new File(uri)))
-                .placeholder(R.drawable.ic_image)
+//                .placeholder(R.drawable.ic_image)
                 .into(ivImageGlide);
     }
 }

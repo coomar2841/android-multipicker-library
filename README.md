@@ -49,6 +49,7 @@ _Try out the sample app if you want to test it out first._
 ##### Recent changes
 
 ###### Version 1.6
+- Issue #120: Image selection issue in Android 8.0
 
 ###### Version 1.5
 - Issue #126: UPT: Made picker classes non final

@@ -159,7 +159,7 @@ public class FileProcessorThread extends Thread {
 
     private void processFile(ChosenFile file) throws PickerException {
         String uri = file.getQueryUri();
-        LogUtils.d(TAG, "processFile: uri"+ uri);
+        LogUtils.d(TAG, "processFile: uri" + uri);
         if (uri.startsWith("file://") || uri.startsWith("/")) {
             file = sanitizeUri(file);
             file.setDisplayName(Uri.parse(file.getOriginalPath()).getLastPathSegment());
@@ -276,6 +276,8 @@ public class FileProcessorThread extends Thread {
             }
         } catch (IOException e) {
             throw new PickerException(e);
+        } catch (Exception e) {
+            throw new PickerException(e.getLocalizedMessage());
         } finally {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 close(parcelFileDescriptor);
@@ -364,9 +366,17 @@ public class FileProcessorThread extends Thread {
             // ExternalStorageProvider
             if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
+                if (id.startsWith("raw:")) {
+                    String[] data = new String[2];
+                    data[0] = id.replaceFirst("raw:", "");
+                    data[1] = null;
+                    return data;
+                }
+                Uri contentUri = uri;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                }
                 return getDataAndMimeType(contentUri, null, null, file.getType());
             }
             // MediaProvider
@@ -424,6 +434,9 @@ public class FileProcessorThread extends Thread {
                 data[1] = guessMimeTypeFromUrl(path, type);
                 return data;
             }
+        } catch (Exception e) {
+            data[0] = uri.toString();
+            return data;
         } finally {
             if (cursor != null)
                 cursor.close();

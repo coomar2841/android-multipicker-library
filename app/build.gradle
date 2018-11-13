@@ -24,15 +24,15 @@ android {
             storePassword ""
         }
     }
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.kbeanie.multipicker.sample"
         minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 13
-        versionName "1.6"
+        targetSdkVersion 28
+        versionCode 14
+        versionName "1.6.1"
     }
     buildTypes {
         release {
@@ -74,8 +74,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.google.android.gms:play-services-base:15.0.1'
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-base:16.0.1'
+    implementation 'com.google.android.gms:play-services-ads:17.1.0'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:1.0.1'
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
 }
