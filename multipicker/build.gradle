@@ -4,11 +4,11 @@ apply plugin: 'signing'
 
 version = "1.6"
 group = "com.kbeanie"
-//
-//def sonatypeRepo = ""
-//def sonatypeUsername = ""
-//def sonatypePassword = ""
-//def scmUrl = ""
+
+def sonatypeRepo = ""
+def sonatypeUsername = ""
+def sonatypePassword = ""
+def scmUrl = ""
 
 signing {
     required {
