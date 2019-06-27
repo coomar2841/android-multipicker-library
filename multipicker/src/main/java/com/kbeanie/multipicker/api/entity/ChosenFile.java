@@ -310,19 +310,22 @@ public class ChosenFile implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
+        if (!(obj instanceof ChosenFile)) {
+            return false;
+        }
+
         ChosenFile other = (ChosenFile)obj;
-        String otherString = getIdString(other);
-        String thisString = getIdString(this);
+        String otherString = other.getIdString();
+        String thisString = this.getIdString();
         return otherString.equals(thisString);
     }
 
     @Override
     public int hashCode() {
-        return getIdString(this).hashCode();
+        return this.getIdString().hashCode();
     }
 
-    private String getIdString(ChosenFile file){
-        String id = queryUri + ":" + originalPath + ":" + mimeType + ":" +size;
-        return id;
+    private String getIdString() {
+        return queryUri + ":" + originalPath + ":" + mimeType + ":" + size;
     }
 }
