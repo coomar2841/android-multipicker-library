@@ -148,7 +148,6 @@ public abstract class ImagePickerImpl extends PickerManager {
             intent = new Intent(Intent.ACTION_GET_CONTENT);
         }
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         if (extras != null) {
             intent.putExtras(extras);
