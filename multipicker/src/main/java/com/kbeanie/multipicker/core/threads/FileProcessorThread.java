@@ -635,6 +635,7 @@ public class FileProcessorThread extends Thread {
     }
 
     protected ChosenImage ensureMaxWidthAndHeight(int maxWidth, int maxHeight, int quality, ChosenImage image) {
+        FileOutputStream stream = null;
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -664,7 +665,7 @@ public class FileProcessorThread extends Thread {
                     File file = new File(
                             (original.getParent() + File.separator + original.getName()
                                     .replace(".", "-resized.")));
-                    FileOutputStream stream = new FileOutputStream(file);
+                    stream = new FileOutputStream(file);
 
                     Matrix matrix = new Matrix();
                     matrix.postScale((float) scaledDimension[0] / imageWidth, (float) scaledDimension[1] / imageHeight);
@@ -683,6 +684,12 @@ public class FileProcessorThread extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                close(stream);
+            } catch (PickerException e) {
+                e.printStackTrace();
+            }
         }
         return image;
     }
