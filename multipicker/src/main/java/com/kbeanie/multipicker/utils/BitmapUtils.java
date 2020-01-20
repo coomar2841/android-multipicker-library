@@ -23,7 +23,7 @@ public class BitmapUtils {
                 values[0] = outWidth;
                 values[1] = outHeight;
             } else if (originalWidth >= maxWidth && originalHeight >= maxHeight) {
-                if (originalHeight > originalHeight) {
+                if (originalHeight > maxHeight) {
                     int outHeight = maxHeight;
                     float ratio = (float) originalWidth / originalHeight;
                     int outWidth = (int) (ratio * (float) outHeight);
