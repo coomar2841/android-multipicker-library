@@ -3,13 +3,15 @@ package com.kbeanie.multipicker.sample.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
@@ -24,7 +26,7 @@ import java.util.List;
 /**
  * Created by kbibek on 2/25/16.
  */
-public class ImagePickerSupportFragment extends android.support.v4.app.Fragment implements ImagePickerCallback {
+public class ImagePickerSupportFragment extends Fragment implements ImagePickerCallback {
 
 
     private ListView lvResults;

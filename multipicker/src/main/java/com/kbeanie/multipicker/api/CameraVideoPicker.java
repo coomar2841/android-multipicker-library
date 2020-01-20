@@ -1,7 +1,8 @@
 package com.kbeanie.multipicker.api;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 
 import com.kbeanie.multipicker.api.exceptions.PickerException;
 import com.kbeanie.multipicker.core.VideoPickerImpl;

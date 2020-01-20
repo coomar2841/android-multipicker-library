@@ -5,21 +5,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.core.PickerManager;
 import com.kbeanie.multipicker.sample.adapters.DemosAdapter;
-import com.kbeanie.multipicker.sample.utils.PickerUtils;
 
 /**
  * Created by kbibek on 2/18/16.

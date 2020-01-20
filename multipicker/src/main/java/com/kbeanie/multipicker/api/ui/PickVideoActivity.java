@@ -3,15 +3,12 @@ package com.kbeanie.multipicker.api.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.CameraVideoPicker;
-import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.VideoPicker;
 import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
-import com.kbeanie.multipicker.core.ImagePickerImpl;
 import com.kbeanie.multipicker.core.VideoPickerImpl;
 
 /**

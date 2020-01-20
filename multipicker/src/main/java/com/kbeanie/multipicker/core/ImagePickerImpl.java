@@ -8,8 +8,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
+
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.CameraImagePicker;
@@ -174,11 +175,7 @@ public abstract class ImagePickerImpl extends PickerManager {
 
     /**
      * Call this method from
-     * {@link Activity#onActivityResult(int, int, Intent)}
-     * OR
-     * {@link Fragment#onActivityResult(int, int, Intent)}
-     * OR
-     * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     * onActivityResult()
      *
      * @param data
      */

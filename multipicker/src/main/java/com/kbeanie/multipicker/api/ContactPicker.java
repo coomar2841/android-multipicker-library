@@ -7,8 +7,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.v4.app.Fragment;
 import android.util.Log;
+
+import androidx.fragment.app.Fragment;
 
 import com.kbeanie.multipicker.api.callbacks.ContactPickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenContact;
@@ -92,11 +93,7 @@ public class ContactPicker extends PickerManager {
 
     /**
      * Call this method from
-     * {@link Activity#onActivityResult(int, int, Intent)}
-     * OR
-     * {@link Fragment#onActivityResult(int, int, Intent)}
-     * OR
-     * {@link android.app.Fragment#onActivityResult(int, int, Intent)}
+     * onActivityResult()
      *
      * @param data
      */

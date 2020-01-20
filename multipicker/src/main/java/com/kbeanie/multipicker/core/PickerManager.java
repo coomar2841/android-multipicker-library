@@ -12,7 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.exceptions.PickerException;
@@ -119,7 +120,7 @@ public abstract class PickerManager {
     protected abstract String pick() throws PickerException;
 
     /**
-     * This method should be called after {@link Activity#onActivityResult(int, int, Intent)} is  called.
+     * This method should be called after onActivityResult is  called.
      *
      * @param data
      */

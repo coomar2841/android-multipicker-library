@@ -75,12 +75,12 @@ android {
         }
     }
 
-    compileSdkVersion 27
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.1'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -114,7 +114,7 @@ gradle.taskGraph.whenReady { taskGraph ->
 }
 
 dependencies {
-    compileOnly 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'junit:junit:4.12'
-    implementation 'com.android.support:support-v4:27.1.1'
+    compileOnly 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'junit:junit:4.13'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

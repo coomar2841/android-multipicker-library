@@ -1,7 +1,7 @@
 package com.kbeanie.multipicker.sample;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Created by kbibek on 2/19/16.

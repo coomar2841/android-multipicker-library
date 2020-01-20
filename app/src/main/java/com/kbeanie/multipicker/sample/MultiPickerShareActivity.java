@@ -2,7 +2,7 @@ package com.kbeanie.multipicker.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
