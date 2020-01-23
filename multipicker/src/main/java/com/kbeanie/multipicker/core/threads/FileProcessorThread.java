@@ -416,7 +416,7 @@ public class FileProcessorThread extends Thread {
             return data;
         }
 
-        return null;
+        return new String[]{null, null};
     }
 
     private String[] getDataAndMimeType(Uri uri, String selection,
@@ -441,7 +441,7 @@ public class FileProcessorThread extends Thread {
             if (cursor != null)
                 cursor.close();
         }
-        return null;
+        return data;
     }
 
     private boolean isExternalStorageDocument(Uri uri) {
@@ -790,7 +790,7 @@ public class FileProcessorThread extends Thread {
         try {
             ExifInterface exif = new ExifInterface(path);
             width = exif.getAttribute(ExifInterface.TAG_IMAGE_WIDTH);
-            if (width.equals("0")) {
+            if ("0".equals(width)) {
                 SoftReference<Bitmap> bmp = getBitmapImage(path);
                 width = Integer.toString(bmp.get().getWidth());
                 bmp.clear();
@@ -806,7 +806,7 @@ public class FileProcessorThread extends Thread {
         try {
             ExifInterface exif = new ExifInterface(path);
             height = exif.getAttribute(ExifInterface.TAG_IMAGE_LENGTH);
-            if (height.equals("0")) {
+            if ("0".equals(height)) {
                 SoftReference<Bitmap> bmp = getBitmapImage(path);
                 height = Integer.toString(bmp.get().getHeight());
                 bmp.clear();
