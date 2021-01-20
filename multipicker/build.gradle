@@ -115,6 +115,6 @@ gradle.taskGraph.whenReady { taskGraph ->
 
 dependencies {
     compileOnly 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
