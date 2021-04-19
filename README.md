@@ -26,7 +26,7 @@
 
 ##### Gradle
 ```groovy
-compile 'com.kbeanie:multipicker:1.6@aar'
+implementation 'com.kbeanie:multipicker:1.6.1@aar'
 ```
 
 ##### Maven
