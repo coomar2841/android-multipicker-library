@@ -19,3 +19,4 @@ app/fabric.properties
 .idea/
 /app/release/*
 /extras/key-file.gpg
+/extras/private_key.pepk
