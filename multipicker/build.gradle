@@ -2,13 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "1.6"
+version = "1.6.1"
 group = "com.kbeanie"
-
-def sonatypeRepo = ""
-def sonatypeUsername = ""
-def sonatypePassword = ""
-def scmUrl = ""
 
 signing {
     required {
@@ -75,12 +70,12 @@ android {
         }
     }
 
-    compileSdkVersion 29
-    buildToolsVersion '29.0.1'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -97,6 +92,10 @@ android {
                 exclude 'com.kbeanie.multipicker.test'
             }
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -115,6 +114,5 @@ gradle.taskGraph.whenReady { taskGraph ->
 
 dependencies {
     compileOnly 'androidx.appcompat:appcompat:1.0.0'
-    testImplementation 'junit:junit:4.13'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.13.2'
 }

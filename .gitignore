@@ -17,3 +17,6 @@ app/fabric.properties
 /extras/release.keystore
 /app/src/main/assets/api_keys.json
 .idea/
+/app/release/*
+/extras/key-file.gpg
+/extras/private_key.pepk
