@@ -14,8 +14,6 @@ public class PickerUtils {
         switch (preferences.getCacheLocation()) {
             case 0:
                 return CacheLocation.EXTERNAL_STORAGE_APP_DIR;
-            case 1:
-                return CacheLocation.EXTERNAL_STORAGE_PUBLIC_DIR;
             case 2:
                 return CacheLocation.EXTERNAL_CACHE_DIR;
             case 3:
