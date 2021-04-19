@@ -34,7 +34,7 @@ compile 'com.kbeanie:multipicker:1.6@aar'
 <dependency>
     <groupId>com.kbeanie</groupId>
     <artifactId>multipicker</artifactId>
-    <version>1.6</version>
+    <version>1.6.1</version>
 </dependency>
 ```
 
@@ -47,6 +47,9 @@ _Try out the sample app if you want to test it out first._
 </a>
 
 ##### Recent changes
+
+###### Version 1.6.1
+- Issue #180: use of "requestLegacyExternalStorage"
 
 ###### Version 1.6
 - Issue #120: Image selection issue in Android 8.0
