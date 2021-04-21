@@ -48,6 +48,9 @@ _Try out the sample app if you want to test it out first._
 
 ##### Recent changes
 
+###### Version 1.6.2
+- Issue #180: Crash "FileProvider" metadata not found
+
 ###### Version 1.6.1
 - Issue #180: use of "requestLegacyExternalStorage"
 
